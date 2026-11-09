@@ -1,0 +1,12 @@
+// Cloudflare Worker that serves the privacy policy (static page in ./public).
+// Logs and traces are off on purpose: the privacy policy promises no request logging.
+{
+  "name": "hot-rechner",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./public" },
+  "workers_dev": true,
+  "observability": { "enabled": false },
+  "previews": {
+    "observability": { "enabled": false }
+  }
+}
