@@ -3,226 +3,261 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>HOT-Rechner Datenschutz</title>
+<title>HOT-Rechner</title>
+<meta name="description" content="Holdover Times nach den FAA-Guidelines Winter 2026-2027 in Sekunden: Timer ab Fluid-Start, METAR, LOUT-Warnung, DSHOT. Android-App für Piloten.">
 <style>
-/* Layout: one reading column, language tabs as a sticky strip, sections as plain numbered-free blocks */
+/* Layout: night ramp. One dark look on purpose (de-icing happens in the dark, under floodlights).
+   The four de-icing fluid dye colours are the only accents, each used for its own type. */
 :root{
-  --bg:#f4f6f8; --paper:#ffffff; --ink:#16202a; --muted:#566370; --line:#d6dde4; --accent:#1b5e8c; --mark:#fff3c4;
-  --f-display:"Segoe UI Semibold","Roboto Condensed","Arial Narrow",system-ui,sans-serif;
-  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --f-mono:ui-monospace,Consolas,"Roboto Mono",monospace;
+  color-scheme:dark;
+  --night:#0a131c; --apron:#101c28; --panel:#132232; --line:#223447;
+  --ink:#e9eff5; --soft:#a9b8c6; --flood:#ffd68a;
+  --t1:#f39a3a; --t2:#e4d27a; --t3:#f2e22e; --t4:#34b277;
+  --red:#ff6b5b;
+  --f-display:"Segoe UI Variable Display","Segoe UI","Roboto Flex","Helvetica Neue",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono","Roboto Mono",Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-main{max-width:44rem;margin:0 auto;padding-block:24px 48px}
-header{display:flex;flex-direction:column;gap:6px;padding-block:8px 16px}
-.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-h1{font:600 2rem/1.15 var(--f-display);margin:0;text-wrap:balance}
-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;padding-block:8px;border-bottom:1px solid var(--line);margin-bottom:20px}
-nav a{font:500 13px/1 var(--f-mono);letter-spacing:.06em;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:6px}
-nav a[aria-current="true"]{background:var(--paper);color:var(--accent);box-shadow:0 0 0 1px var(--line)}
-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-article{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:4px}
-h2{font:600 1.15rem/1.3 var(--f-display);margin:18px 0 2px;color:var(--accent);text-wrap:balance}
-h2:first-of-type{margin-top:0}
-p,li{margin:0 0 8px;max-width:65ch}
-ul{padding-left:1.2em;margin:0}
-.todo{background:var(--mark);padding:1px 4px;border-radius:3px}
-.meta{font:500 13px/1.4 var(--f-mono);color:var(--muted);margin-top:16px}
-a{color:var(--accent)}
-[hidden]{display:none!important}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--ink);font:17px/1.6 var(--f-body);
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--flood)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--flood);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto}
+.bar{display:flex;align-items:center;gap:16px;padding-block:20px}
+.logo{display:flex;align-items:center;gap:10px;font:700 18px/1 var(--f-display);letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.logo i{display:block;width:26px;height:26px;border-radius:7px;background:conic-gradient(var(--t4) 0 25%,var(--t1) 0 50%,var(--t2) 0 75%,var(--t3) 0)}
+.bar nav{margin-left:auto;display:flex;gap:18px;font-size:15px}
+.bar nav a{color:var(--soft);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center;padding-block:36px 64px}
+.kicker{font:600 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--flood)}
+h1{font:800 clamp(2.6rem,6.2vw,4.6rem)/1.02 var(--f-display);letter-spacing:-.025em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--t4)}
+.lede{font-size:1.15rem;color:var(--soft);max-width:34rem;margin:0 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 16px/1 var(--f-body);padding:15px 20px;border-radius:10px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--panel)}
+.btn.main{background:var(--t4);border-color:var(--t4);color:#04150c}
+.btn small{font-weight:500;opacity:.8}
+.note{font-size:14px;color:var(--soft);margin-top:14px}
+
+/* device mock */
+.device{justify-self:center;width:min(100%,330px);background:#05090d;border:1px solid var(--line);border-radius:34px;padding:14px;box-shadow:0 30px 80px -30px rgba(255,214,138,.25)}
+.screen{background:var(--apron);border-radius:24px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:600 12px/1 var(--f-mono);padding:7px 9px;border-radius:999px;background:var(--panel);color:var(--soft);border:1px solid var(--line)}
+.chip.on{color:#04150c;background:var(--t4);border-color:var(--t4)}
+.metar{font:500 11.5px/1.45 var(--f-mono);color:var(--soft);background:#0c1721;border:1px solid var(--line);border-radius:10px;padding:9px 10px;overflow-wrap:anywhere}
+.result{border-radius:14px;padding:14px;background:var(--panel);border:1px solid var(--line)}
+.result .lab{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.result .hot{white-space:nowrap;font:800 2.1rem/1.1 var(--f-mono);font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.timer{border-radius:14px;padding:14px;color:#04150c;background:var(--t4);transition:background .6s}
+.timer.amber{background:var(--t3)}
+.timer .lab{font:700 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.timer .big{font:800 2.2rem/1.1 var(--f-mono);font-variant-numeric:tabular-nums;margin-top:6px}
+.timer .sub{font:600 13px/1.3 var(--f-mono);opacity:.8}
+.example{font:500 11px/1 var(--f-mono);color:var(--soft);text-align:center;margin-top:10px;letter-spacing:.06em;text-transform:uppercase}
+
+/* fluid dye strip */
+.dyes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.dye{padding:18px 16px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line);min-width:0}
+.dye:first-child{border-left:0}
+.dye b{font:800 1.5rem/1 var(--f-display)}
+.dye span{font-size:14px;color:var(--soft)}
+.dye::before{content:"";height:6px;border-radius:3px;background:var(--c)}
+
+section{padding-block:64px 8px}
+h2{font:800 clamp(1.8rem,3.4vw,2.4rem)/1.1 var(--f-display);letter-spacing:-.015em;margin:0 0 10px;text-wrap:balance}
+.sec-lede{color:var(--soft);max-width:40rem;margin:0 0 32px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 36px}
+.feat{display:flex;flex-direction:column;gap:6px;min-width:0}
+.feat h3{font:700 1.05rem/1.3 var(--f-body);margin:0}
+.feat p{margin:0;color:var(--soft);font-size:15.5px}
+.feat .ref{font:600 12px/1 var(--f-mono);color:var(--flood);letter-spacing:.06em}
+
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.plan{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--apron);display:flex;flex-direction:column;gap:12px;min-width:0}
+.plan.pro{border-color:var(--t4)}
+.plan h3{font:800 1.4rem/1.1 var(--f-display);margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.plan h3 small{font:600 13px/1 var(--f-mono);color:var(--soft);letter-spacing:.04em}
+.plan ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.plan li{padding-left:22px;position:relative;font-size:15.5px}
+.plan li::before{content:"";position:absolute;left:2px;top:.55em;width:9px;height:9px;border-radius:2px;background:var(--soft)}
+.plan.pro li::before{background:var(--t4)}
+
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.num{display:flex;flex-direction:column;gap:4px;border-top:2px solid var(--line);padding-top:14px;min-width:0}
+.num b{font:800 2rem/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.num span{color:var(--soft);font-size:15px}
+
+.warn{margin-top:64px;border-left:4px solid var(--red);background:var(--apron);padding:18px 20px;border-radius:0 12px 12px 0;color:var(--soft);font-size:15.5px;max-width:52rem}
+.warn strong{color:var(--ink)}
+
+footer{margin-top:72px;border-top:1px solid var(--line);padding-block:28px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;font-size:14px;color:var(--soft)}
+footer h4{font:600 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 10px}
+footer p{margin:0 0 6px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:40px;padding-top:16px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .proof{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .bar nav{display:none}
+  .grid,.plans,footer{grid-template-columns:minmax(0,1fr)}
+  .dyes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dye:nth-child(3){border-left:0}
+  .dye:nth-child(n+3){border-top:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){.timer{transition:none}}
 </style>
 </head>
 <body>
-
-
-<main>
-  <header>
-    <span class="eyebrow">Datenschutzerklärung nach Art. 13 DSGVO</span>
-    <h1>HOT-Rechner – Datenschutz</h1>
+<div class="wrap">
+  <header class="bar">
+    <a class="logo" href="/"><i aria-hidden="true"></i>HOT-Rechner</a>
+    <nav aria-label="Seitennavigation">
+      <a href="#funktionen">Funktionen</a>
+      <a href="#pro">Gratis &amp; Pro</a>
+      <a href="/datenschutz/">Datenschutz</a>
+    </nav>
   </header>
-  <nav aria-label="Sprache / Language">
-    <a href="#de" data-l="de">DE</a><a href="#en" data-l="en">EN</a><a href="#fr" data-l="fr">FR</a><a href="#es" data-l="es">ES</a>
-  </nav>
 
-  <article id="de" lang="de">
-    <h2>1. Verantwortlicher</h2>
-    <p>Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, Frankreich<br>E-Mail: guido.marhenke@web.de</p>
-    <p>Ein Datenschutzbeauftragter ist nicht bestellt, da die gesetzlichen Voraussetzungen dafür nicht vorliegen.</p>
-    <h2>2. Überblick</h2>
-    <p>Der HOT-Rechner (Android-App) benötigt kein Benutzerkonto und enthält keine Werbung, keine Analyse- oder Tracking-Werkzeuge und keine Absturzberichte an Dritte. Der Anbieter betreibt keinen eigenen Server und erhält keine personenbezogenen Daten der Nutzer. Personenbezogene Daten werden nur in den unten beschriebenen Fällen und nur zu den dort genannten Zwecken verarbeitet.</p>
-    <h2>3. Daten auf Ihrem Gerät</h2>
-    <p>Die App speichert lokal auf Ihrem Gerät: Einstellungen (Sprache, Temperatureinheit, Flugzeugkategorie), zuletzt verwendete Flughäfen und Enteisungsflüssigkeiten, den laufenden Timer sowie das Enteisungs-Protokoll (Zeitpunkte, Flughafen, METAR, Außentemperatur, Holdover-Zeit). Diese Daten verlassen Ihr Gerät nicht, außer Sie exportieren das Protokoll selbst als PDF und teilen es über eine von Ihnen gewählte App.</p>
-    <p>Zweck ist die Bereitstellung der App-Funktionen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Nutzung der App auf Ihren Wunsch). Die Daten bleiben gespeichert, bis Sie sie in der App löschen (Protokoll löschen; das Protokoll umfasst höchstens die letzten 300 Einträge), die App-Daten in den Android-Einstellungen löschen oder die App deinstallieren.</p>
-    <h2>4. Abruf von Wetterdaten (METAR)</h2>
-    <p>Nur wenn Sie „METAR laden“ antippen, ruft die App die aktuelle Wettermeldung für den eingegebenen ICAO-Flughafencode direkt bei aviationweather.gov ab, einem Dienst des National Weather Service der USA (NOAA, U.S. Department of Commerce). Dabei werden technisch bedingt Ihre IP-Adresse, der Zeitpunkt, der Flughafencode und Geräteangaben im Rahmen der Internetverbindung übertragen. Der Anbieter der App erhält diese Daten nicht.</p>
-    <p>Zweck ist die Anzeige der von Ihnen angeforderten Wetterdaten; Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Der Empfänger sitzt in den USA. Für diese US-Behörde besteht kein Angemessenheitsbeschluss der EU-Kommission; die Übermittlung erfolgt, weil sie zur Erfüllung Ihrer Anfrage erforderlich ist (Art. 49 Abs. 1 lit. b DSGVO). Es besteht das Risiko, dass US-Behörden auf die Daten zugreifen und Ihnen dagegen keine gleichwertigen Rechtsbehelfe zustehen. Ohne Abruf können Sie alle Werte von Hand eingeben.</p>
-    <h2>5. Abonnement „HOT-Rechner Pro“ über Google Play</h2>
-    <p>Käufe und Abonnements werden ausschließlich über Google Play abgewickelt. Vertragspartner für die Zahlung ist Google; Zahlungsdaten erhält nur Google. Die App fragt über die Google-Play-Abrechnung lediglich ab, ob auf Ihrem Google-Konto ein gültiges Abo besteht, und speichert dieses Ergebnis lokal. Der Anbieter erhält über die Google Play Console Verkaufsberichte, die keinen Namen und keine Anschrift der Käufer enthalten.</p>
-    <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Abschluss und Erfüllung des Abonnements). Verantwortlich für die Verarbeitung durch Google ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Google kann Daten auch in die USA übermitteln; die Google LLC ist unter dem EU-US Data Privacy Framework zertifiziert. Datenschutzerklärung von Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
-    <h2>6. Verbindung zur Smartwatch</h2>
-    <p>Ist auf einer mit Ihrem Telefon gekoppelten Uhr eine Uhr-App des HOT-Rechners installiert, überträgt die App den laufenden Timer (Startzeit, Holdover-Grenzen, Beschriftung) über die Google-Play-Dienste an Ihre Uhr. Die Übertragung erfolgt zwischen Ihren eigenen Geräten, gegebenenfalls über die Infrastruktur von Google. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.</p>
-    <h2>7. Datensicherung durch Android</h2>
-    <p>Wenn Sie in Ihrem Gerät die Android-Sicherung aktiviert haben, kann Android die App-Daten verschlüsselt in Ihrem Google-Konto sichern. Diese Sicherung steuern Sie selbst in den Geräteeinstellungen; der Anbieter hat darauf keinen Zugriff.</p>
-    <h2>8. Berechtigungen</h2>
-    <ul>
-      <li>Internet: Abruf der METAR-Wettermeldung (Abschnitt 4) und Google-Play-Abrechnung (Abschnitt 5).</li>
-      <li>Benachrichtigungen, exakte Alarme, Vibration: Countdown und Alarm an den Holdover-Grenzen.</li>
-      <li>Start nach Neustart: Wiederherstellen laufender Alarme nach einem Neustart des Geräts.</li>
-    </ul>
-    <h2>9. Keine Profilbildung</h2>
-    <p>Es findet keine automatisierte Entscheidungsfindung und kein Profiling im Sinne von Art. 22 DSGVO statt. Die Bereitstellung von Daten ist weder gesetzlich noch vertraglich vorgeschrieben; ohne METAR-Abruf und ohne Abo bleibt die Grundfunktion der App nutzbar.</p>
-    <h2>10. Ihre Rechte</h2>
-    <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21). Da der Anbieter keine personenbezogenen Daten über Sie speichert, kann er in der Regel nur mitteilen, dass keine Daten vorliegen. Für Daten bei Google oder NOAA wenden Sie sich bitte an diese Stellen.</p>
-    <p>Sie haben außerdem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO), insbesondere in dem Mitgliedstaat Ihres Aufenthaltsorts, Ihres Arbeitsplatzes oder des mutmaßlichen Verstoßes.</p>
-    <h2>11. Kinder</h2>
-    <p>Die App richtet sich an Luftfahrtpersonal und nicht an Kinder unter 16 Jahren.</p>
-    <h2>12. Diese Webseite</h2>
-    <p>Diese Datenschutzerklärung wird über Cloudflare Workers bereitgestellt (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). Beim Aufruf verarbeitet Cloudflare technisch notwendige Verbindungsdaten wie IP-Adresse, Zeitpunkt und Browserangaben, um die Seite auszuliefern und vor Angriffen zu schützen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse liegt in der sicheren Bereitstellung dieser Information. Cloudflare ist unter dem EU-US Data Privacy Framework zertifiziert. Die Seite setzt keine Cookies, verwendet keine Analysewerkzeuge und lädt keine Inhalte von anderen Anbietern.</p>
-    <h2>13. Änderungen</h2>
-    <p>Diese Erklärung wird angepasst, wenn sich die App oder die Rechtslage ändert. Es gilt die jeweils hier veröffentlichte Fassung. Maßgeblich ist die deutsche Fassung; die übrigen Sprachen sind Übersetzungen.</p>
-    <p class="meta">Stand: 9. November 2026</p>
-  </article>
+  <main>
+    <div class="hero">
+      <div>
+        <span class="kicker">FAA Holdover Time Guidelines · Winter 2026-2027</span>
+        <h1>Holdover Time in <em>Sekunden</em>. Ohne Blättern.</h1>
+        <p class="lede">Fluid wählen, METAR laden, Ergebnis ablesen. Der Timer läuft ab Fluid-Start mit und warnt an der unteren und oberen Grenze, auch auf dem Sperrbildschirm.</p>
+        <div class="cta">
+          <span class="btn main">Demnächst bei Google Play</span>
+          <a class="btn" href="#pro">Gratis &amp; Pro <small>vergleichen</small></a>
+        </div>
+        <p class="note">Android 8 und neuer · Deutsch, English, Français, Español · °C oder °F</p>
+      </div>
 
-  <article id="en" lang="en" hidden>
-    <h2>1. Controller</h2>
-    <p>The controller within the meaning of the General Data Protection Regulation (GDPR) is:<br>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, France<br>E-mail: guido.marhenke@web.de</p>
-    <p>No data protection officer has been appointed, as the legal requirements for this are not met.</p>
-    <h2>2. Overview</h2>
-    <p>HOT Calculator (Android app) requires no user account and contains no advertising, no analytics or tracking tools and no crash reporting to third parties. The provider operates no server of its own and receives no personal data from users. Personal data is processed only in the cases described below and only for the purposes stated there.</p>
-    <h2>3. Data on your device</h2>
-    <p>The app stores locally on your device: settings (language, temperature unit, aircraft category), recently used airports and de-icing fluids, the running timer and the de-icing log (times, airport, METAR, outside air temperature, holdover time). This data does not leave your device unless you export the log as a PDF yourself and share it via an app of your choice.</p>
-    <p>The purpose is to provide the app's functions. The legal basis is Art. 6(1)(b) GDPR (use of the app at your request). The data is kept until you delete it in the app (delete log; the log holds at most the last 300 entries), clear the app data in the Android settings or uninstall the app.</p>
-    <h2>4. Weather data (METAR)</h2>
-    <p>Only when you tap "Load METAR" does the app request the current weather report for the entered ICAO airport code directly from aviationweather.gov, a service of the US National Weather Service (NOAA, U.S. Department of Commerce). For technical reasons your IP address, the time, the airport code and device information are transmitted as part of the internet connection. The provider of the app does not receive this data.</p>
-    <p>The purpose is to display the weather data you requested; the legal basis is Art. 6(1)(b) GDPR. The recipient is located in the USA. There is no adequacy decision of the European Commission for this US authority; the transfer takes place because it is necessary to fulfil your request (Art. 49(1)(b) GDPR). There is a risk that US authorities access the data without you having equivalent legal remedies. Without the request you can enter all values by hand.</p>
-    <h2>5. "HOT Calculator Pro" subscription via Google Play</h2>
-    <p>Purchases and subscriptions are handled exclusively by Google Play. Google is the contracting party for payment; only Google receives payment data. Through Google Play Billing the app only checks whether a valid subscription exists on your Google account and stores this result locally. The provider receives sales reports via the Google Play Console that contain no names or addresses of buyers.</p>
-    <p>The legal basis is Art. 6(1)(b) GDPR (conclusion and performance of the subscription). The controller for processing by Google is Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. Google may also transfer data to the USA; Google LLC is certified under the EU-US Data Privacy Framework. Google's privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
-    <h2>6. Connection to a smartwatch</h2>
-    <p>If a HOT Calculator watch app is installed on a watch paired with your phone, the app transfers the running timer (start time, holdover limits, label) to your watch via Google Play services. The transfer takes place between your own devices, where applicable via Google's infrastructure. The legal basis is Art. 6(1)(b) GDPR.</p>
-    <h2>7. Android backup</h2>
-    <p>If you have enabled Android backup on your device, Android may back up the app data in encrypted form to your Google account. You control this backup yourself in the device settings; the provider has no access to it.</p>
-    <h2>8. Permissions</h2>
-    <ul>
-      <li>Internet: loading the METAR weather report (section 4) and Google Play Billing (section 5).</li>
-      <li>Notifications, exact alarms, vibration: countdown and alarm at the holdover limits.</li>
-      <li>Start after reboot: restoring running alarms after the device restarts.</li>
-    </ul>
-    <h2>9. No profiling</h2>
-    <p>There is no automated decision-making and no profiling within the meaning of Art. 22 GDPR. Providing data is neither a legal nor a contractual requirement; without the METAR request and without a subscription the basic functions of the app remain usable.</p>
-    <h2>10. Your rights</h2>
-    <p>You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20) and to object to processing based on legitimate interests (Art. 21). As the provider stores no personal data about you, it can usually only confirm that no data is held. For data held by Google or NOAA, please contact them.</p>
-    <p>You also have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR), in particular in the member state of your habitual residence, place of work or place of the alleged infringement.</p>
-    <h2>11. Children</h2>
-    <p>The app is intended for aviation personnel and not for children under 16.</p>
-    <h2>12. This website</h2>
-    <p>This privacy policy is served via Cloudflare Workers (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). When the page is accessed, Cloudflare processes technically necessary connection data such as IP address, time and browser information to deliver the page and protect it against attacks. The legal basis is Art. 6(1)(f) GDPR; the legitimate interest lies in providing this information securely. Cloudflare is certified under the EU-US Data Privacy Framework. The page sets no cookies, uses no analytics and loads no content from other providers.</p>
-    <h2>13. Changes</h2>
-    <p>This policy is updated when the app or the legal situation changes. The version published here applies. The German version is authoritative; the other languages are translations.</p>
-    <p class="meta">Last updated: 9 November 2026</p>
-  </article>
+      <div class="device" aria-label="Beispielansicht der App">
+        <div class="screen">
+          <div class="chip-row">
+            <span class="chip">I</span><span class="chip">II</span><span class="chip">III</span><span class="chip on">IV</span>
+            <span class="chip">100/0</span>
+          </div>
+          <div class="metar">EDSB 091920Z 06008KT 2500 -SN BKN012 M03/M05 Q1021</div>
+          <div class="result">
+            <div class="lab">Type IV generisch · −3 °C · leichter Schnee</div>
+            <div class="hot">0:55 – 1:50</div>
+          </div>
+          <div class="timer" id="timer">
+            <div class="lab" id="tlab">bis zur unteren Grenze</div>
+            <div class="big" id="tbig">0:14:00</div>
+            <div class="sub" id="tsub">seit Fluid-Start 0:41:00</div>
+          </div>
+        </div>
+        <div class="example">Beispiel · Werte aus FAA Table 20</div>
+      </div>
+    </div>
 
-  <article id="fr" lang="fr" hidden>
-    <h2>1. Responsable du traitement</h2>
-    <p>Le responsable du traitement au sens du Règlement général sur la protection des données (RGPD) est :<br>Guido Marhenke<br>348 Allée Nicolas Greff, 57600 Oeting, France<br>E-mail : guido.marhenke@web.de</p>
-    <p>Aucun délégué à la protection des données n'a été désigné, les conditions légales n'étant pas remplies.</p>
-    <h2>2. Vue d'ensemble</h2>
-    <p>Le Calculateur HOT (application Android) ne nécessite aucun compte utilisateur et ne contient ni publicité, ni outil d'analyse ou de suivi, ni rapport de plantage vers des tiers. Le fournisseur n'exploite aucun serveur propre et ne reçoit aucune donnée personnelle des utilisateurs. Les données personnelles ne sont traitées que dans les cas décrits ci-dessous et uniquement aux fins indiquées.</p>
-    <h2>3. Données sur votre appareil</h2>
-    <p>L'application enregistre localement sur votre appareil : les réglages (langue, unité de température, catégorie d'avion), les aéroports et fluides de dégivrage récemment utilisés, le minuteur en cours et le journal de dégivrage (heures, aéroport, METAR, température extérieure, durée d'efficacité). Ces données ne quittent pas votre appareil, sauf si vous exportez vous-même le journal en PDF et le partagez via une application de votre choix.</p>
-    <p>La finalité est la fourniture des fonctions de l'application. La base juridique est l'art. 6, par. 1, point b) du RGPD (utilisation de l'application à votre demande). Les données sont conservées jusqu'à ce que vous les supprimiez dans l'application (effacer le journal ; le journal contient au plus les 300 dernières entrées), effaciez les données de l'application dans les réglages Android ou désinstalliez l'application.</p>
-    <h2>4. Données météorologiques (METAR)</h2>
-    <p>Uniquement lorsque vous touchez « Charger le METAR », l'application demande le bulletin météo actuel pour le code OACI saisi directement à aviationweather.gov, un service du National Weather Service des États-Unis (NOAA, U.S. Department of Commerce). Pour des raisons techniques, votre adresse IP, l'heure, le code de l'aéroport et des informations sur l'appareil sont transmis dans le cadre de la connexion Internet. Le fournisseur de l'application ne reçoit pas ces données.</p>
-    <p>La finalité est l'affichage des données météo que vous avez demandées ; la base juridique est l'art. 6, par. 1, point b) du RGPD. Le destinataire est situé aux États-Unis. Il n'existe pas de décision d'adéquation de la Commission européenne pour cette autorité américaine ; le transfert a lieu parce qu'il est nécessaire à l'exécution de votre demande (art. 49, par. 1, point b) du RGPD). Il existe un risque que des autorités américaines accèdent aux données sans que vous disposiez de voies de recours équivalentes. Sans cette demande, vous pouvez saisir toutes les valeurs à la main.</p>
-    <h2>5. Abonnement « Calculateur HOT Pro » via Google Play</h2>
-    <p>Les achats et abonnements sont traités exclusivement par Google Play. Google est le cocontractant pour le paiement ; seul Google reçoit les données de paiement. Via la facturation Google Play, l'application vérifie uniquement si un abonnement valide existe sur votre compte Google et enregistre ce résultat localement. Le fournisseur reçoit via la Google Play Console des rapports de vente qui ne contiennent ni nom ni adresse des acheteurs.</p>
-    <p>La base juridique est l'art. 6, par. 1, point b) du RGPD (conclusion et exécution de l'abonnement). Le responsable du traitement effectué par Google est Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlande. Google peut aussi transférer des données aux États-Unis ; Google LLC est certifiée selon le Data Privacy Framework UE-États-Unis. Règles de confidentialité de Google : <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
-    <h2>6. Connexion à une montre connectée</h2>
-    <p>Si une application montre du Calculateur HOT est installée sur une montre associée à votre téléphone, l'application transmet le minuteur en cours (heure de début, limites d'efficacité, libellé) à votre montre via les services Google Play. La transmission a lieu entre vos propres appareils, le cas échéant via l'infrastructure de Google. La base juridique est l'art. 6, par. 1, point b) du RGPD.</p>
-    <h2>7. Sauvegarde Android</h2>
-    <p>Si vous avez activé la sauvegarde Android sur votre appareil, Android peut sauvegarder les données de l'application sous forme chiffrée dans votre compte Google. Vous contrôlez vous-même cette sauvegarde dans les réglages de l'appareil ; le fournisseur n'y a pas accès.</p>
-    <h2>8. Autorisations</h2>
-    <ul>
-      <li>Internet : chargement du bulletin METAR (section 4) et facturation Google Play (section 5).</li>
-      <li>Notifications, alarmes exactes, vibration : compte à rebours et alarme aux limites d'efficacité.</li>
-      <li>Démarrage après redémarrage : rétablissement des alarmes en cours après un redémarrage de l'appareil.</li>
-    </ul>
-    <h2>9. Pas de profilage</h2>
-    <p>Il n'y a ni prise de décision automatisée ni profilage au sens de l'art. 22 du RGPD. La fourniture de données n'est ni une obligation légale ni une obligation contractuelle ; sans demande METAR et sans abonnement, les fonctions de base de l'application restent utilisables.</p>
-    <h2>10. Vos droits</h2>
-    <p>Vous disposez d'un droit d'accès (art. 15 du RGPD), de rectification (art. 16), d'effacement (art. 17), de limitation du traitement (art. 18), de portabilité des données (art. 20) et d'opposition aux traitements fondés sur l'intérêt légitime (art. 21). Comme le fournisseur ne conserve aucune donnée personnelle vous concernant, il ne peut généralement que confirmer qu'aucune donnée n'est détenue. Pour les données détenues par Google ou la NOAA, veuillez vous adresser à eux.</p>
-    <p>Vous avez également le droit d'introduire une réclamation auprès d'une autorité de contrôle (art. 77 du RGPD), notamment dans l'État membre de votre résidence habituelle, de votre lieu de travail ou du lieu de la violation présumée.</p>
-    <h2>11. Enfants</h2>
-    <p>L'application s'adresse au personnel aéronautique et non aux enfants de moins de 16 ans.</p>
-    <h2>12. Ce site web</h2>
-    <p>Cette déclaration est diffusée via Cloudflare Workers (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, États-Unis). Lors de la consultation, Cloudflare traite les données de connexion techniquement nécessaires telles que l'adresse IP, l'heure et les informations du navigateur afin de diffuser la page et de la protéger contre les attaques. La base juridique est l'art. 6, par. 1, point f) du RGPD ; l'intérêt légitime réside dans la mise à disposition sécurisée de cette information. Cloudflare est certifiée selon le Data Privacy Framework UE-États-Unis. La page ne dépose aucun cookie, n'utilise aucun outil d'analyse et ne charge aucun contenu d'autres fournisseurs.</p>
-    <h2>13. Modifications</h2>
-    <p>Cette déclaration est mise à jour lorsque l'application ou la situation juridique change. La version publiée ici s'applique. La version allemande fait foi ; les autres langues sont des traductions.</p>
-    <p class="meta">Mise à jour : 9 novembre 2026</p>
-  </article>
+    <div class="dyes" aria-label="Enteisungsflüssigkeiten">
+      <div class="dye" style="--c:var(--t1)"><b>Type I</b><span>generisch, Aluminium und Composite, Mischungsprüfung nach Table 58</span></div>
+      <div class="dye" style="--c:var(--t2)"><b>Type II</b><span>generisch und 12 Markenprodukte</span></div>
+      <div class="dye" style="--c:var(--t3)"><b>Type III</b><span>nach Rotationsgeschwindigkeit</span></div>
+      <div class="dye" style="--c:var(--t4)"><b>Type IV</b><span>generisch und 32 Markenprodukte</span></div>
+    </div>
 
-  <article id="es" lang="es" hidden>
-    <h2>1. Responsable</h2>
-    <p>El responsable del tratamiento en el sentido del Reglamento General de Protección de Datos (RGPD) es:<br>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, Francia<br>E-mail: guido.marhenke@web.de</p>
-    <p>No se ha designado un delegado de protección de datos, ya que no se cumplen los requisitos legales.</p>
-    <h2>2. Resumen</h2>
-    <p>La Calculadora HOT (app Android) no requiere cuenta de usuario y no contiene publicidad, herramientas de análisis o seguimiento ni informes de errores a terceros. El proveedor no opera ningún servidor propio y no recibe datos personales de los usuarios. Los datos personales solo se tratan en los casos descritos a continuación y solo para los fines indicados.</p>
-    <h2>3. Datos en su dispositivo</h2>
-    <p>La app guarda localmente en su dispositivo: los ajustes (idioma, unidad de temperatura, categoría de avión), los aeropuertos y fluidos de deshielo usados recientemente, el temporizador en curso y el registro de deshielo (horas, aeropuerto, METAR, temperatura exterior, tiempo de protección). Estos datos no salen de su dispositivo, salvo que usted mismo exporte el registro como PDF y lo comparta mediante una app de su elección.</p>
-    <p>La finalidad es prestar las funciones de la app. La base jurídica es el art. 6, apartado 1, letra b) del RGPD (uso de la app a petición suya). Los datos se conservan hasta que los borre en la app (borrar registro; el registro contiene como máximo las últimas 300 entradas), borre los datos de la app en los ajustes de Android o desinstale la app.</p>
-    <h2>4. Datos meteorológicos (METAR)</h2>
-    <p>Solo cuando toca «Cargar METAR», la app solicita el parte meteorológico actual del código OACI introducido directamente a aviationweather.gov, un servicio del National Weather Service de EE. UU. (NOAA, U.S. Department of Commerce). Por razones técnicas se transmiten su dirección IP, la hora, el código del aeropuerto y datos del dispositivo en el marco de la conexión a Internet. El proveedor de la app no recibe estos datos.</p>
-    <p>La finalidad es mostrar los datos meteorológicos que ha solicitado; la base jurídica es el art. 6, apartado 1, letra b) del RGPD. El destinatario se encuentra en EE. UU. No existe una decisión de adecuación de la Comisión Europea para esta autoridad estadounidense; la transferencia se realiza porque es necesaria para atender su solicitud (art. 49, apartado 1, letra b) del RGPD). Existe el riesgo de que autoridades estadounidenses accedan a los datos sin que usted disponga de recursos jurídicos equivalentes. Sin esta consulta puede introducir todos los valores a mano.</p>
-    <h2>5. Suscripción «Calculadora HOT Pro» a través de Google Play</h2>
-    <p>Las compras y suscripciones se gestionan exclusivamente a través de Google Play. Google es la parte contratante para el pago; solo Google recibe los datos de pago. Mediante la facturación de Google Play, la app solo comprueba si existe una suscripción válida en su cuenta de Google y guarda este resultado localmente. El proveedor recibe a través de Google Play Console informes de ventas que no contienen nombres ni direcciones de los compradores.</p>
-    <p>La base jurídica es el art. 6, apartado 1, letra b) del RGPD (celebración y ejecución de la suscripción). El responsable del tratamiento realizado por Google es Google Ireland Limited, Gordon House, Barrow Street, Dublín 4, Irlanda. Google también puede transferir datos a EE. UU.; Google LLC está certificada conforme al Marco de Privacidad de Datos UE-EE. UU. Política de privacidad de Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
-    <h2>6. Conexión con un reloj inteligente</h2>
-    <p>Si en un reloj vinculado a su teléfono está instalada una app de reloj de la Calculadora HOT, la app transmite el temporizador en curso (hora de inicio, límites de protección, etiqueta) a su reloj mediante los servicios de Google Play. La transmisión se realiza entre sus propios dispositivos, en su caso a través de la infraestructura de Google. La base jurídica es el art. 6, apartado 1, letra b) del RGPD.</p>
-    <h2>7. Copia de seguridad de Android</h2>
-    <p>Si ha activado la copia de seguridad de Android en su dispositivo, Android puede guardar los datos de la app de forma cifrada en su cuenta de Google. Usted controla esta copia en los ajustes del dispositivo; el proveedor no tiene acceso a ella.</p>
-    <h2>8. Permisos</h2>
-    <ul>
-      <li>Internet: carga del parte METAR (sección 4) y facturación de Google Play (sección 5).</li>
-      <li>Notificaciones, alarmas exactas, vibración: cuenta atrás y alarma en los límites de protección.</li>
-      <li>Inicio tras reinicio: restauración de las alarmas en curso tras reiniciar el dispositivo.</li>
-    </ul>
-    <h2>9. Sin elaboración de perfiles</h2>
-    <p>No se toman decisiones automatizadas ni se elaboran perfiles en el sentido del art. 22 del RGPD. Facilitar datos no es una obligación legal ni contractual; sin la consulta METAR y sin suscripción, las funciones básicas de la app siguen disponibles.</p>
-    <h2>10. Sus derechos</h2>
-    <p>Usted tiene derecho de acceso (art. 15 del RGPD), rectificación (art. 16), supresión (art. 17), limitación del tratamiento (art. 18), portabilidad de los datos (art. 20) y oposición a tratamientos basados en intereses legítimos (art. 21). Como el proveedor no guarda datos personales suyos, por lo general solo puede confirmar que no dispone de datos. Para los datos que tengan Google o la NOAA, diríjase a ellos.</p>
-    <p>También tiene derecho a presentar una reclamación ante una autoridad de control (art. 77 del RGPD), en particular en el Estado miembro de su residencia habitual, de su lugar de trabajo o del lugar de la supuesta infracción.</p>
-    <h2>11. Menores</h2>
-    <p>La app está dirigida al personal aeronáutico y no a menores de 16 años.</p>
-    <h2>12. Este sitio web</h2>
-    <p>Esta declaración se ofrece a través de Cloudflare Workers (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, EE. UU.). Al acceder a la página, Cloudflare trata los datos de conexión técnicamente necesarios, como la dirección IP, la hora y los datos del navegador, para entregar la página y protegerla frente a ataques. La base jurídica es el art. 6, apartado 1, letra f) del RGPD; el interés legítimo consiste en ofrecer esta información de forma segura. Cloudflare está certificada conforme al Marco de Privacidad de Datos UE-EE. UU. La página no utiliza cookies ni herramientas de análisis y no carga contenidos de otros proveedores.</p>
-    <h2>13. Cambios</h2>
-    <p>Esta declaración se actualiza cuando cambian la app o la situación jurídica. Se aplica la versión publicada aquí. La versión alemana es la vinculante; los demás idiomas son traducciones.</p>
-    <p class="meta">Actualizado: 9 de noviembre de 2026</p>
-  </article>
-</main>
+    <section id="funktionen">
+      <h2>Alles, was am Vorfeld zählt</h2>
+      <p class="sec-lede">Gebaut von einem Piloten für die Minuten zwischen Enteisung und Startfreigabe.</p>
+      <div class="grid">
+        <div class="feat"><span class="ref">TABLES 2–52</span><h3>Alle Holdover-Tabellen</h3><p>Generische und fluidspezifische Tabellen für Type I bis IV, Frost, Eiskörner und Allowance Times.</p></div>
+        <div class="feat"><span class="ref">APPENDIX A</span><h3>Klappen vor der Enteisung</h3><p>Ein Schalter, und die App rechnet mit den Zeiten für ausgefahrene Klappen und Slats.</p></div>
+        <div class="feat"><span class="ref">LOUT</span><h3>Warnung unter der LOUT</h3><p>Lowest Operational Use Temperature je Fluid und Flugzeugkategorie, mit deutlichem Hinweis, wenn die OAT darunter liegt.</p></div>
+        <div class="feat"><span class="ref">METAR</span><h3>Wetter mit einem Tipp</h3><p>OAT, Sicht und Niederschlag kommen aus dem METAR, die Schneeintensität nach Table 57 gleich mit.</p></div>
+        <div class="feat"><span class="ref">TIMER</span><h3>Countdown ab Fluid-Start</h3><p>Grün, gelb, rot. Alarm an beiden Grenzen, Countdown in der Statusleiste und auf dem Sperrbildschirm.</p></div>
+        <div class="feat"><span class="ref">ICAO</span><h3>Fluid je Flughafen</h3><p>Die App merkt sich, welches Fluid an welchem Platz versprüht wird.</p></div>
+        <div class="feat"><span class="ref">TABLE 58</span><h3>Type-I-Mischung prüfen</h3><p>Gefrierpunkt-Puffer von 10 °C und LOUT des Produkts auf einen Blick.</p></div>
+        <div class="feat"><span class="ref">DSHOT</span><h3>Gradgenaue Zeiten</h3><p>Degree-Specific Holdover Times von Transport Canada für Schnee, auf das ganze Grad genau.</p></div>
+        <div class="feat"><span class="ref">PDF</span><h3>Enteisungs-Protokoll</h3><p>Zeit, Platz, METAR und Holdover-Zeit jeder Enteisung, als PDF teilbar.</p></div>
+      </div>
+    </section>
+
+    <section id="pro">
+      <h2>Gratis nutzen, mit Pro alles</h2>
+      <p class="sec-lede">Sicherheitsrelevantes ist immer frei. Pro schaltet die Markenprodukte und die Komfortfunktionen frei und enthält die neuen Tabellen jeder Saison.</p>
+      <div class="plans">
+        <div class="plan">
+          <h3>Gratis <small>dauerhaft</small></h3>
+          <ul>
+            <li>Generische Tabellen Type I, II und IV</li>
+            <li>Appendix A für generische Fluids</li>
+            <li>LOUT-Warnungen</li>
+            <li>Timer mit Alarm und Sperrbildschirm-Countdown</li>
+            <li>METAR und Schneeintensität</li>
+            <li>Type-I-Mischungsprüfung</li>
+          </ul>
+        </div>
+        <div class="plan pro">
+          <h3>Pro <small>Abo über Google Play</small></h3>
+          <ul>
+            <li>Alle Markenprodukte Type II, III und IV</li>
+            <li>DSHOT von Transport Canada</li>
+            <li>Enteisungs-Protokoll mit PDF-Export</li>
+            <li>Neue FAA- und TC-Tabellen jeder Saison inklusive</li>
+            <li>Jederzeit in Google Play kündbar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Geprüfte Daten</h2>
+      <p class="sec-lede">Jede Tabelle wird automatisch aus der offiziellen Veröffentlichung gelesen und mit einem zweiten, unabhängigen Verfahren gegengeprüft. Jede neue Version der App muss vor der Auslieferung alle Testfälle bestehen.</p>
+      <div class="proof">
+        <div class="num"><b>51</b><span>Holdover-Tabellen der FAA-Guidelines 2026-2027</span></div>
+        <div class="num"><b>370 000+</b><span>automatische Testfälle für den Rechenkern</span></div>
+        <div class="num"><b>49</b><span>Fluids mit DSHOT, nachgerechnet aus den veröffentlichten Regressionskoeffizienten</span></div>
+      </div>
+    </section>
+
+    <p class="warn"><strong>Wichtig:</strong> Der HOT-Rechner ist eine Rechenhilfe. Er ersetzt weder die Original-Guidelines noch die Verfahren und Freigaben deines Betreibers. Die Entscheidung über den Start liegt beim verantwortlichen Piloten. Keine Verbindung zur FAA oder zu Transport Canada.</p>
+  </main>
+
+  <footer>
+    <div>
+      <h4>Impressum · Mentions légales</h4>
+      <p>Guido Marhenke<br>348 Allée Nicolas Greff<br>57600 Oeting, Frankreich</p>
+      <p>E-Mail: guido.marhenke@web.de</p>
+    </div>
+    <div>
+      <h4>Rechtliches</h4>
+      <p><a href="/datenschutz/">Datenschutzerklärung</a></p>
+      <p>Hosting: Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA</p>
+      <p>Diese Seite setzt keine Cookies und verwendet keine Analysewerkzeuge.</p>
+    </div>
+  </footer>
+</div>
 
 <script>
+// Demo countdown in the device mock: Type IV generic, light snow, -3 °C -> 0:55 - 1:50.
+// Starts 41 minutes after fluid start and runs at 60x speed so the colour change is visible.
 (function(){
-  var langs=["de","en","fr","es"];
-  function show(){
-    var h=(location.hash||"").slice(1);
-    if(langs.indexOf(h)<0){
-      var n=(navigator.language||"de").slice(0,2).toLowerCase();
-      h=langs.indexOf(n)>=0?n:"de";
-    }
-    langs.forEach(function(l){
-      document.getElementById(l).hidden=(l!==h);
-      document.querySelector('nav a[data-l="'+l+'"]').setAttribute("aria-current",l===h?"true":"false");
-    });
-    document.documentElement.lang=h;
+  var MIN=55*60, MAX=110*60, t=41*60;
+  var box=document.getElementById("timer"), lab=document.getElementById("tlab"),
+      big=document.getElementById("tbig"), sub=document.getElementById("tsub");
+  function f(s){s=Math.max(0,Math.round(s));return Math.floor(s/3600)+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+  function draw(){
+    if(t<MIN){box.className="timer";lab.textContent="bis zur unteren Grenze";big.textContent=f(MIN-t)}
+    else{box.className="timer amber";lab.textContent="untere Grenze erreicht · bis obere";big.textContent=f(MAX-t)}
+    sub.textContent="seit Fluid-Start "+f(t);
   }
-  window.addEventListener("hashchange",show); show();
+  draw();
+  if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  setInterval(function(){t+=60;if(t>=MAX)t=41*60;draw()},1000);
 })();
 </script>
-
 </body>
 </html>
