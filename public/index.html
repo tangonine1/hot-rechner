@@ -46,7 +46,7 @@ h1 em{font-style:normal;color:var(--t4)}
 .note{font-size:14px;color:var(--soft);margin-top:14px}
 
 /* device mock */
-.device{justify-self:center;width:min(100%,330px);background:#05090d;border:1px solid var(--line);border-radius:34px;padding:14px;box-shadow:0 30px 80px -30px rgba(255,214,138,.25)}
+.device{margin:0;justify-self:center;width:min(100%,330px);background:#05090d;border:1px solid var(--line);border-radius:34px;padding:14px;box-shadow:0 30px 80px -30px rgba(255,214,138,.25)}
 .screen{background:var(--apron);border-radius:24px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
 .chip-row{display:flex;gap:6px;flex-wrap:wrap}
 .chip{font:600 12px/1 var(--f-mono);padding:7px 9px;border-radius:999px;background:var(--panel);color:var(--soft);border:1px solid var(--line)}
@@ -60,6 +60,7 @@ h1 em{font-style:normal;color:var(--t4)}
 .timer .lab{font:700 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
 .timer .big{font:800 2.2rem/1.1 var(--f-mono);font-variant-numeric:tabular-nums;margin-top:6px}
 .timer .sub{font:600 13px/1.3 var(--f-mono);opacity:.8}
+.demo{display:block;width:100%;height:auto;aspect-ratio:9/16;border-radius:24px;background:var(--apron)}
 .example{font:500 11px/1 var(--f-mono);color:var(--soft);text-align:center;margin-top:10px;letter-spacing:.06em;text-transform:uppercase}
 
 /* fluid dye strip */
@@ -141,25 +142,13 @@ footer p{margin:0 0 6px}
         <p class="note">Android 8 und neuer · Deutsch, English, Français, Español · °C oder °F</p>
       </div>
 
-      <div class="device" aria-label="Beispielansicht der App">
-        <div class="screen">
-          <div class="chip-row">
-            <span class="chip">I</span><span class="chip">II</span><span class="chip">III</span><span class="chip on">IV</span>
-            <span class="chip">100/0</span>
-          </div>
-          <div class="metar">EDSB 091920Z 06008KT 2500 -SN BKN012 M03/M05 Q1021</div>
-          <div class="result">
-            <div class="lab">Type IV generisch · −3 °C · leichter Schnee</div>
-            <div class="hot">0:55 – 1:50</div>
-          </div>
-          <div class="timer" id="timer">
-            <div class="lab" id="tlab">bis zur unteren Grenze</div>
-            <div class="big" id="tbig">0:14:00</div>
-            <div class="sub" id="tsub">seit Fluid-Start 0:41:00</div>
-          </div>
-        </div>
-        <div class="example">Beispiel · Werte aus FAA Table 20</div>
-      </div>
+      <figure class="device" aria-label="Bildschirmaufnahme der App">
+        <video class="demo" src="media/hot-rechner-demo.mp4" poster="media/hot-rechner-demo-poster.jpg"
+               autoplay muted loop playsinline preload="metadata" width="720" height="1280">
+          Dein Browser kann das Video nicht abspielen.
+        </video>
+        <figcaption class="example">Echte Aufnahme aus der App</figcaption>
+      </figure>
     </div>
 
     <div class="dyes" aria-label="Enteisungsflüssigkeiten">
@@ -242,22 +231,10 @@ footer p{margin:0 0 6px}
 </div>
 
 <script>
-// Demo countdown in the device mock: Type IV generic, light snow, -3 °C -> 0:55 - 1:50.
-// Starts 41 minutes after fluid start and runs at 60x speed so the colour change is visible.
-(function(){
-  var MIN=55*60, MAX=110*60, t=41*60;
-  var box=document.getElementById("timer"), lab=document.getElementById("tlab"),
-      big=document.getElementById("tbig"), sub=document.getElementById("tsub");
-  function f(s){s=Math.max(0,Math.round(s));return Math.floor(s/3600)+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
-  function draw(){
-    if(t<MIN){box.className="timer";lab.textContent="bis zur unteren Grenze";big.textContent=f(MIN-t)}
-    else{box.className="timer amber";lab.textContent="untere Grenze erreicht · bis obere";big.textContent=f(MAX-t)}
-    sub.textContent="seit Fluid-Start "+f(t);
-  }
-  draw();
-  if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  setInterval(function(){t+=60;if(t>=MAX)t=41*60;draw()},1000);
-})();
+// Users who asked for reduced motion get the video paused (controls to start it themselves)
+(function(){var v=document.querySelector("video.demo");if(!v)return;
+ var reduceMotion=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+ if(reduceMotion){v.removeAttribute("autoplay");v.pause();v.controls=true;}})();
 </script>
 </body>
 </html>
