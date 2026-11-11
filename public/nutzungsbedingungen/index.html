@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOT-Rechner Nutzungsbedingungen</title>
+<style>
+/* Layout: one reading column, language tabs as a sticky strip, sections as plain numbered-free blocks */
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --ink:#16202a; --muted:#566370; --line:#d6dde4; --accent:#1b5e8c; --mark:#fff3c4;
+  --f-display:"Segoe UI Semibold","Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:ui-monospace,Consolas,"Roboto Mono",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:44rem;margin:0 auto;padding-block:24px 48px}
+header{display:flex;flex-direction:column;gap:6px;padding-block:8px 16px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 2rem/1.15 var(--f-display);margin:0;text-wrap:balance}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;padding-block:8px;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav a{font:500 13px/1 var(--f-mono);letter-spacing:.06em;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:6px}
+nav a[aria-current="true"]{background:var(--paper);color:var(--accent);box-shadow:0 0 0 1px var(--line)}
+nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+article{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+h2{font:600 1.15rem/1.3 var(--f-display);margin:18px 0 2px;color:var(--accent);text-wrap:balance}
+h2:first-of-type{margin-top:0}
+p,li{margin:0 0 8px;max-width:65ch}
+ul{padding-left:1.2em;margin:0}
+.todo{background:var(--mark);padding:1px 4px;border-radius:3px}
+.meta{font:500 13px/1.4 var(--f-mono);color:var(--muted);margin-top:16px}
+a{color:var(--accent)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+
+<main>
+  <header>
+    <a class="eyebrow" href="/" style="text-decoration:none">← HOT-Rechner</a>
+    <span class="eyebrow" id="eye">Nutzungsbedingungen</span>
+    <h1 id="h1">HOT-Rechner – Nutzungsbedingungen</h1>
+  </header>
+  <nav aria-label="Sprache / Language">
+    <a href="#de" data-l="de">DE</a><a href="#en" data-l="en">EN</a><a href="#fr" data-l="fr">FR</a><a href="#es" data-l="es">ES</a>
+  </nav>
+
+  <article id="de" lang="de" data-eye="Nutzungsbedingungen" data-h1="HOT-Rechner – Nutzungsbedingungen">
+    <h2>1. Anbieter</h2>
+    <p>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, France<br>E-Mail: guido.marhenke@web.de</p>
+    <h2>2. Geltungsbereich</h2>
+    <p>Diese Bedingungen gelten für die Nutzung der App „HOT-Rechner“ (Android und iOS) einschließlich des Abonnements „HOT-Rechner Pro“. Mit der Nutzung der App erkennen Sie diese Bedingungen an. Für Kauf, Abrechnung und Kündigung gelten zusätzlich die Bedingungen des jeweiligen Stores (Google Play bzw. Apple App Store).</p>
+    <h2>3. Was die App ist – und was nicht</h2>
+    <p>Der HOT-Rechner ist eine <strong>Rechen- und Nachschlagehilfe</strong>. Er zeigt Holdover Times nach den FAA Holdover Time Guidelines der jeweils eingebauten Saison sowie – im Pro-Abo – gradgenaue Holdover Times (DSHOT) von Transport Canada, auf Wunsch mit Wetterdaten aus dem METAR.</p><p>Die App ersetzt <strong>nicht</strong> die Original-Veröffentlichungen der FAA und von Transport Canada, das Betriebshandbuch und die Verfahren Ihres Betreibers, die Anweisungen des Enteisungsdienstes oder die Kontrolle des Flugzeugs vor dem Start (Pre-Takeoff Check / Contamination Check). Maßgeblich sind immer die offiziellen Unterlagen in der gültigen Fassung. Die Entscheidung über den Start liegt allein beim verantwortlichen Piloten.</p>
+    <h2>4. Einsatz im Flugbetrieb</h2>
+    <p>Ob und wie die App in einem gewerblichen oder nichtgewerblichen Flugbetrieb verwendet werden darf, entscheidet der Betreiber im Rahmen seiner Genehmigungen (z. B. EFB-Verfahren). Gradgenaue Holdover Times (DSHOT) dürfen nur verwendet werden, wenn der Betreiber dafür eine Genehmigung der zuständigen Behörde hat und die Werte im Betriebshandbuch stehen. Die App ist weder von der FAA noch von Transport Canada oder einer anderen Behörde geprüft oder zugelassen und steht mit diesen in keiner Verbindung.</p>
+    <h2>5. Daten und Aktualität</h2>
+    <p>Die Tabellen werden aus den offiziellen Veröffentlichungen ausgelesen und mit einem zweiten, unabhängigen Verfahren geprüft. Trotzdem kann ein Fehler nicht völlig ausgeschlossen werden. Die FAA veröffentlicht jedes Jahr neue Guidelines; die App warnt, wenn die eingebauten Tabellen veraltet sind. Verwenden Sie dann keine Werte aus der App mehr, bis ein Update installiert ist. METAR-Daten stammen vom Aviation Weather Center (NOAA); für deren Richtigkeit, Aktualität und Verfügbarkeit übernimmt der Anbieter keine Gewähr. Melden Sie Auffälligkeiten bitte an die oben genannte E-Mail-Adresse.</p>
+    <h2>6. Kostenlose Funktionen und Pro-Abo</h2>
+    <p>Die generischen Tabellen, alle Sicherheitswarnungen (z. B. LOUT, Appendix A), Timer und Alarm sind kostenlos. Weitere Funktionen (u. a. fluidspezifische Tabellen, DSHOT, Enteisungs-Protokoll, Tabellen künftiger Saisons) erfordern das Abonnement „HOT-Rechner Pro“.</p><p>Das Abo wird ausschließlich über Google Play bzw. den Apple App Store abgeschlossen und abgerechnet. Preis, Laufzeit und eine eventuelle kostenlose Testphase werden vor dem Kauf im Store angezeigt. Das Abo verlängert sich automatisch, wenn es nicht rechtzeitig vor Ablauf der Laufzeit in den Kontoeinstellungen des Stores gekündigt wird. Erstattungen und das gesetzliche Widerrufsrecht richten sich nach den Regeln des jeweiligen Stores.</p>
+    <h2>7. Nutzungsrecht</h2>
+    <p>Sie erhalten ein einfaches, nicht übertragbares Recht, die App für eigene Zwecke zu nutzen. Es ist nicht gestattet, die App oder ihre Tabellen zu verändern, zu dekompilieren, weiterzuverkaufen oder in andere Produkte zu übernehmen, soweit dies nicht gesetzlich erlaubt ist. Lizenzen für Unternehmen und Flugbetriebe sind auf Anfrage erhältlich.</p>
+    <h2>8. Haftung</h2>
+    <p>Der Anbieter haftet unbeschränkt bei Vorsatz und grober Fahrlässigkeit, bei der Verletzung von Leben, Körper oder Gesundheit sowie nach zwingenden gesetzlichen Vorschriften (z. B. Produkthaftung). Bei leichter Fahrlässigkeit haftet er nur für die Verletzung wesentlicher Pflichten und begrenzt auf den vorhersehbaren, typischerweise eintretenden Schaden. Im Übrigen ist die Haftung ausgeschlossen, soweit gesetzlich zulässig. Gesetzliche Rechte von Verbrauchern bleiben unberührt.</p>
+    <h2>9. Verfügbarkeit und Änderungen der App</h2>
+    <p>Der Anbieter bemüht sich um eine fehlerfreie und stets aktuelle App, schuldet aber keine ununterbrochene Verfügbarkeit von Online-Diensten (z. B. METAR-Abruf). Funktionen können weiterentwickelt werden; der Umfang des Pro-Abos wird dabei nicht ohne Ankündigung verringert.</p>
+    <h2>10. Datenschutz</h2>
+    <p>Wie die App mit Daten umgeht, steht in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+    <h2>11. Anwendbares Recht und Änderungen dieser Bedingungen</h2>
+    <p>Es gilt französisches Recht. Zwingende Verbraucherschutzvorschriften des Staates, in dem Sie als Verbraucher Ihren gewöhnlichen Aufenthalt haben, bleiben unberührt. Der Anbieter kann diese Bedingungen mit Wirkung für die Zukunft ändern; wesentliche Änderungen werden in der App oder auf dieser Seite angekündigt. Die deutsche Fassung ist verbindlich, die anderen Sprachen sind Übersetzungen.</p>
+    <p class="meta">Stand: 11. November 2026</p>
+  </article>
+
+  <article id="en" lang="en" data-eye="Terms of use" data-h1="HOT Calculator – Terms of Use">
+    <h2>1. Provider</h2>
+    <p>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, France<br>E-Mail: guido.marhenke@web.de</p>
+    <h2>2. Scope</h2>
+    <p>These terms apply to the use of the app “HOT Calculator” (Android and iOS), including the “HOT Calculator Pro” subscription. By using the app you accept these terms. Purchase, billing and cancellation are additionally governed by the terms of the respective store (Google Play or Apple App Store).</p>
+    <h2>3. What the app is – and what it is not</h2>
+    <p>HOT Calculator is a <strong>calculation and reference aid</strong>. It shows holdover times according to the FAA Holdover Time Guidelines of the season built into the app and – with the Pro subscription – Transport Canada degree-specific holdover times (DSHOT), optionally using weather data from the METAR.</p><p>The app does <strong>not</strong> replace the original FAA and Transport Canada publications, your operator's operations manual and procedures, the instructions of the de-icing provider, or the inspection of the aircraft before take-off (pre-take-off / contamination check). The official documents in their current version always prevail. The decision to take off rests solely with the pilot in command.</p>
+    <h2>4. Use in flight operations</h2>
+    <p>Whether and how the app may be used in commercial or non-commercial flight operations is decided by the operator within its approvals (e.g. EFB procedures). Degree-specific holdover times (DSHOT) may only be used if the operator holds an approval from the competent authority and the values are included in the operations manual. The app has not been reviewed or approved by the FAA, Transport Canada or any other authority and is not affiliated with them.</p>
+    <h2>5. Data and currency</h2>
+    <p>The tables are read from the official publications and verified with a second, independent method. Nevertheless, an error cannot be ruled out completely. The FAA publishes new guidelines every year; the app warns when the built-in tables are outdated. Do not use values from the app in that case until an update is installed. METAR data come from the Aviation Weather Center (NOAA); the provider gives no warranty for their accuracy, currency or availability. Please report anything unusual to the e-mail address above.</p>
+    <h2>6. Free features and Pro subscription</h2>
+    <p>The generic tables, all safety warnings (e.g. LOUT, Appendix A), the timer and the alarm are free. Further features (including fluid-specific tables, DSHOT, the de-icing log and tables of future seasons) require the “HOT Calculator Pro” subscription.</p><p>The subscription is concluded and billed exclusively via Google Play or the Apple App Store. Price, term and any free trial are shown in the store before purchase. The subscription renews automatically unless it is cancelled in the store's account settings in good time before the end of the term. Refunds and the statutory right of withdrawal are governed by the rules of the respective store.</p>
+    <h2>7. Licence</h2>
+    <p>You receive a simple, non-transferable right to use the app for your own purposes. You may not modify, decompile, resell the app or its tables or incorporate them into other products unless permitted by law. Licences for companies and flight operators are available on request.</p>
+    <h2>8. Liability</h2>
+    <p>The provider is liable without limitation for intent and gross negligence, for injury to life, body or health and under mandatory statutory provisions (e.g. product liability). In cases of slight negligence the provider is liable only for breach of essential obligations, limited to the foreseeable damage typical for the contract. Otherwise liability is excluded to the extent permitted by law. Statutory consumer rights remain unaffected.</p>
+    <h2>9. Availability and changes to the app</h2>
+    <p>The provider strives to keep the app free of errors and up to date but does not owe uninterrupted availability of online services (e.g. METAR retrieval). Features may be developed further; the scope of the Pro subscription will not be reduced without notice.</p>
+    <h2>10. Privacy</h2>
+    <p>How the app handles data is described in the <a href="/datenschutz/#en">privacy policy</a>.</p>
+    <h2>11. Applicable law and changes to these terms</h2>
+    <p>French law applies. Mandatory consumer protection provisions of the country in which you, as a consumer, have your habitual residence remain unaffected. The provider may amend these terms with effect for the future; significant changes will be announced in the app or on this page. The German version is binding; the other languages are translations.</p>
+    <p class="meta">Last updated: 11 November 2026</p>
+  </article>
+
+  <article id="fr" lang="fr" data-eye="Conditions d'utilisation" data-h1="Calculateur HOT – Conditions d'utilisation">
+    <h2>1. Éditeur</h2>
+    <p>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, France<br>E-Mail: guido.marhenke@web.de</p>
+    <h2>2. Champ d'application</h2>
+    <p>Les présentes conditions s'appliquent à l'utilisation de l'application « Calculateur HOT » (Android et iOS), y compris l'abonnement « Calculateur HOT Pro ». En utilisant l'application, vous acceptez ces conditions. L'achat, la facturation et la résiliation sont en outre régis par les conditions du store concerné (Google Play ou App Store d'Apple).</p>
+    <h2>3. Ce qu'est l'application – et ce qu'elle n'est pas</h2>
+    <p>Le Calculateur HOT est une <strong>aide au calcul et à la consultation</strong>. Il affiche les durées d'efficacité selon les FAA Holdover Time Guidelines de la saison intégrée et – avec l'abonnement Pro – les durées au degré près (DSHOT) de Transports Canada, au besoin à partir des données du METAR.</p><p>L'application ne remplace <strong>pas</strong> les publications originales de la FAA et de Transports Canada, le manuel d'exploitation et les procédures de votre exploitant, les instructions du prestataire de dégivrage ni l'inspection de l'avion avant le décollage (contrôle de contamination). Les documents officiels en vigueur prévalent toujours. La décision de décoller appartient au seul commandant de bord.</p>
+    <h2>4. Utilisation en exploitation aérienne</h2>
+    <p>L'exploitant décide, dans le cadre de ses autorisations (p. ex. procédures EFB), si et comment l'application peut être utilisée en exploitation commerciale ou non commerciale. Les durées au degré près (DSHOT) ne peuvent être utilisées que si l'exploitant dispose d'une autorisation de l'autorité compétente et que les valeurs figurent dans le manuel d'exploitation. L'application n'a été ni examinée ni approuvée par la FAA, Transports Canada ou une autre autorité et n'a aucun lien avec elles.</p>
+    <h2>5. Données et actualité</h2>
+    <p>Les tables sont extraites des publications officielles et vérifiées par une seconde méthode indépendante. Une erreur ne peut toutefois pas être totalement exclue. La FAA publie chaque année de nouvelles lignes directrices ; l'application avertit lorsque les tables intégrées sont périmées. N'utilisez alors plus les valeurs de l'application jusqu'à l'installation d'une mise à jour. Les données METAR proviennent de l'Aviation Weather Center (NOAA) ; l'éditeur ne garantit ni leur exactitude, ni leur actualité, ni leur disponibilité. Merci de signaler toute anomalie à l'adresse e-mail ci-dessus.</p>
+    <h2>6. Fonctions gratuites et abonnement Pro</h2>
+    <p>Les tables génériques, tous les avertissements de sécurité (p. ex. LOUT, Appendix A), le minuteur et l'alarme sont gratuits. D'autres fonctions (notamment les tables spécifiques aux fluides, DSHOT, le journal de dégivrage et les tables des saisons futures) nécessitent l'abonnement « Calculateur HOT Pro ».</p><p>L'abonnement est souscrit et facturé exclusivement via Google Play ou l'App Store d'Apple. Le prix, la durée et une éventuelle période d'essai gratuite sont indiqués dans le store avant l'achat. L'abonnement se renouvelle automatiquement s'il n'est pas résilié à temps avant la fin de la période dans les réglages du compte du store. Les remboursements et le droit légal de rétractation sont régis par les règles du store concerné.</p>
+    <h2>7. Droit d'utilisation</h2>
+    <p>Vous obtenez un droit simple et non transférable d'utiliser l'application pour vos propres besoins. Il est interdit de modifier, de décompiler, de revendre l'application ou ses tables ou de les intégrer à d'autres produits, sauf autorisation légale. Des licences pour entreprises et exploitants sont disponibles sur demande.</p>
+    <h2>8. Responsabilité</h2>
+    <p>L'éditeur est responsable sans limitation en cas de faute intentionnelle ou de faute lourde, d'atteinte à la vie, à l'intégrité physique ou à la santé ainsi qu'en vertu de dispositions légales impératives (p. ex. responsabilité du fait des produits). En cas de faute légère, il n'est responsable que de la violation d'obligations essentielles, dans la limite du dommage prévisible et typique. Pour le reste, la responsabilité est exclue dans la mesure permise par la loi. Les droits légaux des consommateurs ne sont pas affectés.</p>
+    <h2>9. Disponibilité et évolution de l'application</h2>
+    <p>L'éditeur s'efforce de maintenir l'application sans erreur et à jour, mais ne garantit pas la disponibilité ininterrompue des services en ligne (p. ex. récupération du METAR). Les fonctions peuvent évoluer ; le périmètre de l'abonnement Pro ne sera pas réduit sans préavis.</p>
+    <h2>10. Protection des données</h2>
+    <p>Le traitement des données par l'application est décrit dans la <a href="/datenschutz/#fr">politique de confidentialité</a>.</p>
+    <h2>11. Droit applicable et modification des conditions</h2>
+    <p>Le droit français s'applique. Les dispositions impératives de protection des consommateurs du pays de votre résidence habituelle restent applicables. L'éditeur peut modifier ces conditions pour l'avenir ; les modifications importantes sont annoncées dans l'application ou sur cette page. La version allemande fait foi ; les autres langues sont des traductions.</p>
+    <p class="meta">Mise à jour : 11 novembre 2026</p>
+  </article>
+
+  <article id="es" lang="es" data-eye="Condiciones de uso" data-h1="Calculadora HOT – Condiciones de uso">
+    <h2>1. Proveedor</h2>
+    <p>Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, France<br>E-Mail: guido.marhenke@web.de</p>
+    <h2>2. Ámbito de aplicación</h2>
+    <p>Estas condiciones se aplican al uso de la app «Calculadora HOT» (Android e iOS), incluida la suscripción «Calculadora HOT Pro». Al usar la app acepta estas condiciones. La compra, la facturación y la cancelación se rigen además por las condiciones de la tienda correspondiente (Google Play o App Store de Apple).</p>
+    <h2>3. Qué es la app – y qué no es</h2>
+    <p>La Calculadora HOT es una <strong>ayuda de cálculo y consulta</strong>. Muestra los tiempos de protección según las FAA Holdover Time Guidelines de la temporada incluida y – con la suscripción Pro – los tiempos por grado (DSHOT) de Transport Canada, opcionalmente con datos meteorológicos del METAR.</p><p>La app <strong>no</strong> sustituye las publicaciones originales de la FAA y de Transport Canada, el manual de operaciones y los procedimientos de su operador, las instrucciones del proveedor de deshielo ni la inspección del avión antes del despegue (comprobación de contaminación). Siempre prevalecen los documentos oficiales vigentes. La decisión de despegar corresponde exclusivamente al comandante.</p>
+    <h2>4. Uso en operaciones aéreas</h2>
+    <p>El operador decide, en el marco de sus autorizaciones (p. ej. procedimientos EFB), si y cómo puede utilizarse la app en operaciones comerciales o no comerciales. Los tiempos por grado (DSHOT) solo pueden utilizarse si el operador dispone de una autorización de la autoridad competente y los valores figuran en el manual de operaciones. La app no ha sido revisada ni aprobada por la FAA, Transport Canada ni ninguna otra autoridad y no tiene relación con ellas.</p>
+    <h2>5. Datos y actualidad</h2>
+    <p>Las tablas se extraen de las publicaciones oficiales y se comprueban con un segundo método independiente. Aun así, no puede descartarse por completo un error. La FAA publica nuevas directrices cada año; la app avisa cuando las tablas incluidas están desactualizadas. En ese caso no utilice valores de la app hasta instalar una actualización. Los datos METAR proceden del Aviation Weather Center (NOAA); el proveedor no garantiza su exactitud, actualidad ni disponibilidad. Por favor, comunique cualquier anomalía a la dirección de correo indicada arriba.</p>
+    <h2>6. Funciones gratuitas y suscripción Pro</h2>
+    <p>Las tablas genéricas, todos los avisos de seguridad (p. ej. LOUT, Appendix A), el temporizador y la alarma son gratuitos. Otras funciones (entre ellas las tablas específicas de cada fluido, DSHOT, el registro de deshielo y las tablas de temporadas futuras) requieren la suscripción «Calculadora HOT Pro».</p><p>La suscripción se contrata y factura exclusivamente a través de Google Play o el App Store de Apple. El precio, la duración y un posible periodo de prueba gratuito se muestran en la tienda antes de la compra. La suscripción se renueva automáticamente si no se cancela a tiempo antes del final del periodo en los ajustes de la cuenta de la tienda. Los reembolsos y el derecho legal de desistimiento se rigen por las normas de la tienda correspondiente.</p>
+    <h2>7. Derecho de uso</h2>
+    <p>Usted obtiene un derecho simple e intransferible a utilizar la app para fines propios. No está permitido modificar, descompilar, revender la app o sus tablas ni incorporarlas a otros productos, salvo que la ley lo permita. Hay licencias para empresas y operadores disponibles bajo petición.</p>
+    <h2>8. Responsabilidad</h2>
+    <p>El proveedor responde sin limitación en caso de dolo y negligencia grave, de daños a la vida, la integridad física o la salud y conforme a disposiciones legales imperativas (p. ej. responsabilidad por productos). En caso de negligencia leve solo responde por el incumplimiento de obligaciones esenciales, limitado al daño previsible y típico. En lo demás, la responsabilidad queda excluida en la medida permitida por la ley. Los derechos legales de los consumidores no se ven afectados.</p>
+    <h2>9. Disponibilidad y cambios de la app</h2>
+    <p>El proveedor se esfuerza por mantener la app libre de errores y actualizada, pero no garantiza la disponibilidad ininterrumpida de los servicios en línea (p. ej. la consulta del METAR). Las funciones pueden seguir desarrollándose; el alcance de la suscripción Pro no se reducirá sin previo aviso.</p>
+    <h2>10. Protección de datos</h2>
+    <p>El tratamiento de datos de la app se describe en la <a href="/datenschutz/#es">política de privacidad</a>.</p>
+    <h2>11. Ley aplicable y cambios de estas condiciones</h2>
+    <p>Se aplica el derecho francés. Las disposiciones imperativas de protección del consumidor del país de su residencia habitual no se ven afectadas. El proveedor puede modificar estas condiciones con efecto para el futuro; los cambios importantes se anunciarán en la app o en esta página. La versión alemana es la vinculante; los demás idiomas son traducciones.</p>
+    <p class="meta">Actualizado: 11 de noviembre de 2026</p>
+  </article>
+</main>
+
+<script>
+(function(){
+  var langs=["de","en","fr","es"];
+  function show(){
+    var h=(location.hash||"").slice(1);
+    if(langs.indexOf(h)<0){
+      var n=(navigator.language||"de").slice(0,2).toLowerCase();
+      h=langs.indexOf(n)>=0?n:"de";
+    }
+    langs.forEach(function(l){
+      document.getElementById(l).hidden=(l!==h);
+      document.querySelector('nav a[data-l="'+l+'"]').setAttribute("aria-current",l===h?"true":"false");
+    });
+    document.documentElement.lang=h;
+    var a=document.getElementById(h); document.getElementById("eye").textContent=a.dataset.eye; document.getElementById("h1").textContent=a.dataset.h1;
+  }
+  window.addEventListener("hashchange",show); show();
+})();
+</script>
+
+</body>
+</html>
