@@ -46,7 +46,7 @@ a{color:var(--accent)}
 <main>
   <header>
     <a class="eyebrow" href="/" style="text-decoration:none">← HOT-Rechner</a>
-    <span class="eyebrow">Bedienungsanleitung · App-Version 0.9.10</span>
+    <span class="eyebrow">Bedienungsanleitung · App-Version 0.10.2</span>
     <h1>HOT-Rechner – Bedienungsanleitung</h1>
   </header>
   <nav aria-label="Sprache / Language">
@@ -73,13 +73,14 @@ a{color:var(--accent)}
     <h2>3. Der Ablauf in Kürze</h2>
     <ol>
       <li><strong>„Fluid-Start jetzt“</strong> antippen, wenn die letzte Fluid-Anwendung beginnt (bei Two-Step: der zweite Schritt). Die HOT kannst du danach in Ruhe wählen.</li>
-      <li><strong>Wetter</strong>: Flugplatz und METAR, Niederschlag bzw. Frost, Außentemperatur (OAT).</li>
-      <li><strong>Flugzeug</strong>: Kategorie wählen, bei Bedarf Flaps/Slats-Schalter.</li>
-      <li><strong>Fluid</strong> und Konzentration wählen.</li>
-      <li><strong>Ergebnis</strong> ablesen: untere und obere Grenze der HOT.</li>
+      <li><strong>Wetter-Karte</strong>: Flugplatz und METAR, Niederschlag bzw. Frost, Außentemperatur (OAT).</li>
+      <li><strong>Flugzeug-Karte</strong>: Kategorie wählen, bei Bedarf Flaps/Slats-Schalter.</li>
+      <li><strong>Fluid-Karte</strong>: Fluid und Konzentration wählen.</li>
+      <li><strong>Ergebnis</strong> ablesen: Die Leiste am unteren Rand zeigt untere und obere Grenze der HOT. Mit „Details“ klappst du das ganze Ergebnis auf.</li>
       <li><strong>„HOT für laufenden Timer übernehmen“</strong>: Der Timer zählt jetzt bis zur nächsten Grenze und alarmiert.</li>
     </ol>
     <p>Hast du den Fluid-Start vergessen zu drücken, gibt es im Eingabebereich „Start vor … min“ und „Timer starten“, dann stellst du den Startzeitpunkt nachträglich ein. Mit −1 min und +1 min korrigierst du die Startzeit im laufenden Timer.</p>
+    <p>Die Eingaben sind in drei Karten sortiert (Wetter, Flugzeug, Fluid). Die <strong>Ergebnis-Leiste</strong> am unteren Rand bleibt beim Scrollen sichtbar und zeigt immer die aktuelle HOT. Der runde Knopf <strong>ⓘ</strong> neben einem Feld erklärt es. <strong>Ändern sich die Bedingungen, während der Timer läuft</strong>, meldet die Leiste „Bedingungen geändert – der Timer läuft noch mit …“. Mit <strong>„Übernehmen“</strong> stellst du den Timer auf die neue HOT um; ohne Übernehmen läuft er unverändert mit der alten weiter. Gibt es für die neuen Bedingungen keine HOT, sagt die Leiste das ebenfalls.</p>
 
     <h2>4. Wetter, Flugplatz und METAR</h2>
     <h3>Flugplatz und AutoLoc</h3>
@@ -87,11 +88,12 @@ a{color:var(--accent)}
     <p>Tippst du selbst einen ICAO-Code ein, lässt AutoLoc dich in dieser Sitzung in Ruhe. Mit <strong>📍</strong> im Feld startest du die Suche neu. Ohne Standortfreigabe tippst du den vierstelligen ICAO-Code (z. B. EDSB) selbst ein; beim Tippen erscheint der Name des Platzes. Die App merkt sich je Flugplatz das zuletzt gewählte Fluid.</p>
     <h3>METAR laden und Alter</h3>
     <p>„METAR laden“ holt die aktuelle Meldung und trägt Temperatur, Niederschlag und Bedingung vor. Die Alters-Plakette ist eine Ampel: <strong>grün</strong> bis 30 Minuten, <strong>gelb</strong> bis 60 Minuten (vielleicht gibt es schon ein neueres), <strong>rot</strong> darüber („veraltet“). Der Knopf wird dann selbst gelb bzw. rot und heißt „METAR neu laden“. Auf veraltete Meldungen nicht mehr verlassen.</p>
+    <p>Der METAR ist eingeklappt: Eine Zeile zeigt die Alters-Ampel, Temperatur, Wind und Wetter. Mit <strong>▾</strong> klappst du die volle Meldung auf.</p>
     <p><strong>Der METAR ist ein Vorschlag, keine Beobachtung.</strong> Gleiche ihn immer mit deiner eigenen Beobachtung und der ATIS ab. Hinweise der App, die du ernst nehmen solltest: Wind ab 15 kt bzw. Böen ab 25 kt (App-Schwelle, die FAA nennt keine Zahl), Schneetreiben, Hagel, kürzlich gemeldeter Niederschlag (RE-Gruppe), Sicht unter 1000 m ohne gemeldete Erscheinung (AUTO-Meldungen erkennen gefrierenden Nebel und Eiskristalle oft nicht) und Dunst bei Frost (gefrierender Dunst wird nie im METAR gemeldet).</p>
     <h3>Niederschlag, Frost, Eiskörner</h3>
     <p>Die Wetter-Karte hat drei Betriebsarten: <strong>Niederschlag</strong>, <strong>Frost</strong> (aktiver Frost) und <strong>Eiskörner</strong> (Allowance Times, siehe Abschnitt 7). Dazu kommen die Außentemperatur (OAT) und die Bedingung (z. B. leichter Schnee, gefrierender Sprühregen). Beides wird aus dem METAR vorbelegt und ist änderbar.</p>
     <h3>Schnee: Sicht und Tag/Nacht</h3>
-    <p>Bei Schnee bestimmt die Sicht die Intensität (FAA Tabelle 57). Dafür gilt die <strong>gemeldete oder beobachtete Sicht, nicht die RVR</strong>. Die Sicht kannst du in Metern oder in Statute Miles eingeben (per Tipp umschalten). Tag oder Nacht wird nach dem Sonnenstand berechnet („berechnet“) und lässt sich per Tipp umstellen („geändert“). Ergibt Tabelle 57 eine andere Intensität als der METAR meldet, vermerkt die App das; die Intensität aus der Tabelle geht vor.</p>
+    <p>Bei Schnee bestimmt die Sicht die Intensität (FAA Tabelle 57). Dafür gilt die <strong>gemeldete oder beobachtete Sicht, nicht die RVR</strong>. Die Sicht kannst du in Metern oder in Statute Miles eingeben (per Tipp umschalten). Tag oder Nacht wird nach dem Sonnenstand berechnet („berechnet“) und lässt sich per Tipp umstellen („geändert“). Ergibt Tabelle 57 eine andere Intensität als der METAR meldet, vermerkt die App das; die Intensität aus der Tabelle geht vor. Tippst du das Sichtfeld an, wird der Inhalt markiert, du kannst also sofort den neuen Wert eintippen.</p>
     <h3>Temperatureinheit</h3>
     <p>Die Einheit lässt sich zwischen °C und °F umstellen. Weil eine verwechselte Einheit gefährlich ist, erscheint ein großer Dialog mit der umgerechneten OAT. Er schließt nur mit „Verstanden“ oder „Rückgängig“. Prüfe, dass jede Temperatur ab jetzt in der neuen Einheit eingegeben wird.</p>
 
@@ -119,6 +121,7 @@ a{color:var(--accent)}
 
     <h2>7. Das Ergebnis lesen</h2>
     <p>Die Ergebnis-Karte zeigt die Holdover Time als <strong>Spanne mit unterer und oberer Grenze</strong> in Stunden:Minuten. Die untere Grenze gilt für die stärkere, die obere für die schwächere Niederschlagsrate dieser Intensität. Darunter steht die Quelle (FAA-Tabelle und Seite). Bei Frost, und wenn nur ein Wert besteht, gibt es eine einzelne Grenze.</p>
+    <p>Über dem Ergebnis steht die Karte <strong>„Eingaben – bitte prüfen“</strong> mit allem, worauf die HOT beruht: Flugplatz, Wetter, OAT, Fluid, Konzentration, Flugzeug, Flaps/Slats. <strong>Tippe auf eine Zeile, und die App springt zur passenden Eingabe</strong>, falls etwas nicht stimmt. Wirf diesen Blick auf die Karte, bevor du dich auf die Zeit verlässt.</p>
     <p><strong>Meldungen statt Zeit:</strong> Gibt es keine Zeit, sagt die App warum, z. B. keine HOT für starken Schnee, Eiskörner, mäßigen/starken gefrierenden Regen oder Hagel; keine HOT bei 0 °C und darunter für bestimmte Bedingungen; Temperatur oder Konzentration nicht in der Tabelle; Fluid nicht getestet („N/A“). Dann gilt: <strong>keine HOT verfügbar, nicht schätzen.</strong></p>
     <p><strong>LOUT</strong> (Lowest Operational Use Temperature) ist die niedrigste Außentemperatur, bei der das Fluid für deine Flugzeugkategorie benutzt werden darf. Liegt die OAT darunter, zeigt die App eine rote Warnung: <strong>dieses Fluid darf nicht verwendet werden</strong>. Die LOUT-Warnungen sind immer kostenlos. Mit „ⓘ LOUT“ siehst du die Erklärung.</p>
     <p><strong>Woher kommt die LOUT?</strong> Sie steht in den FAA-Guidelines und stammt vom Fluid-Hersteller, getrennt nach Fluid, Konzentration und Flugzeugkategorie (High, Middle, Low):</p>
@@ -152,9 +155,10 @@ a{color:var(--accent)}
       <li><strong>rot:</strong> HOT überschritten – Contamination Check bzw. erneut enteisen</li>
     </ul>
     <p>Solange du noch keine HOT übernommen hast, läuft nur die Zeit seit Fluid-Start.</p>
+    <p>Der Knopf „HOT für laufenden Timer übernehmen“ ist nur aktiv, wenn die berechnete HOT von der im Timer abweicht. Sonst steht dort „✓ HOT ist im Timer“. Ändern sich die Bedingungen, meldet das auch die Ergebnis-Leiste (Abschnitt 3).</p>
     <h3>Alarme</h3>
     <p>Mit Spanne: Vorwarnung <strong>5 Minuten vor der unteren Grenze</strong>, Alarm bei der <strong>unteren</strong> und Daueralarm bei der <strong>oberen Grenze</strong> („HOT ABGELAUFEN“). Bei nur einem Wert (z. B. Frost): Vorwarnung 5 Minuten vorher und „HOT ABGELAUFEN“ bei Ablauf. Die Alarme laufen auch bei geschlossener App und gesperrtem Telefon; bei Ablauf erscheint, wenn erlaubt, ein roter Vollbild-Alarm mit „OK“ und „App öffnen“. Der Countdown steht zusätzlich lautlos in der Statusleiste und auf dem Sperrbildschirm.</p>
-    <p>„Beenden“ stoppt den Timer und schließt den Protokolleintrag ab.</p>
+    <p>Der Knopf rechts im Timer-Kasten wechselt: Solange ein HOT-Alarm angezeigt wird, heißt er rot <strong>„🔕 Alarm aus“</strong> und schaltet nur den Alarm ab; der Timer läuft weiter. Danach heißt er „Timer aus“ (die ersten 2 Sekunden gesperrt, damit ein Doppeltipp nicht versehentlich den Timer beendet). „Beenden“ bzw. „Timer aus“ stoppt den Timer und schließt den Protokolleintrag ab.</p>
 
     <h2>9. DSHOT (Pro)</h2>
     <p>DSHOT sind gradgenaue Holdover-Zeiten von Transport Canada für <strong>Schnee</strong> und <strong>Schnee mit gefrierendem Nebel</strong>, für unverdünntes Fluid, bis zur LOUT. Sie enthalten 1 °C Sicherheitsabschlag, die OAT wird auf das nächste ganze Grad abgerundet. Nicht jedes Fluid hat jede Schneerate (generisches Type II z. B. nur mäßigen Schnee); dann sagt die App „Keine DSHOT für diese Auswahl“, und es gilt die FAA-Zeit.</p>
@@ -184,7 +188,7 @@ a{color:var(--accent)}
       <li>Die Verantwortung für Entscheidung und Flug bleibt beim Piloten.</li>
     </ul>
     <p>Siehe auch <a href="/nutzungsbedingungen/">Nutzungsbedingungen</a> und <a href="/datenschutz/">Datenschutzerklärung</a>. Fehler gefunden oder Vorschlag? Schreib an info@emb500.de.</p>
-    <p class="meta">Stand: 14. November 2026 · gilt für App-Version 0.9.10</p>
+    <p class="meta">Stand: 14. November 2026 · gilt für App-Version 0.10.2</p>
   </article>
 
   <article id="en" lang="en" hidden>
@@ -207,13 +211,14 @@ a{color:var(--accent)}
     <h2>3. The workflow in brief</h2>
     <ol>
       <li>Tap <strong>“Fluid start now”</strong> when the last fluid application begins (for two-step: the second step). You can choose the HOT afterwards in your own time.</li>
-      <li><strong>Weather</strong>: airport and METAR, precipitation or frost, outside air temperature (OAT).</li>
-      <li><strong>Aircraft</strong>: choose the category, use the flaps/slats switch if needed.</li>
-      <li>Choose <strong>fluid</strong> and concentration.</li>
-      <li>Read the <strong>result</strong>: lower and upper limit of the HOT.</li>
+      <li><strong>Weather card</strong>: airport and METAR, precipitation or frost, outside air temperature (OAT).</li>
+      <li><strong>Aircraft card</strong>: choose the category, use the flaps/slats switch if needed.</li>
+      <li><strong>Fluid card</strong>: choose fluid and concentration.</li>
+      <li>Read the <strong>result</strong>: the bar at the bottom shows the lower and upper limit of the HOT. “Details” opens the full result.</li>
       <li><strong>“Apply HOT to running timer”</strong>: the timer now counts to the next limit and alarms.</li>
     </ol>
     <p>If you forgot to press the fluid start, the input area has “Start … min ago” and “Start timer”, so you can set the start time afterwards. With −1 min and +1 min you correct the start time in a running timer.</p>
+    <p>The inputs are sorted into three cards (weather, aircraft, fluid). The <strong>result bar</strong> at the bottom stays visible while you scroll and always shows the current HOT. The round <strong>ⓘ</strong> button next to a field explains it. <strong>If the conditions change while the timer is running</strong>, the bar says “Conditions changed – the timer still runs with …”. <strong>“Apply”</strong> switches the timer to the new HOT; if you do not apply, it keeps running with the old one. If there is no HOT for the new conditions, the bar says so too.</p>
 
     <h2>4. Weather, airport and METAR</h2>
     <h3>Airport and AutoLoc</h3>
@@ -221,11 +226,12 @@ a{color:var(--accent)}
     <p>If you type an ICAO code yourself, AutoLoc leaves you alone for that session. With <strong>📍</strong> in the field you restart the search. Without location permission you type the four-letter ICAO code (e.g. EDSB) yourself; the name of the airport appears as you type. The app remembers the last chosen fluid for each airport.</p>
     <h3>Loading the METAR and its age</h3>
     <p>“Load METAR” fetches the current report and fills in temperature, precipitation and condition. The age badge is a traffic light: <strong>green</strong> up to 30 minutes, <strong>yellow</strong> up to 60 minutes (a newer one may already exist), <strong>red</strong> beyond that (“outdated”). The button then turns yellow or red as well and reads “Reload METAR”. Do not rely on outdated reports any more.</p>
+    <p>The METAR is folded: one line shows the age traffic light, temperature, wind and weather. <strong>▾</strong> opens the full report.</p>
     <p><strong>The METAR is a suggestion, not an observation.</strong> Always cross-check it against your own observation and the ATIS. Notes from the app you should take seriously: wind from 15 kt or gusts from 25 kt (app threshold, the FAA gives no figure), blowing snow, hail, recently reported precipitation (RE group), visibility below 1000 m with no reported phenomenon (AUTO reports often miss freezing fog and ice crystals) and haze in freezing conditions (freezing haze is never reported in the METAR).</p>
     <h3>Precipitation, frost, ice pellets</h3>
     <p>The weather card has three modes: <strong>Precipitation</strong>, <strong>Frost</strong> (active frost) and <strong>Ice pellets</strong> (allowance times, see section 7). In addition there are the outside air temperature (OAT) and the condition (e.g. light snow, freezing drizzle). Both are pre-filled from the METAR and can be changed.</p>
     <h3>Snow: visibility and day/night</h3>
-    <p>For snow, visibility determines the intensity (FAA Table 57). The <strong>reported or observed visibility applies, not the RVR</strong>. You can enter visibility in metres or statute miles (tap to switch). Day or night is calculated from the position of the sun (“calculated”) and can be switched by tap (“changed”). If Table 57 gives a different intensity than the METAR reports, the app notes this; the intensity from the table takes precedence.</p>
+    <p>For snow, visibility determines the intensity (FAA Table 57). The <strong>reported or observed visibility applies, not the RVR</strong>. You can enter visibility in metres or statute miles (tap to switch). Day or night is calculated from the position of the sun (“calculated”) and can be switched by tap (“changed”). If Table 57 gives a different intensity than the METAR reports, the app notes this; the intensity from the table takes precedence. When you tap the visibility field its content is selected, so you can type the new value straight away.</p>
     <h3>Temperature unit</h3>
     <p>The unit can be switched between °C and °F. Because a mixed-up unit is dangerous, a large dialog with the converted OAT appears. It only closes with “Understood” or “Undo”. Check that every temperature from now on is entered in the new unit.</p>
 
@@ -253,6 +259,7 @@ a{color:var(--accent)}
 
     <h2>7. Reading the result</h2>
     <p>The result card shows the holdover time as a <strong>range with a lower and an upper limit</strong> in hours:minutes. The lower limit applies to the heavier, the upper limit to the lighter precipitation rate of that intensity. Below it is the source (FAA table and page). For frost, and when only one value exists, there is a single limit.</p>
+    <p>Above the result is the card <strong>“Inputs – please check”</strong> with everything the HOT is based on: airport, weather, OAT, fluid, concentration, aircraft, flaps/slats. <strong>Tap a line and the app jumps to the matching input</strong> if something is wrong. Take this look at the card before you rely on the time.</p>
     <p><strong>Messages instead of a time:</strong> If there is no time, the app says why, e.g. no HOT for heavy snow, ice pellets, moderate/heavy freezing rain or hail; no HOT at 0 °C and below for certain conditions; temperature or concentration not in the table; fluid not tested (“N/A”). Then the rule is: <strong>no HOT available, do not estimate.</strong></p>
     <p><strong>LOUT</strong> (Lowest Operational Use Temperature) is the lowest outside air temperature at which the fluid may be used for your aircraft category. If the OAT is below it, the app shows a red warning: <strong>do not use this fluid</strong>. The LOUT warnings are always free. “ⓘ LOUT” shows the explanation.</p>
     <p><strong>Where does the LOUT come from?</strong> It is given in the FAA guidelines and comes from the fluid manufacturer, separately for fluid, concentration and aircraft category (High, Middle, Low):</p>
@@ -286,9 +293,10 @@ a{color:var(--accent)}
       <li><strong>red:</strong> HOT exceeded – contamination check or de-ice again</li>
     </ul>
     <p>As long as you have not yet applied a HOT, only the time since fluid start runs.</p>
+    <p>The button “Apply HOT to running timer” is only active when the calculated HOT differs from the one in the timer. Otherwise it reads “✓ HOT is in the timer”. If the conditions change, the result bar reports that as well (section 3).</p>
     <h3>Alarms</h3>
     <p>With a range: advance warning <strong>5 minutes before the lower limit</strong>, alarm at the <strong>lower</strong> limit and continuous alarm at the <strong>upper limit</strong> (“HOT EXPIRED”). With a single value (e.g. frost): advance warning 5 minutes before and “HOT EXPIRED” at expiry. The alarms also run with the app closed and the phone locked; at expiry a red full-screen alarm with “OK” and “Open app” appears, if allowed. The countdown is also shown silently in the status bar and on the lock screen.</p>
-    <p>“Stop” ends the timer and closes the log entry.</p>
+    <p>The button at the right of the timer box changes: while a HOT alarm is showing it is red and reads <strong>“🔕 Alarm off”</strong> and only silences the alarm; the timer keeps running. Afterwards it reads “Stop timer” (locked for the first 2 seconds so that a double tap does not end the timer by accident). “Stop” or “Stop timer” ends the timer and closes the log entry.</p>
 
     <h2>9. DSHOT (Pro)</h2>
     <p>DSHOT are degree-specific holdover times from Transport Canada for <strong>snow</strong> and <strong>snow with freezing fog</strong>, for undiluted fluid, down to the LOUT. They include a 1 °C safety margin, and the OAT is rounded down to the next whole degree. Not every fluid has every snow rate (generic Type II, for example, only moderate snow); then the app says “No DSHOT for this selection” and the FAA time applies.</p>
@@ -318,7 +326,7 @@ a{color:var(--accent)}
       <li>Responsibility for the decision and the flight remains with the pilot.</li>
     </ul>
     <p>See also the <a href="/nutzungsbedingungen/">Terms of Use</a> and the <a href="/datenschutz/#en">Privacy Policy</a>. Found a mistake or have a suggestion? Write to info@emb500.de.</p>
-    <p class="meta">As of 14 November 2026 · applies to app version 0.9.10</p>
+    <p class="meta">As of 14 November 2026 · applies to app version 0.10.2</p>
   </article>
 
   <article id="fr" lang="fr" hidden>
@@ -340,14 +348,15 @@ a{color:var(--accent)}
 
     <h2>3. Le déroulement en bref</h2>
     <ol>
-      <li>Touchez <strong>« Début du liquide maintenant »</strong> quand la dernière application de liquide commence (en deux étapes : la deuxième étape). Vous pouvez choisir la HOT ensuite, tranquillement.</li>
-      <li><strong>Météo</strong> : aéroport et METAR, précipitations ou givre, température extérieure (OAT).</li>
-      <li><strong>Aéronef</strong> : choisissez la catégorie, au besoin l’interrupteur volets/becs.</li>
-      <li>Choisissez le <strong>liquide</strong> et la concentration.</li>
-      <li>Lisez le <strong>résultat</strong> : limite inférieure et limite supérieure de la HOT.</li>
-      <li><strong>« Appliquer la HOT à la minuterie »</strong> : le minuteur compte alors jusqu’à la limite suivante et déclenche l’alarme.</li>
+      <li>Appuyer sur <strong>« Début du liquide maintenant »</strong> quand la dernière application de liquide commence (en deux temps : la seconde étape). Tu peux choisir la HOT ensuite, tranquillement.</li>
+      <li><strong>Carte Météo</strong> : aéroport et METAR, précipitations ou givre, température extérieure (OAT).</li>
+      <li><strong>Carte Aéronef</strong> : choisir la catégorie, au besoin l’interrupteur volets/becs.</li>
+      <li><strong>Carte Liquide</strong> : choisir le liquide et la concentration.</li>
+      <li>Lire le <strong>résultat</strong> : la barre en bas affiche la limite inférieure et supérieure de la HOT. « Détails » ouvre le résultat complet.</li>
+      <li><strong>« Appliquer la HOT à la minuterie »</strong> : la minuterie compte jusqu’à la prochaine limite et déclenche l’alarme.</li>
     </ol>
     <p>Si vous avez oublié d’appuyer sur le début du liquide, la zone de saisie propose « Début il y a … min » et « Démarrer la minuterie » : vous réglez alors l’heure de début après coup. Avec −1 min et +1 min, vous corrigez l’heure de début dans un minuteur en cours.</p>
+    <p>Les saisies sont réparties en trois cartes (météo, aéronef, liquide). La <strong>barre de résultat</strong> en bas reste visible pendant le défilement et affiche toujours la HOT actuelle. Le bouton rond <strong>ⓘ</strong> à côté d’un champ l’explique. <strong>Si les conditions changent pendant que la minuterie tourne</strong>, la barre indique « Conditions modifiées – le minuteur tourne encore avec … ». <strong>« Appliquer »</strong> règle la minuterie sur la nouvelle HOT ; sans cela, elle continue avec l’ancienne. S’il n’y a pas de HOT pour les nouvelles conditions, la barre le dit aussi.</p>
 
     <h2>4. Météo, aéroport et METAR</h2>
     <h3>Aéroport et AutoLoc</h3>
@@ -355,11 +364,12 @@ a{color:var(--accent)}
     <p>Si vous saisissez vous-même un code OACI, AutoLoc vous laisse tranquille pour cette session. Avec <strong>📍</strong> dans le champ, vous relancez la recherche. Sans autorisation de localisation, vous saisissez vous-même le code OACI à quatre lettres (p. ex. EDSB) ; le nom de l’aéroport apparaît pendant la saisie. L’application retient le dernier liquide choisi pour chaque aéroport.</p>
     <h3>Charger le METAR et son ancienneté</h3>
     <p>« Charger METAR » récupère le message actuel et renseigne température, précipitations et condition. Le badge d’ancienneté fonctionne comme un feu tricolore : <strong>vert</strong> jusqu’à 30 minutes, <strong>jaune</strong> jusqu’à 60 minutes (il en existe peut-être déjà un plus récent), <strong>rouge</strong> au-delà (« périmé »). Le bouton devient alors lui aussi jaune ou rouge et s’intitule « Recharger le METAR ». Ne vous fiez plus aux messages périmés.</p>
+    <p>Le METAR est replié : une ligne affiche le feu d’ancienneté, la température, le vent et le temps. <strong>▾</strong> ouvre le message complet.</p>
     <p><strong>Le METAR est une suggestion, pas une observation.</strong> Comparez-le toujours avec votre propre observation et avec l’ATIS. Remarques de l’application à prendre au sérieux : vent à partir de 15 kt ou rafales à partir de 25 kt (seuil de l’application, la FAA ne donne aucun chiffre), chasse-neige, grêle, précipitations récemment signalées (groupe RE), visibilité inférieure à 1000 m sans phénomène signalé (les messages AUTO reconnaissent souvent mal le brouillard givrant et les cristaux de glace) et brume sèche par temps de gel (la brume sèche givrante n’est jamais signalée dans le METAR).</p>
     <h3>Précipitations, givre, granules de glace</h3>
     <p>La carte météo a trois modes : <strong>Précipitations</strong>, <strong>Givre</strong> (givre actif) et <strong>Granules de glace</strong> (temps de tolérance, voir section 7). S’y ajoutent la température extérieure (OAT) et la condition (p. ex. neige faible, bruine verglaçante). Les deux sont préremplies à partir du METAR et modifiables.</p>
     <h3>Neige : visibilité et jour/nuit</h3>
-    <p>Pour la neige, la visibilité détermine l’intensité (FAA Table 57). Ce qui compte est la <strong>visibilité signalée ou observée, pas la RVR</strong>. Vous pouvez saisir la visibilité en mètres ou en milles terrestres (basculer d’une touche). Le jour ou la nuit est calculé d’après la hauteur du soleil (« calculé ») et peut être modifié d’une touche (« modifié »). Si la Table 57 donne une autre intensité que celle du METAR, l’application le note ; l’intensité de la table prévaut.</p>
+    <p>Pour la neige, la visibilité détermine l’intensité (FAA Table 57). Ce qui compte est la <strong>visibilité signalée ou observée, pas la RVR</strong>. Vous pouvez saisir la visibilité en mètres ou en milles terrestres (basculer d’une touche). Le jour ou la nuit est calculé d’après la hauteur du soleil (« calculé ») et peut être modifié d’une touche (« modifié »). Si la Table 57 donne une autre intensité que celle du METAR, l’application le note ; l’intensité de la table prévaut. Quand tu touches le champ de visibilité, son contenu est sélectionné : tu peux saisir tout de suite la nouvelle valeur.</p>
     <h3>Unité de température</h3>
     <p>L’unité peut être basculée entre °C et °F. Une unité confondue étant dangereuse, une grande boîte de dialogue affiche l’OAT convertie. Elle ne se ferme qu’avec « Compris » ou « Annuler ». Vérifiez que chaque température est désormais saisie dans la nouvelle unité.</p>
 
@@ -387,6 +397,7 @@ a{color:var(--accent)}
 
     <h2>7. Lire le résultat</h2>
     <p>La carte de résultat affiche la durée d’efficacité sous forme de <strong>plage avec limite inférieure et limite supérieure</strong>, en heures:minutes. La limite inférieure vaut pour le taux de précipitation le plus fort, la limite supérieure pour le plus faible de cette intensité. En dessous figure la source (table FAA et page). Pour le givre, et lorsqu’une seule valeur existe, il n’y a qu’une seule limite.</p>
+    <p>Au-dessus du résultat se trouve la carte <strong>« Saisies – à vérifier »</strong> avec tout ce sur quoi repose la HOT : aéroport, météo, OAT, liquide, concentration, aéronef, volets/becs. <strong>Touche une ligne : l’application saute à la saisie correspondante</strong> si quelque chose ne va pas. Jette ce coup d’œil à la carte avant de te fier à la durée.</p>
     <p><strong>Messages à la place d’une durée :</strong> s’il n’y a pas de durée, l’application dit pourquoi, p. ex. pas de HOT pour la neige forte, les granules de glace, la pluie verglaçante modérée/forte ou la grêle ; pas de HOT à 0 °C et moins pour certaines conditions ; température ou concentration absente de la table ; liquide non testé (« N/A »). Alors la règle est : <strong>aucune HOT disponible, ne pas estimer.</strong></p>
     <p>La <strong>LOUT</strong> (Lowest Operational Use Temperature) est la température extérieure la plus basse à laquelle le liquide peut être utilisé pour votre catégorie d’aéronef. Si l’OAT est inférieure, l’application affiche un avertissement rouge : <strong>ne pas utiliser ce liquide</strong>. Les avertissements LOUT sont toujours gratuits. « ⓘ LOUT » affiche l’explication.</p>
     <p><strong>D’où vient la LOUT ?</strong> Elle figure dans les lignes directrices de la FAA et provient du fabricant du liquide, séparément pour chaque liquide, concentration et catégorie d’aéronef (High, Middle, Low) :</p>
@@ -420,9 +431,10 @@ a{color:var(--accent)}
       <li><strong>rouge :</strong> HOT dépassée – contrôle de contamination ou nouveau dégivrage</li>
     </ul>
     <p>Tant que vous n’avez pas encore appliqué de HOT, seul le temps écoulé depuis le début du liquide défile.</p>
+    <p>Le bouton « Appliquer la HOT à la minuterie » n’est actif que si la HOT calculée diffère de celle de la minuterie. Sinon il indique « ✓ HOT dans la minuterie ». Si les conditions changent, la barre de résultat le signale aussi (section 3).</p>
     <h3>Alarmes</h3>
     <p>Avec une plage : préavis <strong>5 minutes avant la limite inférieure</strong>, alarme à la limite <strong>inférieure</strong> et alarme continue à la limite <strong>supérieure</strong> (« HOT ÉCOULÉE »). Avec une seule valeur (p. ex. givre) : préavis 5 minutes avant et « HOT ÉCOULÉE » à l’expiration. Les alarmes fonctionnent aussi application fermée et téléphone verrouillé ; à l’expiration apparaît, si autorisée, une alarme rouge plein écran avec « OK » et « Ouvrir l’app ». Le compte à rebours s’affiche en outre silencieusement dans la barre d’état et sur l’écran de verrouillage.</p>
-    <p>« Arrêter » arrête le minuteur et clôture l’entrée du journal.</p>
+    <p>Le bouton à droite dans le cadre de la minuterie change : tant qu’une alarme HOT est affichée, il est rouge et indique <strong>« 🔕 Couper l’alarme »</strong> ; il ne coupe que l’alarme, la minuterie continue. Ensuite il indique « Arrêter la minuterie » (verrouillé les 2 premières secondes pour qu’un double appui n’arrête pas la minuterie par erreur). « Arrêter » ou « Arrêter la minuterie » termine la minuterie et clôt l’entrée du journal.</p>
 
     <h2>9. DSHOT (Pro)</h2>
     <p>Les DSHOT sont des durées d’efficacité au degré près de Transports Canada pour la <strong>neige</strong> et la <strong>neige avec brouillard verglaçant</strong>, pour liquide non dilué, jusqu’à la LOUT. Elles incluent une marge de sécurité de 1 °C, et l’OAT est arrondie au degré entier inférieur. Tous les liquides n’ont pas tous les taux de neige (le Type II générique, p. ex., seulement la neige modérée) ; l’application indique alors « Pas de DSHOT pour cette sélection » et la durée FAA s’applique.</p>
@@ -452,7 +464,7 @@ a{color:var(--accent)}
       <li>La responsabilité de la décision et du vol reste au pilote.</li>
     </ul>
     <p>Voir aussi les <a href="/nutzungsbedingungen/">conditions d’utilisation</a> et la <a href="/datenschutz/#fr">politique de confidentialité</a>. Une erreur ou une suggestion ? Écrivez à info@emb500.de.</p>
-    <p class="meta">Version du 14 novembre 2026 · valable pour la version 0.9.10 de l’application</p>
+    <p class="meta">Version du 14 novembre 2026 · valable pour la version 0.10.2 de l’application</p>
   </article>
 
   <article id="es" lang="es" hidden>
@@ -474,14 +486,15 @@ a{color:var(--accent)}
 
     <h2>3. El procedimiento en breve</h2>
     <ol>
-      <li>Toque <strong>«Inicio del fluido ahora»</strong> cuando empiece la última aplicación de fluido (en dos pasos: el segundo paso). El HOT puede elegirlo después con calma.</li>
-      <li><strong>Tiempo meteorológico</strong>: aeródromo y METAR, precipitación o escarcha, temperatura exterior (OAT).</li>
-      <li><strong>Aeronave</strong>: elija la categoría y, si hace falta, el interruptor de flaps/slats.</li>
-      <li>Elija el <strong>fluido</strong> y la concentración.</li>
-      <li>Lea el <strong>resultado</strong>: límite inferior y superior del HOT.</li>
-      <li><strong>«Aplicar HOT al temporizador»</strong>: el temporizador cuenta entonces hasta el siguiente límite y da la alarma.</li>
+      <li>Toca <strong>«Inicio del fluido ahora»</strong> cuando empieza la última aplicación de fluido (en dos pasos: el segundo). Después puedes elegir la HOT con calma.</li>
+      <li><strong>Tarjeta Tiempo</strong>: aeródromo y METAR, precipitación o escarcha, temperatura exterior (OAT).</li>
+      <li><strong>Tarjeta Aeronave</strong>: elegir la categoría y, si hace falta, el interruptor de flaps/slats.</li>
+      <li><strong>Tarjeta Fluido</strong>: elegir fluido y concentración.</li>
+      <li>Leer el <strong>resultado</strong>: la barra inferior muestra el límite inferior y superior de la HOT. «Detalles» abre el resultado completo.</li>
+      <li><strong>«Aplicar HOT al temporizador»</strong>: el temporizador cuenta hasta el siguiente límite y da la alarma.</li>
     </ol>
     <p>Si olvidó pulsar el inicio del fluido, el área de entrada tiene «Inicio hace … min» e «Iniciar temporizador», con lo que fija la hora de inicio a posteriori. Con −1 min y +1 min corrige la hora de inicio en un temporizador en marcha.</p>
+    <p>Los datos están en tres tarjetas (tiempo, aeronave, fluido). La <strong>barra de resultado</strong> inferior sigue visible al desplazarte y muestra siempre la HOT actual. El botón redondo <strong>ⓘ</strong> junto a un campo lo explica. <strong>Si las condiciones cambian mientras corre el temporizador</strong>, la barra avisa: «Condiciones cambiadas – el temporizador sigue con …». Con <strong>«Aplicar»</strong> pasas el temporizador a la nueva HOT; si no aplicas, sigue con la anterior. Si no hay HOT para las nuevas condiciones, la barra también lo dice.</p>
 
     <h2>4. Tiempo meteorológico, aeródromo y METAR</h2>
     <h3>Aeródromo y AutoLoc</h3>
@@ -489,11 +502,12 @@ a{color:var(--accent)}
     <p>Si usted mismo escribe un código OACI, AutoLoc le deja en paz durante esa sesión. Con <strong>📍</strong> en el campo reinicia la búsqueda. Sin permiso de ubicación, escribe usted mismo el código OACI de cuatro letras (p. ej. EDSB); al escribir aparece el nombre del aeródromo. La aplicación recuerda para cada aeródromo el último fluido elegido.</p>
     <h3>Cargar el METAR y su antigüedad</h3>
     <p>«Cargar METAR» obtiene el mensaje actual y rellena temperatura, precipitación y condición. La insignia de antigüedad es un semáforo: <strong>verde</strong> hasta 30 minutos, <strong>amarillo</strong> hasta 60 minutos (quizá ya exista uno más reciente), <strong>rojo</strong> por encima («caducado»). El botón se vuelve entonces también amarillo o rojo y se llama «Recargar METAR». No confíe más en los mensajes caducados.</p>
+    <p>El METAR está plegado: una línea muestra el semáforo de antigüedad, la temperatura, el viento y el tiempo. <strong>▾</strong> abre el mensaje completo.</p>
     <p><strong>El METAR es una sugerencia, no una observación.</strong> Contrástelo siempre con su propia observación y con el ATIS. Avisos de la aplicación que debe tomar en serio: viento desde 15 kt o rachas desde 25 kt (umbral de la aplicación; la FAA no da ninguna cifra), ventisca baja, granizo, precipitación notificada recientemente (grupo RE), visibilidad inferior a 1000 m sin fenómeno notificado (los mensajes AUTO suelen no detectar la niebla engelante ni los cristales de hielo) y calima con helada (la calima engelante nunca se notifica en el METAR).</p>
     <h3>Precipitación, escarcha, hielo granulado</h3>
     <p>La tarjeta del tiempo tiene tres modos: <strong>Precipitación</strong>, <strong>Escarcha</strong> (escarcha activa) e <strong>Hielo granulado</strong> (tiempos de tolerancia, véase la sección 7). Además están la temperatura exterior (OAT) y la condición (p. ej. nieve ligera, llovizna engelante). Ambas se rellenan previamente desde el METAR y se pueden cambiar.</p>
     <h3>Nieve: visibilidad y día/noche</h3>
-    <p>En el caso de la nieve, la visibilidad determina la intensidad (FAA Tabla 57). Vale la <strong>visibilidad notificada u observada, no el RVR</strong>. La visibilidad se puede introducir en metros o en millas terrestres (se cambia con un toque). El día o la noche se calcula según la posición del sol («calculado») y se puede cambiar con un toque («cambiado»). Si la Tabla 57 da otra intensidad que la que notifica el METAR, la aplicación lo anota; prevalece la intensidad de la tabla.</p>
+    <p>En el caso de la nieve, la visibilidad determina la intensidad (FAA Tabla 57). Vale la <strong>visibilidad notificada u observada, no el RVR</strong>. La visibilidad se puede introducir en metros o en millas terrestres (se cambia con un toque). El día o la noche se calcula según la posición del sol («calculado») y se puede cambiar con un toque («cambiado»). Si la Tabla 57 da otra intensidad que la que notifica el METAR, la aplicación lo anota; prevalece la intensidad de la tabla. Al tocar el campo de visibilidad se selecciona su contenido, así que puedes escribir el valor nuevo enseguida.</p>
     <h3>Unidad de temperatura</h3>
     <p>La unidad se puede cambiar entre °C y °F. Como confundir la unidad es peligroso, aparece un cuadro de diálogo grande con la OAT convertida. Solo se cierra con «Entendido» o «Deshacer». Compruebe que, a partir de ahora, cada temperatura se introduce en la nueva unidad.</p>
 
@@ -521,6 +535,7 @@ a{color:var(--accent)}
 
     <h2>7. Leer el resultado</h2>
     <p>La tarjeta de resultado muestra el tiempo máximo de eficacia como un <strong>intervalo con límite inferior y límite superior</strong> en horas:minutos. El límite inferior vale para la intensidad de precipitación más fuerte y el superior para la más débil de esa intensidad. Debajo figura la fuente (tabla FAA y página). En el caso de la escarcha, y cuando solo existe un valor, hay un único límite.</p>
+    <p>Encima del resultado está la tarjeta <strong>«Datos – compruébelos»</strong> con todo en lo que se basa la HOT: aeródromo, tiempo, OAT, fluido, concentración, aeronave, flaps/slats. <strong>Toca una línea y la aplicación salta al dato correspondiente</strong> si algo no cuadra. Echa este vistazo a la tarjeta antes de fiarte del tiempo.</p>
     <p><strong>Mensajes en lugar de un tiempo:</strong> si no hay tiempo, la aplicación dice por qué, p. ej. no hay HOT para nieve fuerte, hielo granulado, lluvia engelante moderada/fuerte o granizo; no hay HOT a 0 °C o menos para determinadas condiciones; temperatura o concentración que no figuran en la tabla; fluido no ensayado («N/A»). Entonces rige: <strong>no hay HOT disponible, no estimar.</strong></p>
     <p>La <strong>LOUT</strong> (Lowest Operational Use Temperature) es la temperatura exterior más baja a la que se puede usar el fluido para su categoría de aeronave. Si la OAT está por debajo, la aplicación muestra un aviso en rojo: <strong>no usar este fluido</strong>. Los avisos de LOUT son siempre gratuitos. Con «ⓘ LOUT» se ve la explicación.</p>
     <p><strong>¿De dónde viene la LOUT?</strong> Figura en las directrices de la FAA y procede del fabricante del fluido, por separado para cada fluido, concentración y categoría de aeronave (High, Middle, Low):</p>
@@ -554,9 +569,10 @@ a{color:var(--accent)}
       <li><strong>rojo:</strong> HOT superado – comprobación de contaminación o nuevo deshielo</li>
     </ul>
     <p>Mientras no haya aplicado todavía ningún HOT, solo corre el tiempo desde el inicio del fluido.</p>
+    <p>El botón «Aplicar HOT al temporizador» solo está activo cuando la HOT calculada difiere de la del temporizador. Si no, dice «✓ HOT en el temporizador». Si las condiciones cambian, la barra de resultado también lo avisa (sección 3).</p>
     <h3>Alarmas</h3>
     <p>Con intervalo: preaviso <strong>5 minutos antes del límite inferior</strong>, alarma en el límite <strong>inferior</strong> y alarma continua en el límite <strong>superior</strong> («HOT VENCIDO»). Con un solo valor (p. ej. escarcha): preaviso 5 minutos antes y «HOT VENCIDO» al expirar. Las alarmas funcionan también con la aplicación cerrada y el teléfono bloqueado; al expirar aparece, si está permitido, una alarma roja a pantalla completa con «OK» y «Abrir la app». La cuenta atrás se muestra además en silencio en la barra de estado y en la pantalla de bloqueo.</p>
-    <p>«Detener» detiene el temporizador y cierra la entrada del registro.</p>
+    <p>El botón a la derecha del recuadro del temporizador cambia: mientras se muestra una alarma HOT es rojo y dice <strong>«🔕 Apagar alarma»</strong> y solo silencia la alarma; el temporizador sigue. Después dice «Detener temporizador» (bloqueado los 2 primeros segundos para que un doble toque no lo detenga sin querer). «Detener» o «Detener temporizador» termina el temporizador y cierra la entrada del registro.</p>
 
     <h2>9. DSHOT (Pro)</h2>
     <p>Los DSHOT son tiempos máximos de eficacia por grado de Transport Canada para <strong>nieve</strong> y <strong>nieve con niebla engelante</strong>, para fluido sin diluir, hasta la LOUT. Incluyen un margen de seguridad de 1 °C, y la OAT se redondea al grado entero inferior. No todos los fluidos tienen todas las intensidades de nieve (el Tipo II genérico, por ejemplo, solo nieve moderada); entonces la aplicación indica «Sin DSHOT para esta selección» y se aplica el tiempo de la FAA.</p>
@@ -586,7 +602,7 @@ a{color:var(--accent)}
       <li>La responsabilidad de la decisión y del vuelo sigue recayendo en el piloto.</li>
     </ul>
     <p>Véanse también las <a href="/nutzungsbedingungen/">condiciones de uso</a> y la <a href="/datenschutz/#es">política de privacidad</a>. ¿Ha encontrado un error o tiene una sugerencia? Escriba a info@emb500.de.</p>
-    <p class="meta">Versión del 14 de noviembre de 2026 · válida para la versión 0.9.10 de la aplicación</p>
+    <p class="meta">Versión del 14 de noviembre de 2026 · válida para la versión 0.10.2 de la aplicación</p>
   </article>
 
 </main>
@@ -595,10 +611,10 @@ a{color:var(--accent)}
 (function(){
   var langs=["de","en","fr","es"];
   var T={
-    de:{t:"HOT-Rechner – Bedienungsanleitung",e:"Bedienungsanleitung · App-Version 0.9.10"},
-    en:{t:"HOT Calculator – User guide",e:"User guide · App version 0.9.10"},
-    fr:{t:"HOT-Rechner – Mode d’emploi",e:"Mode d’emploi · Version de l’application 0.9.10"},
-    es:{t:"HOT-Rechner – Manual de uso",e:"Manual de uso · Versión de la aplicación 0.9.10"}
+    de:{t:"HOT-Rechner – Bedienungsanleitung",e:"Bedienungsanleitung · App-Version 0.10.2"},
+    en:{t:"HOT Calculator – User guide",e:"User guide · App version 0.10.2"},
+    fr:{t:"HOT-Rechner – Mode d’emploi",e:"Mode d’emploi · Version de l’application 0.10.2"},
+    es:{t:"HOT-Rechner – Manual de uso",e:"Manual de uso · Versión de la aplicación 0.10.2"}
   };
   function show(){
     var h=(location.hash||"").slice(1);
