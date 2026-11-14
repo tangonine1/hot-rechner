@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOT-Rechner – Bedienungsanleitung</title>
+<style>
+/* Layout: one reading column, language tabs as a sticky strip, sections as plain numbered-free blocks */
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --ink:#16202a; --muted:#566370; --line:#d6dde4; --accent:#1b5e8c; --mark:#fff3c4;
+  --f-display:"Segoe UI Semibold","Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:ui-monospace,Consolas,"Roboto Mono",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:44rem;margin:0 auto;padding-block:24px 48px}
+header{display:flex;flex-direction:column;gap:6px;padding-block:8px 16px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 2rem/1.15 var(--f-display);margin:0;text-wrap:balance}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;padding-block:8px;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav a{font:500 13px/1 var(--f-mono);letter-spacing:.06em;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:6px}
+nav a[aria-current="true"]{background:var(--paper);color:var(--accent);box-shadow:0 0 0 1px var(--line)}
+nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+article{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+h2{font:600 1.15rem/1.3 var(--f-display);margin:18px 0 2px;color:var(--accent);text-wrap:balance}
+h2:first-of-type{margin-top:0}
+p,li{margin:0 0 8px;max-width:65ch}
+ul{padding-left:1.2em;margin:0}
+.warn{background:var(--mark);border-left:4px solid #b7791f;padding:10px 14px;border-radius:4px;margin:4px 0 8px}
+.warn p{margin:0 0 6px}
+ol{padding-left:1.3em;margin:0}
+h3{font:600 1rem/1.3 var(--f-display);margin:12px 0 2px}
+.todo{background:var(--mark);padding:1px 4px;border-radius:3px}
+.meta{font:500 13px/1.4 var(--f-mono);color:var(--muted);margin-top:16px}
+a{color:var(--accent)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+
+<main>
+  <header>
+    <a class="eyebrow" href="/" style="text-decoration:none">← HOT-Rechner</a>
+    <span class="eyebrow">Bedienungsanleitung · App-Version 0.9.10</span>
+    <h1>HOT-Rechner – Bedienungsanleitung</h1>
+  </header>
+  <nav aria-label="Sprache / Language">
+    <a href="#de" data-l="de">DE</a>
+  </nav>
+
+  <article id="de" lang="de">
+    <div class="warn">
+      <p><strong>Wichtiger Hinweis:</strong> Der HOT-Rechner ist ein Hilfsmittel. Maßgeblich sind die offiziellen FAA Holdover Time Guidelines in der aktuell gültigen Fassung und das Enteisungsprogramm deines Betreibers. Holdover Times sind Schätzwerte. Der Pre-Takeoff Check bleibt immer erforderlich. Die Verantwortung liegt beim Piloten.</p>
+    </div>
+
+    <h2>1. Was die App macht</h2>
+    <p>Der HOT-Rechner liefert die Holdover Time (HOT) nach Enteisung bzw. Vereisungsschutz: aus den <strong>FAA Holdover Time Guidelines Winter 2026–2027</strong> und, mit Pro, aus den <strong>DSHOT-Tabellen von Transport Canada</strong>. Du gibst Wetter, Flugzeug und Fluid ein, die App zeigt die Zeitspanne und hat einen Timer mit Alarm, der auch bei geschlossener App läuft.</p>
+    <p><strong>Dauerhaft kostenlos:</strong> generische Tabellen Type I, II und IV (inklusive Appendix A), LOUT-Warnungen, Timer mit Alarm, METAR, Type-I-Mischungsprüfung. <strong>Mit Pro:</strong> alle Marken-Fluids Type II, III und IV, gradgenaue DSHOT-Zeiten, Enteisungs-Protokoll mit PDF-Export, die Uhr-App und die neuen Tabellen jeder Saison.</p>
+
+    <h2>2. Erster Start</h2>
+    <ol>
+      <li>Beim ersten Öffnen erscheint der „Wichtige Hinweis“. Lesen und mit „Verstanden“ bestätigen.</li>
+      <li>Die App fragt nach Berechtigungen. <strong>Benachrichtigungen</strong> sind nötig, sonst kann der Alarm nicht angezeigt werden. <strong>Exakte Alarme</strong> sorgen dafür, dass der Alarm pünktlich kommt; ohne sie kann er sich um einige Minuten verspäten (die App weist darauf hin). Der <strong>Vollbild-Alarm</strong> (Android 14 und neuer) lässt den Alarm wie einen Wecker über dem Sperrbildschirm erscheinen. Der <strong>ungefähre Standort</strong> ist freiwillig (siehe Abschnitt 4).</li>
+      <li>Falls Alarme bei „Nicht stören“ oder einem Fokus-Modus stumm bleiben: Den HOT-Rechner dort als Ausnahme erlauben (Android: Einstellungen → Modi bzw. Nicht stören → Apps). Die App übergeht keine Stummschaltung von selbst.</li>
+      <li>Die Sprache ist standardmäßig die Handysprache (Deutsch, Englisch, Französisch, Spanisch). Oben gibt es einen Sprachknopf, solange kein Timer läuft.</li>
+    </ol>
+
+    <h2>3. Der Ablauf in Kürze</h2>
+    <ol>
+      <li><strong>„Fluid-Start jetzt“</strong> antippen, wenn die letzte Fluid-Anwendung beginnt (bei Two-Step: der zweite Schritt). Die HOT kannst du danach in Ruhe wählen.</li>
+      <li><strong>Wetter</strong>: Flugplatz und METAR, Niederschlag bzw. Frost, Außentemperatur (OAT).</li>
+      <li><strong>Flugzeug</strong>: Kategorie wählen, bei Bedarf Flaps/Slats-Schalter.</li>
+      <li><strong>Fluid</strong> und Konzentration wählen.</li>
+      <li><strong>Ergebnis</strong> ablesen: untere und obere Grenze der HOT.</li>
+      <li><strong>„HOT für laufenden Timer übernehmen“</strong>: Der Timer zählt jetzt bis zur nächsten Grenze und alarmiert.</li>
+    </ol>
+    <p>Hast du den Fluid-Start vergessen zu drücken, gibt es im Eingabebereich „Start vor … min“ und „Timer starten“, dann stellst du den Startzeitpunkt nachträglich ein. Mit −1 min und +1 min korrigierst du die Startzeit im laufenden Timer.</p>
+
+    <h2>4. Wetter, Flugplatz und METAR</h2>
+    <h3>Flugplatz und AutoLoc</h3>
+    <p>Beim Öffnen der App (höchstens alle 10 Minuten, nicht während ein Timer läuft) bestimmt die App, wenn du es erlaubt hast, deinen <strong>ungefähren Standort</strong>, sucht in der eingebauten Flughafenliste die nächsten Plätze (bis 15 km) und trägt den nächsten Platz <strong>mit METAR</strong> ein. Die Statuszeile darunter sagt, was gefunden wurde. Gibt es dort keinen METAR, steht der nächste Platz (bis 5 km) trotzdem im Feld; dann Wetter von Hand eingeben bzw. ATIS nutzen.</p>
+    <p>Tippst du selbst einen ICAO-Code ein, lässt AutoLoc dich in dieser Sitzung in Ruhe. Mit <strong>📍</strong> im Feld startest du die Suche neu. Ohne Standortfreigabe tippst du den vierstelligen ICAO-Code (z. B. EDSB) selbst ein; beim Tippen erscheint der Name des Platzes. Die App merkt sich je Flugplatz das zuletzt gewählte Fluid.</p>
+    <h3>METAR laden und Alter</h3>
+    <p>„METAR laden“ holt die aktuelle Meldung und trägt Temperatur, Niederschlag und Bedingung vor. Die Alters-Plakette ist eine Ampel: <strong>grün</strong> bis 30 Minuten, <strong>gelb</strong> bis 60 Minuten (vielleicht gibt es schon ein neueres), <strong>rot</strong> darüber („veraltet“). Der Knopf wird dann selbst gelb bzw. rot und heißt „METAR neu laden“. Auf veraltete Meldungen nicht mehr verlassen.</p>
+    <p><strong>Der METAR ist ein Vorschlag, keine Beobachtung.</strong> Gleiche ihn immer mit deiner eigenen Beobachtung und der ATIS ab. Hinweise der App, die du ernst nehmen solltest: Wind ab 15 kt bzw. Böen ab 25 kt (App-Schwelle, die FAA nennt keine Zahl), Schneetreiben, Hagel, kürzlich gemeldeter Niederschlag (RE-Gruppe), Sicht unter 1000 m ohne gemeldete Erscheinung (AUTO-Meldungen erkennen gefrierenden Nebel und Eiskristalle oft nicht) und Dunst bei Frost (gefrierender Dunst wird nie im METAR gemeldet).</p>
+    <h3>Niederschlag, Frost, Eiskörner</h3>
+    <p>Die Wetter-Karte hat drei Betriebsarten: <strong>Niederschlag</strong>, <strong>Frost</strong> (aktiver Frost) und <strong>Eiskörner</strong> (Allowance Times, siehe Abschnitt 7). Dazu kommen die Außentemperatur (OAT) und die Bedingung (z. B. leichter Schnee, gefrierender Sprühregen). Beides wird aus dem METAR vorbelegt und ist änderbar.</p>
+    <h3>Schnee: Sicht und Tag/Nacht</h3>
+    <p>Bei Schnee bestimmt die Sicht die Intensität (FAA Tabelle 57). Dafür gilt die <strong>gemeldete oder beobachtete Sicht, nicht die RVR</strong>. Die Sicht kannst du in Metern oder in Statute Miles eingeben (per Tipp umschalten). Tag oder Nacht wird nach dem Sonnenstand berechnet („berechnet“) und lässt sich per Tipp umstellen („geändert“). Ergibt Tabelle 57 eine andere Intensität als der METAR meldet, vermerkt die App das; die Intensität aus der Tabelle geht vor.</p>
+    <h3>Temperatureinheit</h3>
+    <p>Die Einheit lässt sich zwischen °C und °F umstellen. Weil eine verwechselte Einheit gefährlich ist, erscheint ein großer Dialog mit der umgerechneten OAT. Er schließt nur mit „Verstanden“ oder „Rückgängig“. Prüfe, dass jede Temperatur ab jetzt in der neuen Einheit eingegeben wird.</p>
+
+    <h2>5. Flugzeug</h2>
+    <p>Wähle die <strong>Kategorie des aerodynamischen Tests</strong>: High, Middle oder Low (Vr ≥ 100 / 80 / 60 kt). Die Kategorie gibt an, ab welcher Rotationsgeschwindigkeit das Fluid getestet wurde; die Bereiche überschneiden sich, ein Low-Speed-Wert gilt auch für schnellere Flugzeuge. Die Knotenwerte sind Richtwerte, die FAA-Tabellen nennen keine. <strong>Maßgeblich sind die Angaben des Flugzeugherstellers; im Zweifel Low Speed</strong> (so die FAA). Nach der ersten Wahl klappt die Karte zu einer Zeile zusammen; mit „✎ ändern“ öffnest du sie wieder.</p>
+    <p><strong>Flaps/Slats vor dem Enteisen ausgefahren:</strong> Dieser Schalter bleibt immer sichtbar, weil du ihn bei jeder Enteisung neu entscheidest. Ist er an, reduziert die App Holdover- und Allowance Times auf 76 % (Appendix A). Die Standardzeiten gelten, wenn Flaps/Slats so spät vor dem Start gesetzt werden, wie es die Sicherheit erlaubt.</p>
+    <p>Bei Pro findest du in der Flugzeug-Karte außerdem den Schalter „DSHOT anzeigen“ (Abschnitt 9).</p>
+
+    <h2>6. Fluid</h2>
+    <p>Wähle Type I, II, III oder IV und das Fluid (Suchfeld). <strong>Generische Tabellen</strong> (Type I, II, IV) sind kostenlos; <strong>Marken-Fluids</strong> sind mit Pro (in der Liste mit 🔒 markiert). Zuletzt benutzte Marken-Fluids sind mit ★ markiert. Die <strong>Konzentration</strong> Fluid/Wasser wählst du passend zu dem, was tatsächlich aufgesprüht wurde.</p>
+    <ul>
+      <li><strong>Type I:</strong> Statt einer Auswahlliste gibt es den Schalter „Oberfläche überwiegend Composite“ (Aluminium bzw. Composite). Composite ergibt in keiner Tabellenzelle eine längere HOT als Aluminium. <strong>Im Zweifel Composite wählen.</strong> Der Schalter beim Frost und die Type-I-Tabelle bei Niederschlag folgen einander.</li>
+      <li><strong>Type III</strong> gibt es bei Frost nur für die bekannte Marke AllClear AeroClear MAX, unbeheizt aufgetragen.</li>
+      <li><strong>Type-I-Mischungsprüfung</strong> (optional, Tabelle 58): Produkt wählen und, wenn du ihn hast, den Gefrierpunkt der Mischung eintragen (vom Enteisungsdienst per Refraktometer oder aus der Mischtabelle des Herstellers). Die App prüft den Puffer von mindestens 10 °C (18 °F) unter der OAT und warnt, wenn die OAT unter der LOUT liegt. Die HOT ändert sich dadurch nicht.</li>
+    </ul>
+
+    <h2>7. Das Ergebnis lesen</h2>
+    <p>Die Ergebnis-Karte zeigt die Holdover Time als <strong>Spanne mit unterer und oberer Grenze</strong> in Stunden:Minuten. Die untere Grenze gilt für die stärkere, die obere für die schwächere Niederschlagsrate dieser Intensität. Darunter steht die Quelle (FAA-Tabelle und Seite). Bei Frost, und wenn nur ein Wert besteht, gibt es eine einzelne Grenze.</p>
+    <p><strong>Meldungen statt Zeit:</strong> Gibt es keine Zeit, sagt die App warum, z. B. keine HOT für starken Schnee, Eiskörner, mäßigen/starken gefrierenden Regen oder Hagel; keine HOT bei 0 °C und darunter für bestimmte Bedingungen; Temperatur oder Konzentration nicht in der Tabelle; Fluid nicht getestet („N/A“). Dann gilt: <strong>keine HOT verfügbar, nicht schätzen.</strong></p>
+    <p><strong>LOUT</strong> (Lowest Operational Use Temperature) ist die niedrigste Außentemperatur, bei der das Fluid für deine Flugzeugkategorie benutzt werden darf. Liegt die OAT darunter, zeigt die App eine rote Warnung: <strong>dieses Fluid darf nicht verwendet werden</strong>. Die LOUT-Warnungen sind immer kostenlos. Mit „ⓘ LOUT“ siehst du die Erklärung.</p>
+    <p><strong>Allowance Times (Eiskörner):</strong> Für leichte und mäßige Eiskörner gibt es keine Holdover, sondern Allowance Times, nur für markenspezifische Type-III- und Type-IV-Fluids, unverdünnt, und erst ab einer Rotationsgeschwindigkeit von 100 kt. Eine Allowance Time kann nicht durch eine Inspektion der Flächen verlängert werden. Die Details zeigt die App bei der Zeit an.</p>
+    <p><strong>Wind und andere Einflüsse:</strong> Starker Wind, Jetblast, Schneetreiben und kalte Flügeloberfläche können die tatsächliche HOT unter den unteren Wert der Spanne verkürzen. Die App weist bei starkem Wind aus dem METAR darauf hin; für alles andere bist du zuständig.</p>
+    <p>Mit der <strong>Kompaktansicht</strong> (unten ein/aus; standardmäßig an) sind Quellen und Erläuterungen hinter „ⓘ Hinweise“ zusammengeklappt. Warnungen (rot/gelb), METAR-Hinweise, der LOUT-Wert und der Haftungssatz bleiben immer sichtbar.</p>
+
+    <h2>8. Timer und Alarm</h2>
+    <p>Der Timer zeigt den Fluid-Start und die Zeit bis zur nächsten Grenze. Die Farbe sagt, wo du stehst:</p>
+    <ul>
+      <li><strong>grün:</strong> innerhalb der HOT, vor der unteren Grenze</li>
+      <li><strong>gelb:</strong> zwischen unterer und oberer Grenze</li>
+      <li><strong>rot:</strong> HOT überschritten – Contamination Check bzw. erneut enteisen</li>
+    </ul>
+    <p>Solange du noch keine HOT übernommen hast, läuft nur die Zeit seit Fluid-Start.</p>
+    <h3>Alarme</h3>
+    <p>Mit Spanne: Vorwarnung <strong>5 Minuten vor der unteren Grenze</strong>, Alarm bei der <strong>unteren</strong> und Daueralarm bei der <strong>oberen Grenze</strong> („HOT ABGELAUFEN“). Bei nur einem Wert (z. B. Frost): Vorwarnung 5 Minuten vorher und „HOT ABGELAUFEN“ bei Ablauf. Die Alarme laufen auch bei geschlossener App und gesperrtem Telefon; bei Ablauf erscheint, wenn erlaubt, ein roter Vollbild-Alarm mit „OK“ und „App öffnen“. Der Countdown steht zusätzlich lautlos in der Statusleiste und auf dem Sperrbildschirm.</p>
+    <p>„Beenden“ stoppt den Timer und schließt den Protokolleintrag ab.</p>
+
+    <h2>9. DSHOT (Pro)</h2>
+    <p>DSHOT sind gradgenaue Holdover-Zeiten von Transport Canada für <strong>Schnee</strong> und <strong>Schnee mit gefrierendem Nebel</strong>, für unverdünntes Fluid, bis zur LOUT. Sie enthalten 1 °C Sicherheitsabschlag, die OAT wird auf das nächste ganze Grad abgerundet. Nicht jedes Fluid hat jede Schneerate (generisches Type II z. B. nur mäßigen Schnee); dann sagt die App „Keine DSHOT für diese Auswahl“, und es gilt die FAA-Zeit.</p>
+    <div class="warn">
+      <p><strong>DSHOT nur mit Genehmigung:</strong> Gradgenaue Zeiten dürfen nur verwendet werden, wenn dein Betreiber dafür eine Genehmigung der zuständigen Behörde hat und die Werte im Betriebshandbuch stehen. Beim ersten Einschalten musst du das bestätigen. Andernfalls gelten die FAA-Zeiten.</p>
+    </div>
+    <p>Du schaltest die Anzeige in der Flugzeug-Karte ein. Die DSHOT-Karte erscheint unter dem FAA-Ergebnis; „DSHOT in Timer übernehmen“ bzw. „Timer mit DSHOT starten“ übernimmt die Werte.</p>
+
+    <h2>10. Uhr-App (Galaxy Watch, Wear OS; Pro)</h2>
+    <p>Die Uhr-App gehört zu Pro und braucht die installierte Handy-App. Auf der Uhr siehst du den Countdown und kannst den Fluid-Start auslösen. Klingelt ein Alarm, zeigt die Uhr den roten Knopf <strong>„Alarm aus“</strong>; er schaltet den Alarm auf Uhr <em>und</em> Handy aus, der Countdown läuft weiter. „Beenden“ braucht zwei Tipps („Nochmal = Timer aus“), damit nicht versehentlich der ganze Timer endet. Die <strong>Komplikation „HOT-Rechner“</strong> zeigt den Countdown auf Zifferblättern, die sie unterstützen (ohne Timer „HOT“, nach Ablauf „ABG“); ein Tipp öffnet die App.</p>
+
+    <h2>11. Enteisungs-Protokoll (Pro)</h2>
+    <p>Ein Eintrag entsteht, wenn eine HOT in den Timer übernommen wird, und wird mit „Beenden“ abgeschlossen. Er enthält Zeitpunkte, Flughafen, METAR, OAT und HOT. Gespeichert werden höchstens die letzten 300 Einträge, <strong>nur auf deinem Telefon</strong>. Du kannst das Protokoll als PDF teilen oder löschen. Das PDF ist kein amtliches Dokument.</p>
+
+    <h2>12. Tabellen und Aktualisierung</h2>
+    <p>Die FAA veröffentlicht jedes Jahr im August neue Guidelines. Ist die nächste Ausgabe fällig, weist die App darauf hin („Neue FAA-Ausgabe fällig“); nach Ende der Saison steht dort „Tabellen VERALTET“. <strong>Dann nicht mehr operativ verwenden,</strong> sondern die App aktualisieren. Über die Zeile „Datenstand“ erreichst du mit dem Link ↗ die FAA-Seite zur Enteisung. Neue App-Versionen meldet die App selbst („Neue Version verfügbar“).</p>
+
+    <h2>13. Pro und Abo</h2>
+    <p>Pro gibt es als Abo über Google Play (auf dem iPhone über den App Store). Es verlängert sich automatisch, wenn nicht mindestens 24 Stunden vor Ablauf gekündigt wird, und lässt sich jederzeit in Google Play kündigen. Die aktuellen Preise zeigt die App. „Kauf wiederherstellen“ hilft nach einem Gerätewechsel. Alles Sicherheitsrelevante (LOUT-Warnungen, generische Tabellen, Appendix A, Timer und Alarm) bleibt immer gratis.</p>
+
+    <h2>14. Grenzen und Haftung</h2>
+    <ul>
+      <li>Die App ersetzt weder das offizielle FAA-Dokument noch das Enteisungsprogramm deines Betreibers noch den Pre-Takeoff Check.</li>
+      <li>Holdover Times sind Schätzwerte. Wind, Jetblast, Schneetreiben und kalte Oberflächen verkürzen sie.</li>
+      <li>Der METAR ersetzt keine eigene Beobachtung und keine ATIS.</li>
+      <li><strong>Europa:</strong> Die EASA veröffentlicht keine eigenen Holdover-Time-Tabellen und verweist auf die FAA- bzw. Transport-Canada-Guidelines. Maßgeblich ist das Enteisungsverfahren deines Betreibers. Die App ist nicht „EASA-zugelassen“.</li>
+      <li>Die Verantwortung für Entscheidung und Flug bleibt beim Piloten.</li>
+    </ul>
+    <p>Siehe auch <a href="/nutzungsbedingungen/">Nutzungsbedingungen</a> und <a href="/datenschutz/">Datenschutzerklärung</a>. Fehler gefunden oder Vorschlag? Schreib an info@emb500.de.</p>
+    <p class="meta">Stand: 14. November 2026 · gilt für App-Version 0.9.10</p>
+  </article>
+</main>
+
+<script>
+(function(){
+  var langs=["de"];
+  function show(){
+    var h=(location.hash||"").slice(1);
+    if(langs.indexOf(h)<0){h="de";}
+    langs.forEach(function(l){
+      document.getElementById(l).hidden=(l!==h);
+      document.querySelector('nav a[data-l="'+l+'"]').setAttribute("aria-current",l===h?"true":"false");
+    });
+    document.documentElement.lang=h;
+  }
+  window.addEventListener("hashchange",show); show();
+})();
+</script>
+
+</body>
+</html>
