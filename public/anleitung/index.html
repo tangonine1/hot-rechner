@@ -104,7 +104,7 @@ a{color:var(--accent)}
     <p>Wähle Type I, II, III oder IV und das Fluid (Suchfeld). <strong>Generische Tabellen</strong> (Type I, II, IV) sind kostenlos; <strong>Marken-Fluids</strong> sind mit Pro (in der Liste mit 🔒 markiert). Zuletzt benutzte Marken-Fluids sind mit ★ markiert. Die <strong>Konzentration</strong> Fluid/Wasser wählst du passend zu dem, was tatsächlich aufgesprüht wurde.</p>
     <ul>
       <li><strong>Type I:</strong> Statt einer Auswahlliste gibt es den Schalter „Oberfläche überwiegend Composite“ (Aluminium bzw. Composite). Composite ergibt in keiner Tabellenzelle eine längere HOT als Aluminium. <strong>Im Zweifel Composite wählen.</strong> Der Schalter beim Frost und die Type-I-Tabelle bei Niederschlag folgen einander.</li>
-      <li><strong>Type III</strong> gibt es nur für ein einziges zertifiziertes Fluid: AllClear AeroClear MAX (FAA Tabelle 60), unbeheizt aufgetragen. Eine generische Type-III-Tabelle gibt es nicht.</li>
+      <li><strong>Type III</strong> gibt es nur für ein einziges zertifiziertes Fluid: AllClear AeroClear MAX, unbeheizt aufgetragen. Es hat je Flugzeugkategorie eine eigene Holdover-Tabelle (Low, Middle, High: FAA Tabellen 17–19); die App wählt sie über die Kategorie aus. Eine generische Type-III-Tabelle gibt es nicht.</li>
       <li><strong>Type-I-Mischungsprüfung</strong> (optional, Tabelle 58): Produkt wählen und, wenn du ihn hast, den Gefrierpunkt der Mischung eintragen (vom Enteisungsdienst per Refraktometer oder aus der Mischtabelle des Herstellers). Die App prüft den Puffer von mindestens 10 °C (18 °F) unter der OAT und warnt, wenn die OAT unter der LOUT liegt. Die HOT ändert sich dadurch nicht.</li>
     </ul>
     <h3>Wann es bei generischen Fluids keine Holdover Time gibt</h3>
@@ -125,11 +125,24 @@ a{color:var(--accent)}
     <ul>
       <li><strong>Marken-Fluids (Pro):</strong> Die App kennt die LOUT aus den FAA-Tabellen und zeigt sie im Ergebnis („LOUT … (Kategorie)“) für deine gewählte Kategorie und Konzentration. Unterhalb davon warnt sie rot. Wurde das Fluid für deine Kategorie nicht getestet, steht dort „LOUT nicht getestet“. Prüfe dann die Angaben des Fluid-Herstellers und das Verfahren deines Betreibers.</li>
       <li><strong>Type I:</strong> Mit der Type-I-Mischungsprüfung (Tabelle 58) wählst du das Produkt, dann zeigt die App dessen LOUT und warnt, wenn die OAT darunter liegt.</li>
-      <li><strong>Generische Tabellen:</strong> Hier kennt die App keine LOUT, weil sie vom tatsächlich benutzten Produkt abhängt. Die FAA verlangt, dass das Fluid samt Verdünnung in der Prüftabelle steht: Type I Tabelle 58, Type II Tabelle 59, Type IV Tabelle 61. Type III (nur AeroClear MAX) steht in Tabelle 60, hat aber keine generische Tabelle und gehört daher zu den Marken-Fluids. Dort findest du die LOUT. Sie steht auch im Datenblatt des Herstellers und im Enteisungsverfahren deines Betreibers. Im Zweifel fragst du den Enteisungsdienst.</li>
+      <li><strong>Generische Tabellen:</strong> Hier kennt die App keine LOUT, weil sie vom tatsächlich benutzten Produkt abhängt. Die FAA verlangt, dass das Fluid samt Verdünnung in der Prüftabelle steht: Type I Tabelle 58, Type II Tabelle 59, Type III Tabelle 60 (nur AeroClear MAX), Type IV Tabelle 61. Type III hat keine generische Tabelle und gehört daher zu den Marken-Fluids. Dort findest du die LOUT. Sie steht auch im Datenblatt des Herstellers und im Enteisungsverfahren deines Betreibers. Im Zweifel fragst du den Enteisungsdienst.</li>
     </ul>
-    <p><strong>Allowance Times (Eiskörner):</strong> Für leichte und mäßige Eiskörner gibt es keine Holdover, sondern Allowance Times, nur für markenspezifische Type-III- und Type-IV-Fluids, unverdünnt, und erst ab einer Rotationsgeschwindigkeit von 100 kt. Eine Allowance Time kann nicht durch eine Inspektion der Flächen verlängert werden. Die Details zeigt die App bei der Zeit an.</p>
+    <p><strong>Allowance Times (Eiskörner):</strong> Für leichte und mäßige Eiskörner gibt es keine Holdover, sondern Allowance Times, nur für markenspezifische Type-III- und Type-IV-Fluids, unverdünnt, und erst ab einer Rotationsgeschwindigkeit von 100 kt. Eine Allowance Time kann nicht durch eine Inspektion der Flächen verlängert werden. Die Details zeigt die App bei der Zeit an. Die Allowance Times stehen in den FAA-Tabellen 54 (Type III), 55 (Type IV EG) und 56 (Type IV PG); ob dein Fluid dafür validiert ist, steht in Tabelle 53.</p>
     <p><strong>Wind und andere Einflüsse:</strong> Starker Wind, Jetblast, Schneetreiben und kalte Flügeloberfläche können die tatsächliche HOT unter den unteren Wert der Spanne verkürzen. Die App weist bei starkem Wind aus dem METAR darauf hin; für alles andere bist du zuständig.</p>
     <p>Mit der <strong>Kompaktansicht</strong> (unten ein/aus; standardmäßig an) sind Quellen und Erläuterungen hinter „ⓘ Hinweise“ zusammengeklappt. Warnungen (rot/gelb), METAR-Hinweise, der LOUT-Wert und der Haftungssatz bleiben immer sichtbar.</p>
+
+    <h3>Welche FAA-Tabelle ist was?</h3>
+    <p>Die App wählt die richtige Tabelle selbst und nennt sie unter dem Ergebnis („Quelle“). Zur Orientierung:</p>
+    <ul>
+      <li><strong>Tabelle 1:</strong> aktiver Frost</li>
+      <li><strong>Tabellen 2 und 3:</strong> Type I (Aluminium bzw. Composite)</li>
+      <li><strong>Tabelle 4:</strong> Type II generisch · <strong>Tabellen 5–16:</strong> Type-II-Marken-Fluids</li>
+      <li><strong>Tabellen 17–19:</strong> Type III, AeroClear MAX (Low, Middle, High)</li>
+      <li><strong>Tabelle 20:</strong> Type IV generisch · <strong>Tabellen 21–52:</strong> Type-IV-Marken-Fluids</li>
+      <li><strong>Tabelle 53:</strong> Fluids, für die Allowance Times validiert sind · <strong>Tabellen 54–56:</strong> Allowance Times (Type III, Type IV EG, Type IV PG)</li>
+      <li><strong>Tabelle 57:</strong> Schneeintensität aus der Sicht</li>
+      <li><strong>Tabellen 58–61:</strong> getestete Fluids mit LOUT (Type I, II, III, IV)</li>
+    </ul>
 
     <h2>8. Timer und Alarm</h2>
     <p>Der Timer zeigt den Fluid-Start und die Zeit bis zur nächsten Grenze. Die Farbe sagt, wo du stehst:</p>
