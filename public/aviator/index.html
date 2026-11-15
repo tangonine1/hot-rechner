@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GMA Aviator Line – Watch Faces for Pilots (Wear OS)</title>
+<meta name="description" content="Four Wear OS watch faces for pilots with a fixed UTC / Zulu time that never falls back to local time. Local time, UTC offset and DST alongside. By GMA Aviation Services.">
+<link rel="preload" href="/media/aviator/b612-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Layout: black instrument panel. Type is B612, the cockpit font the watch faces use.
+   Amber is reserved for everything that is UTC, exactly as on the dials. */
+@font-face{font-family:"B612";src:url("/media/aviator/b612-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"B612";src:url("/media/aviator/b612-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"B612 Mono";src:url("/media/aviator/b612-mono-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"B612 Mono";src:url("/media/aviator/b612-mono-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+:root{
+  color-scheme:dark;
+  --black:#05070a; --panel:#0c1016; --raise:#121821; --line:#232b36;
+  --ink:#f2f4f6; --soft:#9aa5b1; --zulu:#f5a800; --sweep:#35c2e0;
+  --f-display:"B612","Segoe UI",system-ui,sans-serif;
+  --f-body:"B612",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"B612 Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--black);scroll-behavior:smooth}
+body{margin:0;background:var(--black);color:var(--ink);font:16.5px/1.65 var(--f-body);
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--zulu)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--zulu);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto}
+
+.bar{display:flex;align-items:center;gap:16px;padding-block:20px;flex-wrap:wrap}
+.logo{font:700 17px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.logo b{color:var(--zulu)}
+.bar nav{margin-left:auto;display:flex;gap:18px;font-size:14.5px}
+.bar nav a{color:var(--soft);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+.langs{display:flex;gap:2px}
+.langs a{font:700 12px/1 var(--f-mono);letter-spacing:.06em;text-decoration:none;color:var(--soft);padding:8px 9px;border-radius:6px}
+.langs a[aria-current="true"]{color:var(--black);background:var(--zulu)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center;padding-block:40px 56px}
+.kicker{font:700 12.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--zulu)}
+h1{font:700 clamp(2.4rem,5.6vw,4.2rem)/1.04 var(--f-display);letter-spacing:-.02em;margin:16px 0 20px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--zulu)}
+.lede{font-size:1.1rem;color:var(--soft);max-width:35rem;margin:0 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 15.5px/1 var(--f-body);padding:15px 20px;border-radius:10px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--raise)}
+.btn.main{background:var(--zulu);border-color:var(--zulu);color:#1a1200}
+.btn small{font-weight:400;opacity:.8}
+.note{font-size:14px;color:var(--soft);margin-top:14px}
+
+.dial{margin:0;justify-self:center;width:min(100%,380px);aspect-ratio:1;border-radius:50%;padding:12px;
+  background:linear-gradient(145deg,#2a323d,#0b0e12 55%,#1c232c);box-shadow:0 0 0 1px #000,0 40px 90px -40px rgba(245,168,0,.45)}
+.dial img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
+
+/* live UTC strip */
+.now{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;border-block:1px solid var(--line);padding-block:18px}
+.now .lab{font:700 12px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.now .t{font:700 clamp(1.8rem,5vw,2.6rem)/1 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.now .t i{font-style:normal;color:var(--zulu);margin-left:.25em}
+.now .lcl{margin-left:auto;font:400 14px/1.3 var(--f-body);color:var(--soft)}
+
+section{padding-block:64px 8px}
+h2{font:700 clamp(1.7rem,3.2vw,2.3rem)/1.12 var(--f-display);letter-spacing:-.01em;margin:0 0 10px;text-wrap:balance}
+.sec-lede{color:var(--soft);max-width:40rem;margin:0 0 36px}
+
+/* line-up */
+.faces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.face{display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:start;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;min-width:0}
+.face .dial{width:150px;padding:6px;box-shadow:0 0 0 1px #000}
+.face h3{font:700 1.25rem/1.2 var(--f-display);margin:2px 0 4px}
+.face .tag{color:var(--zulu);font-size:15px;margin:0 0 10px}
+.face ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.face li{padding-left:18px;position:relative;font-size:15px;color:var(--soft)}
+.face li::before{content:"";position:absolute;left:2px;top:.62em;width:8px;height:2px;background:var(--sweep)}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 36px}
+.feat{display:flex;flex-direction:column;gap:6px;min-width:0;border-top:2px solid var(--line);padding-top:14px}
+.feat .ref{font:700 12px/1 var(--f-mono);color:var(--zulu);letter-spacing:.1em}
+.feat h3{font:700 1.05rem/1.3 var(--f-body);margin:0}
+.feat p{margin:0;color:var(--soft);font-size:15px}
+
+.hot{display:flex;gap:24px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}
+.hot div{flex:1 1 20rem;min-width:0}
+.hot h2{font-size:1.5rem}
+.hot p{margin:0;color:var(--soft)}
+
+.warn{margin-top:56px;border-left:4px solid var(--zulu);background:var(--panel);padding:18px 20px;border-radius:0 12px 12px 0;color:var(--soft);font-size:15px;max-width:52rem}
+.warn strong{color:var(--ink)}
+
+footer{margin-top:72px;border-top:1px solid var(--line);padding-block:28px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;font-size:14px;color:var(--soft)}
+footer h4{font:700 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 10px}
+footer p{margin:0 0 6px}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:36px;padding-top:16px}
+  .hero .dial{width:min(100%,300px)}
+  .faces{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .bar nav{display:none}
+  .langs{margin-left:auto}
+  .grid,footer{grid-template-columns:minmax(0,1fr)}
+  .face{grid-template-columns:minmax(0,1fr);justify-items:start}
+  .now .lcl{margin-left:0;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="logo" href="/aviator/">GMA <b>Aviator</b> Line</a>
+    <nav aria-label="Page">
+      <a href="#faces" data-i="nav1">Watch faces</a>
+      <a href="#features" data-i="nav2">Features</a>
+      <a href="/" data-i="nav3">HOT Calculator</a>
+    </nav>
+    <div class="langs" aria-label="Sprache / Language">
+      <a href="#de" data-l="de">DE</a><a href="#en" data-l="en">EN</a><a href="#fr" data-l="fr">FR</a><a href="#es" data-l="es">ES</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <span class="kicker" data-i="kicker">Watch faces for pilots · Wear OS</span>
+        <h1 data-i="h1">Zulu time that <em>stays</em> Zulu.</h1>
+        <p class="lede" data-i="lede">On many watch faces the UTC display keeps falling back to local time. On these four it is fixed: UTC stays UTC, wherever you land. Local time, UTC offset and DST sit right next to it.</p>
+        <div class="cta">
+          <span class="btn main"><span data-i="cta1">Coming soon on Google Play</span></span>
+          <a class="btn" href="#faces"><span data-i="cta2">See all four</span></a>
+        </div>
+        <p class="note" data-i="note">€3.99 per watch face · one-time purchase · no subscription · for Wear OS watches such as the Samsung Galaxy Watch</p>
+      </div>
+      <figure class="dial"><img src="/media/aviator/glass-cockpit.png" width="450" height="450" alt="GMA Glass Cockpit: 10:09 UTC with an amber Z, below it local time 11:09 CET, UTC+1, sunset time and battery level" data-alt="alt1"></figure>
+    </div>
+
+    <div class="now" aria-live="off">
+      <span class="lab" data-i="now">UTC right now</span>
+      <span class="t" id="utc">--:--:--<i>Z</i></span>
+      <span class="lcl" id="lcl"></span>
+    </div>
+
+    <section id="faces">
+      <h2 data-i="f_h">Four dials, one rule</h2>
+      <p class="sec-lede" data-i="f_l">Digital or analogue, full or reduced. Every one of them shows UTC permanently and tells you how far local time is away from it.</p>
+      <div class="faces">
+        <article class="face">
+          <figure class="dial"><img src="/media/aviator/glass-cockpit.png" width="450" height="450" loading="lazy" alt="GMA Glass Cockpit watch face" ></figure>
+          <div><h3>GMA Glass Cockpit</h3><p class="tag" data-i="g_t">Big UTC at a glance, local time below.</p>
+            <ul><li data-i="g_1">Large digital UTC with date and seconds</li><li data-i="g_2">Local time with zone, UTC offset and DST</li><li data-i="g_3">Sun time, battery and slots for your own complications</li></ul></div>
+        </article>
+        <article class="face">
+          <figure class="dial"><img src="/media/aviator/minimal-zulu.png" width="450" height="450" loading="lazy" alt="GMA Minimal Zulu watch face"></figure>
+          <div><h3>GMA Minimal Zulu</h3><p class="tag" data-i="m_t">Just what matters: Zulu time, big and clear.</p>
+            <ul><li data-i="m_1">Four-digit Zulu time, readable at arm's length</li><li data-i="m_2">One line of local time with zone</li><li data-i="m_3">UTC offset and DST, nothing else</li></ul></div>
+        </article>
+        <article class="face">
+          <figure class="dial"><img src="/media/aviator/pilot-classic.png" width="450" height="450" loading="lazy" alt="GMA Pilot Classic watch face"></figure>
+          <div><h3>GMA Pilot Classic</h3><p class="tag" data-i="c_t">Pilot watch with a 24-hour UTC hand.</p>
+            <ul><li data-i="c_1">Classic pilot dial with triangle at 12</li><li data-i="c_2">Amber hand shows UTC on the inner 24-hour ring</li><li data-i="c_3">Date and local UTC offset with DST</li></ul></div>
+        </article>
+        <article class="face">
+          <figure class="dial"><img src="/media/aviator/pilot-premium.png" width="450" height="450" loading="lazy" alt="GMA Pilot Premium watch face"></figure>
+          <div><h3>GMA Pilot Premium</h3><p class="tag" data-i="p_t">Metal finish, UTC hand and digital Zulu time.</p>
+            <ul><li data-i="p_1">Brushed-metal look with raised numerals</li><li data-i="p_2">24-hour UTC hand plus a digital Zulu window</li><li data-i="p_3">Date window and UTC offset with DST</li></ul></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2 data-i="x_h">Built by a pilot</h2>
+      <p class="sec-lede" data-i="x_l">For everyone who thinks in Zulu and lives in local time.</p>
+      <div class="grid">
+        <div class="feat"><span class="ref">UTC</span><h3 data-i="x1h">Fixed Zulu time</h3><p data-i="x1p">UTC is set in the watch face itself. It does not follow your phone and does not change when you cross time zones.</p></div>
+        <div class="feat"><span class="ref">LCL</span><h3 data-i="x2h">Offset and DST</h3><p data-i="x2p">Every dial shows how many hours local time is ahead of or behind UTC, and whether daylight saving time is active.</p></div>
+        <div class="feat"><span class="ref">AOD</span><h3 data-i="x3h">Always-on display</h3><p data-i="x3p">A reduced always-on view keeps the time readable and is easy on the battery.</p></div>
+        <div class="feat"><span class="ref">B612</span><h3 data-i="x4h">Cockpit typeface</h3><p data-i="x4p">All dials use B612, an open-source typeface designed for legibility on aircraft cockpit displays.</p></div>
+        <div class="feat"><span class="ref">CMPL</span><h3 data-i="x5h">Your own complications</h3><p data-i="x5p">Glass Cockpit has slots you fill yourself on the watch, for example with weather or sunrise and sunset.</p></div>
+        <div class="feat"><span class="ref">PRIV</span><h3 data-i="x6h">No account, no tracking</h3><p data-i="x6p">No permissions, no ads, no data collection. You buy once through Google Play and that is it.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="hot">
+        <div><h2 data-i="h_h">Also from GMA Aviation: HOT Calculator</h2>
+          <p data-i="h_p">Holdover times according to the FAA guidelines at a glance, with METAR, timer and LOUT warning. For iPhone and Android.</p></div>
+        <a class="btn" href="/"><span data-i="h_b">To the HOT Calculator</span></a>
+      </div>
+    </section>
+
+    <p class="warn" data-i="warn"><strong>Please note:</strong> The watch faces are not an approved time source and not a flight operations instrument. They show the system time of your watch. For times used in flight operations, the aircraft's clocks and your operator's procedures always apply.</p>
+  </main>
+
+  <footer>
+    <div>
+      <h4>Impressum · Mentions légales</h4>
+      <p><strong>GMA Aviation Services</strong><br>Inhaber · Exploitant : Guido Marhenke<br>348 Allée Nicolas Greff<br>57600 Oeting, France</p>
+      <p>E-Mail: guido.marhenke@web.de<br>SIREN: 898 062 781</p>
+    </div>
+    <div>
+      <h4 data-i="ft_h">Legal</h4>
+      <p><a href="/watchfaces/" data-i="ft_p" data-hash>Privacy policy</a> · <a href="/watchfaces/nutzungsbedingungen/" data-i="ft_t" data-hash>Terms of use</a></p>
+      <p>Hosting: Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA</p>
+      <p data-i="ft_c">This page sets no cookies and uses no analytics. Typeface: B612 (SIL Open Font License). Wear OS and Google Play are trademarks of Google LLC; Galaxy Watch is a trademark of Samsung.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var T={
+  de:{nav1:"Zifferblätter",nav2:"Funktionen",nav3:"HOT-Rechner",kicker:"Zifferblätter für Piloten · Wear OS",
+    h1:"Zulu-Zeit, die Zulu <em>bleibt</em>.",
+    lede:"Bei vielen Zifferblättern springt die UTC-Anzeige immer wieder auf Ortszeit zurück. Bei diesen vier ist sie fest: UTC bleibt UTC, egal wo du landest. Ortszeit, UTC-Versatz und Sommerzeit stehen direkt daneben.",
+    cta1:"Bald bei Google Play",cta2:"Alle vier ansehen",
+    note:"3,99 € pro Zifferblatt · Einmalkauf · kein Abo · für Wear-OS-Uhren wie die Samsung Galaxy Watch",
+    alt1:"GMA Glass Cockpit: 10:09 UTC mit gelbem Z, darunter Ortszeit 11:09 CET, UTC+1, Sonnenuntergangszeit und Akkustand",
+    now:"UTC jetzt",f_h:"Vier Zifferblätter, eine Regel",
+    f_l:"Digital oder analog, voll oder reduziert. Jedes zeigt dauerhaft UTC und dazu, wie weit die Ortszeit davon entfernt ist.",
+    g_t:"Große UTC auf einen Blick, Ortszeit darunter.",g_1:"Große digitale UTC mit Datum und Sekunden",g_2:"Ortszeit mit Zone, UTC-Versatz und Sommerzeit",g_3:"Sonnenzeit, Akku und Plätze für eigene Komplikationen",
+    m_t:"Nur das Wesentliche: Zulu-Zeit, groß und klar.",m_1:"Vierstellige Zulu-Zeit, auch auf Armlänge lesbar",m_2:"Eine Zeile Ortszeit mit Zone",m_3:"UTC-Versatz und Sommerzeit, sonst nichts",
+    c_t:"Fliegeruhr mit 24-Stunden-UTC-Zeiger.",c_1:"Klassisches Flieger-Zifferblatt mit Dreieck bei 12",c_2:"Gelber Zeiger zeigt UTC auf dem inneren 24-Stunden-Ring",c_3:"Datum und lokaler UTC-Versatz mit Sommerzeit",
+    p_t:"Metall-Optik, UTC-Zeiger und digitale Zulu-Zeit.",p_1:"Gebürstete Metall-Optik mit plastischen Ziffern",p_2:"24-Stunden-UTC-Zeiger und digitales Zulu-Fenster",p_3:"Datumsfenster und UTC-Versatz mit Sommerzeit",
+    x_h:"Von einem Piloten gebaut",x_l:"Für alle, die in Zulu denken und in Ortszeit leben.",
+    x1h:"Feste Zulu-Zeit",x1p:"UTC ist im Zifferblatt selbst festgelegt. Sie folgt nicht dem Handy und ändert sich nicht, wenn du Zeitzonen wechselst.",
+    x2h:"Versatz und Sommerzeit",x2p:"Jedes Zifferblatt zeigt, wie viele Stunden die Ortszeit vor oder hinter UTC liegt und ob gerade Sommerzeit gilt.",
+    x3h:"Always-on-Display",x3p:"Eine reduzierte Always-on-Ansicht hält die Zeit lesbar und schont den Akku.",
+    x4h:"Cockpit-Schrift",x4p:"Alle Zifferblätter nutzen B612, eine freie Schrift, die für gute Lesbarkeit auf Cockpit-Displays entworfen wurde.",
+    x5h:"Eigene Komplikationen",x5p:"Glass Cockpit hat Plätze, die du auf der Uhr selbst belegst, zum Beispiel mit Wetter oder Sonnenauf- und -untergang.",
+    x6h:"Kein Konto, kein Tracking",x6p:"Keine Berechtigungen, keine Werbung, keine Datenerhebung. Du kaufst einmal über Google Play, mehr nicht.",
+    h_h:"Auch von GMA Aviation: der HOT-Rechner",h_p:"Holdover Times nach den FAA-Guidelines auf einen Blick, mit METAR, Timer und LOUT-Warnung. Für iPhone und Android.",h_b:"Zum HOT-Rechner",
+    warn:"<strong>Wichtig:</strong> Die Zifferblätter sind keine zugelassene Zeitquelle und kein Flugbetriebsinstrument. Sie zeigen die Systemzeit deiner Uhr. Für Zeiten in der Flugdurchführung gelten immer die Borduhren und die Verfahren deines Betreibers.",
+    ft_h:"Rechtliches",ft_p:"Datenschutzerklärung",ft_t:"Nutzungsbedingungen",
+    ft_c:"Diese Seite setzt keine Cookies und verwendet keine Analysewerkzeuge. Schrift: B612 (SIL Open Font License). Wear OS und Google Play sind Marken von Google LLC; Galaxy Watch ist eine Marke von Samsung.",
+    lcl:"Deine Ortszeit",title:"GMA Aviator Line – Zifferblätter für Piloten (Wear OS)"},
+  fr:{nav1:"Cadrans",nav2:"Fonctions",nav3:"Calculateur HOT",kicker:"Cadrans pour pilotes · Wear OS",
+    h1:"L'heure Zulu qui <em>reste</em> Zulu.",
+    lede:"Sur beaucoup de cadrans, l'affichage UTC revient sans cesse à l'heure locale. Sur ces quatre cadrans, il est fixe : l'UTC reste l'UTC, où que vous atterrissiez. L'heure locale, le décalage UTC et l'heure d'été sont juste à côté.",
+    cta1:"Bientôt sur Google Play",cta2:"Voir les quatre",
+    note:"3,99 € par cadran · achat unique · sans abonnement · pour montres Wear OS comme la Samsung Galaxy Watch",
+    alt1:"GMA Glass Cockpit : 10:09 UTC avec un Z ambre, en dessous l'heure locale 11:09 CET, UTC+1, heure du coucher du soleil et niveau de batterie",
+    now:"UTC maintenant",f_h:"Quatre cadrans, une règle",
+    f_l:"Numérique ou analogique, complet ou épuré. Chacun affiche l'UTC en permanence et indique l'écart avec l'heure locale.",
+    g_t:"L'UTC en grand, l'heure locale en dessous.",g_1:"Grande heure UTC numérique avec date et secondes",g_2:"Heure locale avec fuseau, décalage UTC et heure d'été",g_3:"Heure du soleil, batterie et emplacements pour vos complications",
+    m_t:"L'essentiel : l'heure Zulu, grande et nette.",m_1:"Heure Zulu à quatre chiffres, lisible à bout de bras",m_2:"Une ligne d'heure locale avec fuseau",m_3:"Décalage UTC et heure d'été, rien d'autre",
+    c_t:"Montre de pilote avec aiguille UTC 24 heures.",c_1:"Cadran de pilote classique avec triangle à 12 heures",c_2:"L'aiguille ambre indique l'UTC sur l'anneau intérieur de 24 heures",c_3:"Date et décalage UTC local avec heure d'été",
+    p_t:"Finition métal, aiguille UTC et heure Zulu numérique.",p_1:"Aspect métal brossé avec chiffres en relief",p_2:"Aiguille UTC 24 heures et fenêtre Zulu numérique",p_3:"Guichet de date et décalage UTC avec heure d'été",
+    x_h:"Conçu par un pilote",x_l:"Pour tous ceux qui pensent en Zulu et vivent en heure locale.",
+    x1h:"Heure Zulu fixe",x1p:"L'UTC est définie dans le cadran lui-même. Elle ne suit pas le téléphone et ne change pas quand vous traversez des fuseaux horaires.",
+    x2h:"Décalage et heure d'été",x2p:"Chaque cadran indique de combien d'heures l'heure locale est en avance ou en retard sur l'UTC, et si l'heure d'été est active.",
+    x3h:"Affichage permanent",x3p:"Une vue permanente épurée garde l'heure lisible et ménage la batterie.",
+    x4h:"Police de cockpit",x4p:"Tous les cadrans utilisent B612, une police libre conçue pour la lisibilité sur les écrans de cockpit.",
+    x5h:"Vos propres complications",x5p:"Glass Cockpit dispose d'emplacements que vous remplissez vous-même sur la montre, par exemple avec la météo ou le lever et le coucher du soleil.",
+    x6h:"Sans compte, sans suivi",x6p:"Aucune autorisation, aucune publicité, aucune collecte de données. Vous achetez une fois via Google Play, c'est tout.",
+    h_h:"Aussi de GMA Aviation : le Calculateur HOT",h_p:"Les durées d'efficacité selon les lignes directrices de la FAA en un coup d'œil, avec METAR, minuteur et alerte LOUT. Pour iPhone et Android.",h_b:"Vers le Calculateur HOT",
+    warn:"<strong>Important :</strong> Les cadrans ne sont pas une source horaire approuvée ni un instrument d'exploitation aérienne. Ils affichent l'heure système de votre montre. Pour les heures utilisées en exploitation, les horloges de bord et les procédures de votre exploitant prévalent toujours.",
+    ft_h:"Mentions",ft_p:"Politique de confidentialité",ft_t:"Conditions d'utilisation",
+    ft_c:"Ce site n'utilise ni cookies ni outils d'analyse. Police : B612 (SIL Open Font License). Wear OS et Google Play sont des marques de Google LLC ; Galaxy Watch est une marque de Samsung.",
+    lcl:"Votre heure locale",title:"GMA Aviator Line – Cadrans pour pilotes (Wear OS)"},
+  es:{nav1:"Esferas",nav2:"Funciones",nav3:"Calculadora HOT",kicker:"Esferas para pilotos · Wear OS",
+    h1:"La hora Zulu que <em>sigue</em> siendo Zulu.",
+    lede:"En muchas esferas la hora UTC vuelve una y otra vez a la hora local. En estas cuatro es fija: UTC sigue siendo UTC, aterrice donde aterrice. La hora local, el desfase UTC y el horario de verano están justo al lado.",
+    cta1:"Próximamente en Google Play",cta2:"Ver las cuatro",
+    note:"3,99 € por esfera · compra única · sin suscripción · para relojes Wear OS como el Samsung Galaxy Watch",
+    alt1:"GMA Glass Cockpit: 10:09 UTC con una Z ámbar, debajo la hora local 11:09 CET, UTC+1, hora de la puesta de sol y nivel de batería",
+    now:"UTC ahora",f_h:"Cuatro esferas, una regla",
+    f_l:"Digital o analógica, completa o reducida. Todas muestran UTC de forma permanente e indican cuánto se aparta de ella la hora local.",
+    g_t:"UTC en grande, hora local debajo.",g_1:"Gran hora UTC digital con fecha y segundos",g_2:"Hora local con zona, desfase UTC y horario de verano",g_3:"Hora solar, batería y espacios para sus propias complicaciones",
+    m_t:"Solo lo esencial: la hora Zulu, grande y clara.",m_1:"Hora Zulu de cuatro cifras, legible con el brazo extendido",m_2:"Una línea de hora local con zona",m_3:"Desfase UTC y horario de verano, nada más",
+    c_t:"Reloj de piloto con aguja UTC de 24 horas.",c_1:"Esfera clásica de piloto con triángulo a las 12",c_2:"La aguja ámbar marca UTC en el anillo interior de 24 horas",c_3:"Fecha y desfase UTC local con horario de verano",
+    p_t:"Acabado metálico, aguja UTC y hora Zulu digital.",p_1:"Aspecto de metal cepillado con cifras en relieve",p_2:"Aguja UTC de 24 horas y ventana Zulu digital",p_3:"Ventana de fecha y desfase UTC con horario de verano",
+    x_h:"Hechas por un piloto",x_l:"Para quienes piensan en Zulu y viven en hora local.",
+    x1h:"Hora Zulu fija",x1p:"UTC está definida en la propia esfera. No sigue al teléfono y no cambia al cruzar husos horarios.",
+    x2h:"Desfase y horario de verano",x2p:"Cada esfera indica cuántas horas va la hora local por delante o por detrás de UTC y si está activo el horario de verano.",
+    x3h:"Pantalla siempre activa",x3p:"Una vista siempre activa reducida mantiene la hora legible y cuida la batería.",
+    x4h:"Tipografía de cabina",x4p:"Todas las esferas usan B612, una tipografía libre diseñada para la legibilidad en pantallas de cabina.",
+    x5h:"Sus propias complicaciones",x5p:"Glass Cockpit tiene espacios que usted mismo rellena en el reloj, por ejemplo con el tiempo o la salida y puesta del sol.",
+    x6h:"Sin cuenta, sin rastreo",x6p:"Sin permisos, sin publicidad, sin recogida de datos. Compra una vez en Google Play y nada más.",
+    h_h:"También de GMA Aviation: la Calculadora HOT",h_p:"Los tiempos de protección según las directrices de la FAA de un vistazo, con METAR, temporizador y aviso LOUT. Para iPhone y Android.",h_b:"A la Calculadora HOT",
+    warn:"<strong>Importante:</strong> Las esferas no son una fuente horaria aprobada ni un instrumento de operaciones aéreas. Muestran la hora del sistema de su reloj. Para las horas utilizadas en operaciones prevalecen siempre los relojes de a bordo y los procedimientos de su operador.",
+    ft_h:"Legal",ft_p:"Política de privacidad",ft_t:"Condiciones de uso",
+    ft_c:"Esta página no usa cookies ni herramientas de análisis. Tipografía: B612 (SIL Open Font License). Wear OS y Google Play son marcas de Google LLC; Galaxy Watch es una marca de Samsung.",
+    lcl:"Su hora local",title:"GMA Aviator Line – Esferas para pilotos (Wear OS)"}
+  };
+  var langs=["de","en","fr","es"], cur="en";
+  // keep the English originals from the markup so switching back works
+  T.en={lcl:"Your local time",title:document.title};
+  document.querySelectorAll("[data-i]").forEach(function(e){T.en[e.dataset.i]=e.innerHTML});
+  document.querySelectorAll("[data-alt]").forEach(function(e){T.en[e.dataset.alt]=e.alt});
+  function show(){
+    var h=(location.hash||"").slice(1);
+    if(langs.indexOf(h)<0){
+      if(h){return}                       // an in-page anchor such as #faces, keep language
+      var n=(navigator.language||"en").slice(0,2).toLowerCase();
+      h=langs.indexOf(n)>=0?n:"en";
+    }
+    cur=h; var t=T[h];
+    document.documentElement.lang=h; document.title=t.title;
+    document.querySelectorAll("[data-i]").forEach(function(e){e.innerHTML=t[e.dataset.i]});
+    document.querySelectorAll("[data-alt]").forEach(function(e){e.alt=t[e.dataset.alt]});
+    document.querySelectorAll("[data-hash]").forEach(function(e){e.hash=h});
+    document.querySelectorAll(".langs a").forEach(function(a){a.setAttribute("aria-current",a.dataset.l===h?"true":"false")});
+    tick();
+  }
+  function p(n){return (n<10?"0":"")+n}
+  function tick(){
+    var d=new Date();
+    document.getElementById("utc").innerHTML=p(d.getUTCHours())+":"+p(d.getUTCMinutes())+":"+p(d.getUTCSeconds())+"<i>Z</i>";
+    var o=-d.getTimezoneOffset(), s=o<0?"-":"+", a=Math.abs(o), m=a%60;
+    document.getElementById("lcl").textContent=T[cur].lcl+": "+p(d.getHours())+":"+p(d.getMinutes())+" · UTC"+s+Math.floor(a/60)+(m?":"+p(m):"");
+  }
+  window.addEventListener("hashchange",show); show(); setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>
