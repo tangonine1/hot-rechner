@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GMA Aviator Watch Faces – Privacy</title>
+<style>
+/* Layout: one reading column, language tabs as a sticky strip, sections as plain numbered-free blocks */
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --ink:#16202a; --muted:#566370; --line:#d6dde4; --accent:#1b5e8c; --mark:#fff3c4;
+  --f-display:"Segoe UI Semibold","Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:ui-monospace,Consolas,"Roboto Mono",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f151b;--paper:#151d25;--ink:#e3e9ef;--muted:#9aa8b5;--line:#2a3743;--accent:#7fb7e2;--mark:#4a3f12;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:44rem;margin:0 auto;padding-block:24px 48px}
+header{display:flex;flex-direction:column;gap:6px;padding-block:8px 16px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 2rem/1.15 var(--f-display);margin:0;text-wrap:balance}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;padding-block:8px;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav a{font:500 13px/1 var(--f-mono);letter-spacing:.06em;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:6px}
+nav a[aria-current="true"]{background:var(--paper);color:var(--accent);box-shadow:0 0 0 1px var(--line)}
+nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+article{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+h2{font:600 1.15rem/1.3 var(--f-display);margin:18px 0 2px;color:var(--accent);text-wrap:balance}
+h2:first-of-type{margin-top:0}
+p,li{margin:0 0 8px;max-width:65ch}
+ul{padding-left:1.2em;margin:0}
+.todo{background:var(--mark);padding:1px 4px;border-radius:3px}
+.meta{font:500 13px/1.4 var(--f-mono);color:var(--muted);margin-top:16px}
+a{color:var(--accent)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+
+<main>
+  <header>
+    <a class="eyebrow" href="/" style="text-decoration:none">← GMA Aviation</a>
+    <span class="eyebrow">Datenschutzerklärung · Privacy policy</span>
+    <h1>GMA Aviator Watch Faces – Datenschutz / Privacy</h1>
+  </header>
+  <nav aria-label="Sprache / Language">
+    <a href="#de" data-l="de">DE</a><a href="#en" data-l="en">EN</a><a href="#fr" data-l="fr">FR</a><a href="#es" data-l="es">ES</a>
+  </nav>
+
+  <article id="de" lang="de">
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br>GMA Aviation Services, Inhaber: Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, Frankreich<br>E-Mail: guido.marhenke@web.de<br>SIREN: 898 062 781</p>
+    <p>Ein Datenschutzbeauftragter ist nicht bestellt, da die gesetzlichen Voraussetzungen dafür nicht vorliegen.</p>
+    
+    <h2>2. Überblick</h2>
+    <p>Diese Erklärung gilt für die Zifferblätter (Watch Faces) der GMA Aviator Line für Wear-OS-Uhren: GMA Glass Cockpit, GMA Pilot Classic, GMA Pilot Premium, GMA Minimal Zulu. Die Zifferblätter benötigen kein Benutzerkonto, enthalten keine Werbung, keine Analyse- oder Tracking-Werkzeuge und keinen eigenen Programmcode, der Daten versendet. Der Anbieter betreibt keinen Server und erhält keine personenbezogenen Daten von Ihnen.</p>
+    <h2>3. Daten auf Ihrer Uhr</h2>
+    <p>Zur Anzeige verwenden die Zifferblätter ausschließlich Werte, die das Betriebssystem Ihrer Uhr bereitstellt: Uhrzeit, Datum, Zeitzone mit UTC-Versatz und Sommerzeit sowie den Akkustand. Diese Werte werden nur auf der Uhr angezeigt, nicht gespeichert und nicht übertragen.</p>
+    <h2>4. Komplikationen</h2>
+    <p>Einige Zifferblätter haben Plätze für Komplikationen, die Sie selbst mit Daten anderer Apps belegen (z. B. Sonnenauf- und -untergang oder die Holdover Time aus dem HOT-Rechner). Diese Daten liefert die jeweils gewählte App an das Zifferblatt, das sie nur anzeigt. Für die Verarbeitung durch diese Apps gilt deren eigene Datenschutzerklärung; für den HOT-Rechner finden Sie sie <a href="/datenschutz/">hier</a>.</p>
+    <h2>5. Kauf über Google Play</h2>
+    <p>Kauf und Bezahlung werden ausschließlich über Google Play abgewickelt. Vertragspartner für die Zahlung ist Google; Zahlungsdaten erhält nur Google. Der Anbieter erhält von Google lediglich zusammengefasste Verkaufsberichte ohne Zahlungsdaten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Verantwortlich für die Verarbeitung durch Google ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.</p>
+    <h2>6. Berechtigungen</h2>
+    <p>Die Zifferblätter fordern keine Berechtigungen an, insbesondere keinen Internetzugriff, keinen Standort und keinen Zugriff auf Gesundheitsdaten.</p>
+    <h2>7. Ihre Rechte</h2>
+    <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21). Da der Anbieter keine personenbezogenen Daten über Sie speichert, kann er in der Regel nur mitteilen, dass keine Daten vorliegen. Für Daten bei Google oder bei Anbietern von Komplikationen wenden Sie sich bitte an diese Stellen.</p>
+    <p>Sie haben außerdem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO), insbesondere in dem Mitgliedstaat Ihres Aufenthaltsorts, Ihres Arbeitsplatzes oder des mutmaßlichen Verstoßes.</p>
+        <h2>8. Kinder</h2>
+    <p>Die Zifferblätter richten sich an Piloten und Luftfahrtpersonal, nicht an Kinder unter 16 Jahren.</p>
+    <h2>9. Diese Webseite</h2>
+    <p>Diese Datenschutzerklärung wird über Cloudflare Workers bereitgestellt (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). Beim Aufruf verarbeitet Cloudflare technisch notwendige Verbindungsdaten wie IP-Adresse, Zeitpunkt und Browserangaben, um die Seite auszuliefern und vor Angriffen zu schützen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse liegt in der sicheren Bereitstellung dieser Information. Cloudflare ist unter dem EU-US Data Privacy Framework zertifiziert. Die Seite setzt keine Cookies, verwendet keine Analysewerkzeuge und lädt keine Inhalte von anderen Anbietern.</p>
+    <p><strong>Bewerbung als Beta-Tester:</strong> Wer sich über den Link auf der Startseite per E-Mail an info@emb500.de als Beta-Tester meldet, übermittelt freiwillig Name, E-Mail-Adresse und Gerätetyp. Diese Angaben nutze ich ausschließlich, um Sie zum Test bei Google Play bzw. Apple TestFlight einzuladen und dazu mit Ihnen in Kontakt zu bleiben; dafür wird Ihre E-Mail-Adresse in die Testerliste bei Google bzw. Apple eingetragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Ihre Anfrage). Nach Ende der Testphase oder auf Ihren Wunsch werden die Angaben gelöscht. Das E-Mail-Postfach wird bei WEB.DE (1&amp;1 Mail &amp; Media GmbH, Deutschland) geführt.</p>
+        <h2>10. Änderungen</h2>
+    <p>Diese Erklärung wird angepasst, wenn sich die Zifferblätter oder die Rechtslage ändern. Es gilt die hier veröffentlichte Fassung. Verbindlich ist die deutsche Fassung; die anderen Sprachen sind Übersetzungen.</p>
+    <p class="meta">Stand: 15. November 2026</p>
+  </article>
+
+  <article id="en" lang="en" hidden>
+    <h2>1. Controller</h2>
+    <p>The controller within the meaning of the General Data Protection Regulation (GDPR) is:<br>GMA Aviation Services, Owner: Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, France<br>E-mail: guido.marhenke@web.de<br>SIREN: 898 062 781</p>
+    <p>No data protection officer has been appointed, as the legal requirements for this are not met.</p>
+    
+    <h2>2. Overview</h2>
+    <p>This policy applies to the watch faces of the GMA Aviator Line for Wear OS watches: GMA Glass Cockpit, GMA Pilot Classic, GMA Pilot Premium, GMA Minimal Zulu. The watch faces require no user account and contain no advertising, no analytics or tracking tools and no program code of their own that sends data. The provider operates no server and receives no personal data from you.</p>
+    <h2>3. Data on your watch</h2>
+    <p>To display information, the watch faces use only values provided by your watch's operating system: time, date, time zone with UTC offset and daylight saving time, and battery level. These values are only displayed on the watch; they are not stored or transmitted.</p>
+    <h2>4. Complications</h2>
+    <p>Some watch faces offer complication slots that you fill yourself with data from other apps (e.g. sunrise and sunset, or the holdover time from the HOT Calculator). This data is supplied to the watch face by the app you choose, and the watch face only displays it. Processing by these apps is governed by their own privacy policies; for the HOT Calculator, see <a href="/datenschutz/#en">here</a>.</p>
+    <h2>5. Purchase via Google Play</h2>
+    <p>Purchases and payments are handled exclusively by Google Play. Google is the contractual partner for payment; only Google receives payment data. The provider only receives aggregated sales reports from Google without payment data. The legal basis is Art. 6(1)(b) GDPR. Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland, is responsible for processing by Google.</p>
+    <h2>6. Permissions</h2>
+    <p>The watch faces request no permissions, in particular no internet access, no location and no access to health data.</p>
+    <h2>7. Your rights</h2>
+    <p>You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20) and to object to processing based on legitimate interests (Art. 21). As the provider stores no personal data about you, it can usually only confirm that no data is held. For data held by Google or complication providers, please contact them.</p>
+    <p>You also have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR), in particular in the member state of your habitual residence, place of work or place of the alleged infringement.</p>
+        <h2>8. Children</h2>
+    <p>The watch faces are aimed at pilots and aviation personnel, not at children under 16.</p>
+    <h2>9. This website</h2>
+    <p>This privacy policy is served via Cloudflare Workers (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). When the page is accessed, Cloudflare processes technically necessary connection data such as IP address, time and browser information to deliver the page and protect it against attacks. The legal basis is Art. 6(1)(f) GDPR; the legitimate interest lies in providing this information securely. Cloudflare is certified under the EU-US Data Privacy Framework. The page sets no cookies, uses no analytics and loads no content from other providers.</p>
+    <p><strong>Applying as a beta tester:</strong> If you sign up as a beta tester by e-mail to info@emb500.de via the link on the home page, you voluntarily provide your name, e-mail address and device type. I use this information only to invite you to the test on Google Play or Apple TestFlight and to stay in touch with you about it; for this, your e-mail address is added to the tester list at Google or Apple. The legal basis is Art. 6(1)(b) GDPR (your request). The data is deleted after the test phase or at your request. The mailbox is hosted by WEB.DE (1&amp;1 Mail &amp; Media GmbH, Germany).</p>
+        <h2>10. Changes</h2>
+    <p>This policy is updated when the watch faces or the legal situation change. The version published here applies. The German version is binding; the other languages are translations.</p>
+    <p class="meta">Last updated: 15 November 2026</p>
+  </article>
+
+  <article id="fr" lang="fr" hidden>
+    <h2>1. Responsable du traitement</h2>
+    <p>Le responsable du traitement au sens du Règlement général sur la protection des données (RGPD) est :<br>GMA Aviation Services, Exploitant: Guido Marhenke<br>348 Allée Nicolas Greff, 57600 Oeting, France<br>E-mail : guido.marhenke@web.de<br>SIREN: 898 062 781</p>
+    <p>Aucun délégué à la protection des données n'a été désigné, les conditions légales n'étant pas remplies.</p>
+    
+    <h2>2. Vue d'ensemble</h2>
+    <p>Cette déclaration s'applique aux cadrans (watch faces) de la GMA Aviator Line pour montres Wear OS : GMA Glass Cockpit, GMA Pilot Classic, GMA Pilot Premium, GMA Minimal Zulu. Les cadrans ne nécessitent aucun compte utilisateur et ne contiennent ni publicité, ni outil d'analyse ou de suivi, ni code de programme propre qui envoie des données. Le fournisseur n'exploite aucun serveur et ne reçoit aucune donnée personnelle vous concernant.</p>
+    <h2>3. Données sur votre montre</h2>
+    <p>Pour l'affichage, les cadrans utilisent uniquement les valeurs fournies par le système d'exploitation de votre montre : heure, date, fuseau horaire avec décalage UTC et heure d'été, ainsi que le niveau de batterie. Ces valeurs sont seulement affichées sur la montre ; elles ne sont ni enregistrées ni transmises.</p>
+    <h2>4. Complications</h2>
+    <p>Certains cadrans proposent des emplacements de complications que vous remplissez vous-même avec les données d'autres applications (par ex. lever et coucher du soleil ou le temps de protection du Calculateur HOT). Ces données sont fournies au cadran par l'application choisie, et le cadran se contente de les afficher. Le traitement par ces applications est régi par leurs propres déclarations de confidentialité ; pour le Calculateur HOT, voir <a href="/datenschutz/#fr">ici</a>.</p>
+    <h2>5. Achat via Google Play</h2>
+    <p>L'achat et le paiement sont gérés exclusivement par Google Play. Le partenaire contractuel pour le paiement est Google ; seul Google reçoit les données de paiement. Le fournisseur ne reçoit de Google que des rapports de ventes agrégés, sans données de paiement. La base juridique est l'art. 6, par. 1, point b) du RGPD. Le responsable du traitement par Google est Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlande.</p>
+    <h2>6. Autorisations</h2>
+    <p>Les cadrans ne demandent aucune autorisation, en particulier ni accès à Internet, ni localisation, ni accès aux données de santé.</p>
+    <h2>7. Vos droits</h2>
+    <p>Vous disposez d'un droit d'accès (art. 15 du RGPD), de rectification (art. 16), d'effacement (art. 17), de limitation du traitement (art. 18), de portabilité des données (art. 20) et d'opposition aux traitements fondés sur l'intérêt légitime (art. 21). Comme le fournisseur ne conserve aucune donnée personnelle vous concernant, il ne peut généralement que confirmer qu'aucune donnée n'est détenue. Pour les données détenues par Google ou les fournisseurs de complications, veuillez vous adresser à eux.</p>
+    <p>Vous avez également le droit d'introduire une réclamation auprès d'une autorité de contrôle (art. 77 du RGPD), notamment dans l'État membre de votre résidence habituelle, de votre lieu de travail ou du lieu de la violation présumée.</p>
+        <h2>8. Enfants</h2>
+    <p>Les cadrans s'adressent aux pilotes et au personnel aéronautique, et non aux enfants de moins de 16 ans.</p>
+    <h2>9. Ce site web</h2>
+    <p>Cette déclaration est diffusée via Cloudflare Workers (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, États-Unis). Lors de la consultation, Cloudflare traite les données de connexion techniquement nécessaires telles que l'adresse IP, l'heure et les informations du navigateur afin de diffuser la page et de la protéger contre les attaques. La base juridique est l'art. 6, par. 1, point f) du RGPD ; l'intérêt légitime réside dans la mise à disposition sécurisée de cette information. Cloudflare est certifiée selon le Data Privacy Framework UE-États-Unis. La page ne dépose aucun cookie, n'utilise aucun outil d'analyse et ne charge aucun contenu d'autres fournisseurs.</p>
+    <p><strong>Candidature comme bêta-testeur :</strong> si vous vous inscrivez comme bêta-testeur par e-mail à info@emb500.de via le lien de la page d'accueil, vous transmettez volontairement votre nom, votre adresse e-mail et le type d'appareil. J'utilise ces informations uniquement pour vous inviter au test sur Google Play ou Apple TestFlight et rester en contact avec vous à ce sujet ; votre adresse e-mail est pour cela ajoutée à la liste des testeurs chez Google ou Apple. La base juridique est l'art. 6, par. 1, point b) du RGPD (votre demande). Les données sont supprimées à la fin de la phase de test ou à votre demande. La boîte e-mail est hébergée par WEB.DE (1&amp;1 Mail &amp; Media GmbH, Allemagne).</p>
+        <h2>10. Modifications</h2>
+    <p>Cette déclaration est mise à jour lorsque les cadrans ou la situation juridique changent. La version publiée ici s'applique. La version allemande fait foi ; les autres langues sont des traductions.</p>
+    <p class="meta">Mise à jour : 15 novembre 2026</p>
+  </article>
+
+  <article id="es" lang="es" hidden>
+    <h2>1. Responsable</h2>
+    <p>El responsable del tratamiento en el sentido del Reglamento General de Protección de Datos (RGPD) es:<br>GMA Aviation Services, Titular: Guido Marhenke<br>348 Allee Nicolas Greff, 57600 Oeting, Francia<br>E-mail: guido.marhenke@web.de<br>SIREN: 898 062 781</p>
+    <p>No se ha designado un delegado de protección de datos, ya que no se cumplen los requisitos legales.</p>
+    
+    <h2>2. Resumen</h2>
+    <p>Esta declaración se aplica a las esferas (watch faces) de la GMA Aviator Line para relojes Wear OS: GMA Glass Cockpit, GMA Pilot Classic, GMA Pilot Premium, GMA Minimal Zulu. Las esferas no requieren cuenta de usuario y no contienen publicidad, herramientas de análisis o seguimiento ni código propio que envíe datos. El proveedor no opera ningún servidor y no recibe datos personales suyos.</p>
+    <h2>3. Datos en su reloj</h2>
+    <p>Para la visualización, las esferas utilizan únicamente valores que proporciona el sistema operativo de su reloj: hora, fecha, zona horaria con desfase UTC y horario de verano, y nivel de batería. Estos valores solo se muestran en el reloj; no se guardan ni se transmiten.</p>
+    <h2>4. Complicaciones</h2>
+    <p>Algunas esferas ofrecen espacios para complicaciones que usted mismo rellena con datos de otras apps (p. ej. salida y puesta del sol o el tiempo de protección de la Calculadora HOT). Estos datos los proporciona a la esfera la app elegida, y la esfera solo los muestra. El tratamiento por estas apps se rige por sus propias declaraciones de privacidad; para la Calculadora HOT, véase <a href="/datenschutz/#es">aquí</a>.</p>
+    <h2>5. Compra a través de Google Play</h2>
+    <p>La compra y el pago se gestionan exclusivamente a través de Google Play. La parte contratante para el pago es Google; solo Google recibe los datos de pago. El proveedor solo recibe de Google informes de ventas agregados sin datos de pago. La base jurídica es el art. 6, apartado 1, letra b) del RGPD. El responsable del tratamiento por parte de Google es Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlanda.</p>
+    <h2>6. Permisos</h2>
+    <p>Las esferas no solicitan ningún permiso, en particular ni acceso a Internet, ni ubicación, ni acceso a datos de salud.</p>
+    <h2>7. Sus derechos</h2>
+    <p>Usted tiene derecho de acceso (art. 15 del RGPD), rectificación (art. 16), supresión (art. 17), limitación del tratamiento (art. 18), portabilidad de los datos (art. 20) y oposición a tratamientos basados en intereses legítimos (art. 21). Como el proveedor no guarda datos personales suyos, por lo general solo puede confirmar que no dispone de datos. Para los datos que tengan Google o los proveedores de complicaciones, diríjase a ellos.</p>
+    <p>También tiene derecho a presentar una reclamación ante una autoridad de control (art. 77 del RGPD), en particular en el Estado miembro de su residencia habitual, de su lugar de trabajo o del lugar de la supuesta infracción.</p>
+        <h2>8. Menores</h2>
+    <p>Las esferas están dirigidas a pilotos y personal aeronáutico, no a menores de 16 años.</p>
+    <h2>9. Este sitio web</h2>
+    <p>Esta declaración se ofrece a través de Cloudflare Workers (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, EE. UU.). Al acceder a la página, Cloudflare trata los datos de conexión técnicamente necesarios, como la dirección IP, la hora y los datos del navegador, para entregar la página y protegerla frente a ataques. La base jurídica es el art. 6, apartado 1, letra f) del RGPD; el interés legítimo consiste en ofrecer esta información de forma segura. Cloudflare está certificada conforme al Marco de Privacidad de Datos UE-EE. UU. La página no utiliza cookies ni herramientas de análisis y no carga contenidos de otros proveedores.</p>
+    <p><strong>Solicitud como probador beta:</strong> si se inscribe como probador beta por correo electrónico a info@emb500.de mediante el enlace de la página de inicio, facilita voluntariamente su nombre, su dirección de correo y el tipo de dispositivo. Utilizo estos datos únicamente para invitarle a la prueba en Google Play o Apple TestFlight y mantener el contacto al respecto; para ello, su dirección se añade a la lista de probadores de Google o Apple. La base jurídica es el art. 6, apartado 1, letra b) del RGPD (su solicitud). Los datos se eliminan al finalizar la fase de prueba o cuando usted lo solicite. El buzón está alojado en WEB.DE (1&amp;1 Mail &amp; Media GmbH, Alemania).</p>
+        <h2>10. Cambios</h2>
+    <p>Esta declaración se actualiza cuando cambian las esferas o la situación jurídica. Se aplica la versión publicada aquí. La versión alemana es la vinculante; los demás idiomas son traducciones.</p>
+    <p class="meta">Actualizado: 15 de noviembre de 2026</p>
+  </article>
+
+</main>
+
+<script>
+(function(){
+  var langs=["de","en","fr","es"];
+  function show(){
+    var h=(location.hash||"").slice(1);
+    if(langs.indexOf(h)<0){
+      var n=(navigator.language||"de").slice(0,2).toLowerCase();
+      h=langs.indexOf(n)>=0?n:"de";
+    }
+    langs.forEach(function(l){
+      document.getElementById(l).hidden=(l!==h);
+      document.querySelector('nav a[data-l="'+l+'"]').setAttribute("aria-current",l===h?"true":"false");
+    });
+    document.documentElement.lang=h;
+  }
+  window.addEventListener("hashchange",show); show();
+})();
+</script>
+
+</body>
+</html>
