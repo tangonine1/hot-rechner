@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOT-Rechner – Android-Beta</title>
+<meta name="description" content="Android-Beta des HOT-Rechners testen: in drei Schritten anmelden, App installieren, 14 Tage dabeibleiben.">
+<style>
+/* Same night-ramp look as the start page; Type IV green is the only action colour. */
+:root{
+  color-scheme:dark;
+  --night:#0a131c; --apron:#101c28; --panel:#132232; --line:#223447;
+  --ink:#e9eff5; --soft:#a9b8c6; --flood:#ffd68a;
+  --t1:#f39a3a; --t2:#e4d27a; --t3:#f2e22e; --t4:#34b277;
+  --f-display:"Segoe UI Variable Display","Segoe UI","Roboto Flex","Helvetica Neue",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono","Roboto Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--ink);font:17px/1.6 var(--f-body);
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--flood)}
+a:focus-visible{outline:2px solid var(--flood);outline-offset:3px}
+.wrap{max-width:46rem;margin:0 auto}
+.bar{display:flex;align-items:center;gap:16px;padding-block:20px}
+.logo{display:flex;align-items:center;gap:10px;font:700 18px/1 var(--f-display);letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.logo i{display:block;width:26px;height:26px;border-radius:7px;background:conic-gradient(var(--t4) 0 25%,var(--t1) 0 50%,var(--t2) 0 75%,var(--t3) 0)}
+.bar nav{margin-left:auto;display:flex;gap:18px;font-size:15px}
+.bar nav a{color:var(--soft);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+.kicker{font:600 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--flood)}
+h1{font:800 clamp(2.2rem,6vw,3.4rem)/1.05 var(--f-display);letter-spacing:-.025em;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--t4)}
+.lede{font-size:1.12rem;color:var(--soft);margin:0 0 8px}
+.en{display:block;color:var(--soft);font-size:15px;margin-top:4px}
+h2{font:800 1.5rem/1.15 var(--f-display);letter-spacing:-.01em;margin:48px 0 16px}
+
+.steps{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;
+  border:1px solid var(--line);border-radius:16px;background:var(--apron);padding:20px}
+.steps li::before{content:counter(s);grid-row:span 3;width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;font:800 18px/1 var(--f-mono);background:var(--t4);color:#04150c}
+.steps h3{font:700 1.15rem/1.3 var(--f-body);margin:6px 0 0}
+.steps p{margin:0;color:var(--soft);font-size:15.5px}
+.btn{display:inline-flex;align-items:center;gap:10px;justify-self:start;margin-top:8px;font:700 16px/1 var(--f-body);
+  padding:14px 18px;border-radius:10px;text-decoration:none;background:var(--t4);color:#04150c}
+.btn:hover{background:#45c98a}
+
+.asks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.asks li{padding-left:22px;position:relative}
+.asks li::before{content:"";position:absolute;left:2px;top:.6em;width:9px;height:9px;border-radius:2px;background:var(--t4)}
+.thanks{margin-top:28px;border-left:4px solid var(--t4);background:var(--apron);padding:16px 20px;border-radius:0 12px 12px 0}
+.thanks strong{color:var(--ink)}
+.faq p{margin:0 0 14px;color:var(--soft);font-size:15.5px}
+.faq b{color:var(--ink)}
+
+footer{margin-top:64px;border-top:1px solid var(--line);padding-block:24px 40px;font-size:14px;color:var(--soft)}
+footer p{margin:0 0 6px}
+@media (max-width:560px){.bar nav{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="logo" href="/"><i aria-hidden="true"></i>HOT-Rechner</a>
+    <nav aria-label="Seitennavigation">
+      <a href="/">Startseite</a>
+      <a href="/anleitung/">Anleitung</a>
+      <a href="/datenschutz/">Datenschutz</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="kicker">Android-Beta · Winter 2026-2027</span>
+    <h1>In drei Schritten <em>Tester</em> werden</h1>
+    <p class="lede">Der HOT-Rechner zeigt die Holdover Time nach der Enteisung auf einen Blick. Bevor er bei Google Play erscheint, brauche ich Tester mit Android-Handy. Dauer der Anmeldung: etwa zwei Minuten.
+      <span class="en">The HOT Calculator shows your holdover time at a glance. Before it goes live on Google Play I need testers with an Android phone. Signing up takes about two minutes.</span></p>
+
+    <ol class="steps">
+      <li>
+        <h3>Der Testergruppe beitreten</h3>
+        <p>Mit dem Google-Konto, das du auf deinem Handy für den Play Store benutzt.
+          <span class="en">Join the tester group with the Google account you use for the Play Store on your phone.</span></p>
+        <a class="btn" href="https://groups.google.com/g/hot-testergroup" target="_blank" rel="noopener">Gruppe beitreten · Join group →</a>
+      </li>
+      <li>
+        <h3>Als Tester anmelden</h3>
+        <p>Den Link öffnen und auf „Tester werden“ tippen. Funktioniert erst nach Schritt 1.
+          <span class="en">Open the link and tap “Become a tester”. Works only after step 1.</span></p>
+        <a class="btn" href="https://play.google.com/apps/testing/de.holdover.rechner" target="_blank" rel="noopener">Tester werden · Become a tester →</a>
+      </li>
+      <li>
+        <h3>App installieren</h3>
+        <p>Die App ganz normal aus dem Play Store laden. Android 8 oder neuer.
+          <span class="en">Install the app from the Play Store as usual. Android 8 or later.</span></p>
+        <a class="btn" href="https://play.google.com/store/apps/details?id=de.holdover.rechner" target="_blank" rel="noopener">Im Play Store öffnen · Open in Play Store →</a>
+      </li>
+    </ol>
+
+    <h2>Worum ich dich bitte</h2>
+    <ul class="asks">
+      <li><strong>14 Tage angemeldet bleiben.</strong> Google gibt die App erst frei, wenn genug Tester zwei Wochen am Stück dabei waren. Bitte in dieser Zeit nicht abmelden und die App nicht löschen.
+        <span class="en">Please stay opted in for 14 days and keep the app installed. Google only releases the app once enough testers have stayed for two weeks.</span></li>
+      <li><strong>Die App ein paar Mal öffnen</strong> und ausprobieren, am besten mit dem Wetter an deinem Platz.
+        <span class="en">Open the app a few times and try it, ideally with the weather at your airport.</span></li>
+      <li><strong>Kurz Rückmeldung geben:</strong> Was ist unklar, was fehlt, was stimmt nicht? Am schnellsten über den <a href="/feedback/hot/">kurzen Fragebogen</a>, oder per Mail an <a href="mailto:info@emb500.de?subject=HOT-Rechner%20Beta%20Feedback">info@emb500.de</a>.
+        <span class="en">Send short feedback: what is unclear, missing or wrong? Use the <a href="/feedback/hot/">short questionnaire</a> or send an e-mail.</span></li>
+    </ul>
+
+    <p class="thanks"><strong>Als Dankeschön:</strong> Jeder Tester, der die 14 Tage dabeibleibt, bekommt die Pro-Version ein Jahr gratis.
+      <span class="en">As a thank-you, every tester who stays for the 14 days gets Pro free for one year.</span></p>
+
+    <h2>Fragen</h2>
+    <div class="faq">
+      <p><b>Der Link in Schritt 2 zeigt einen Fehler.</b><br>Dann bist du im Browser mit einem anderen Google-Konto angemeldet als in Schritt 1. Konto wechseln und den Link noch einmal öffnen.
+        <span class="en">The link in step 2 shows an error: you are signed in with a different Google account than in step 1. Switch accounts and open the link again.</span></p>
+      <p><b>Ich habe ein iPhone.</b><br>Die iPhone-Version ist schon fertig: <a href="https://apps.apple.com/app/id6833049278" target="_blank" rel="noopener">im App Store laden</a>.
+        <span class="en">On iPhone? The app is already available in the App Store.</span></p>
+      <p><b>Wie bedient man die App?</b><br>Die <a href="/anleitung/">Bedienungsanleitung</a> erklärt alles Schritt für Schritt.
+        <span class="en">The user guide explains everything step by step.</span></p>
+    </div>
+  </main>
+
+  <footer>
+    <p><strong>GMA Aviation Services</strong> · Guido Marhenke · 348 Allée Nicolas Greff · 57600 Oeting, Frankreich</p>
+    <p><a href="/">Startseite</a> · <a href="/datenschutz/">Datenschutzerklärung</a> · <a href="/nutzungsbedingungen/">Nutzungsbedingungen</a></p>
+    <p>Diese Seite setzt keine Cookies und verwendet keine Analysewerkzeuge.</p>
+  </footer>
+</div>
+</body>
+</html>
