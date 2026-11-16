@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOT Calculator – Information for Operators</title>
+<meta name="description" content="Facts for operators assessing the HOT Calculator for their ground de-icing and EFB program: certification status, data sources, verification, limits and fallback.">
+<style>
+/* Same night-ramp look as the start page. The print rules at the end turn it into a plain black-on-white sheet:
+   the PDF offered for download is this page printed. */
+:root{
+  color-scheme:dark;
+  --night:#0a131c; --apron:#101c28; --panel:#132232; --line:#223447;
+  --ink:#e9eff5; --soft:#a9b8c6; --flood:#ffd68a;
+  --t1:#f39a3a; --t2:#e4d27a; --t3:#f2e22e; --t4:#34b277;
+  --f-display:"Segoe UI Variable Display","Segoe UI","Roboto Flex","Helvetica Neue",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono","Roboto Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--ink);font:17px/1.6 var(--f-body);
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--flood)}
+a:focus-visible{outline:2px solid var(--flood);outline-offset:3px}
+.wrap{max-width:52rem;margin:0 auto}
+.bar{display:flex;align-items:center;gap:16px;padding-block:20px}
+.logo{display:flex;align-items:center;gap:10px;font:700 18px/1 var(--f-display);letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.logo i{display:block;width:26px;height:26px;border-radius:7px;background:conic-gradient(var(--t4) 0 25%,var(--t1) 0 50%,var(--t2) 0 75%,var(--t3) 0)}
+.bar nav{margin-left:auto;display:flex;gap:18px;font-size:15px}
+.bar nav a{color:var(--soft);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+.kicker{font:600 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--flood)}
+h1{font:800 clamp(2rem,5.4vw,3.1rem)/1.06 var(--f-display);letter-spacing:-.025em;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--t4)}
+h2{font:800 1.45rem/1.15 var(--f-display);letter-spacing:-.01em;margin:44px 0 12px}
+p{margin:0 0 14px}
+.lede{font-size:1.1rem;color:var(--soft)}
+.status{border-left:4px solid var(--t4);background:var(--apron);padding:16px 20px;border-radius:0 12px 12px 0;margin:22px 0}
+.status strong{color:var(--ink)}
+.dl{display:inline-flex;align-items:center;gap:10px;font:700 16px/1 var(--f-body);padding:14px 18px;border-radius:10px;
+  text-decoration:none;background:var(--t4);color:#04150c;margin-top:6px}
+.dl:hover{background:#45c98a}
+.dl small{font-weight:500;opacity:.8}
+ul,ol{margin:0 0 14px;padding-left:1.3em}
+li{margin-bottom:6px}
+li strong,td strong{color:var(--ink)}
+.scroll{overflow-x:auto;margin:0 0 14px}
+table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:34rem}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+td:first-child{color:var(--ink);font-weight:600}
+td{color:var(--soft)}
+.asof{font:500 13px/1.4 var(--f-mono);color:var(--soft);margin-top:10px}
+footer{margin-top:60px;border-top:1px solid var(--line);padding-block:24px 40px;font-size:14px;color:var(--soft)}
+footer p{margin:0 0 6px}
+.printonly{display:none}
+@media (max-width:560px){.bar nav{display:none}}
+
+@page{size:A4;margin:16mm 16mm 18mm}
+@media print{
+  :root{color-scheme:light}
+  html,body{background:#fff;color:#111;font:9.6pt/1.38 "Helvetica Neue",Arial,sans-serif;padding:0}
+  .wrap{max-width:none}
+  .bar nav,.dl,.screenonly{display:none}
+  .printonly{display:block}
+  .bar{padding:0 0 6pt;border-bottom:1pt solid #999;margin-bottom:10pt}
+  .logo{color:#111;font-size:11pt}
+  .logo i{width:14pt;height:14pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .kicker{color:#555;font-size:8pt}
+  h1{font-size:20pt;margin:6pt 0 8pt;color:#111}
+  h1 em{color:#111}
+  h2{font-size:12pt;margin:11pt 0 4pt;color:#111;break-after:avoid}
+  p{margin:0 0 6pt}
+  .lede{font-size:10.5pt;color:#111}
+  .status{background:#f1f5f2;border-left:3pt solid #1d7a4f;padding:7pt 10pt;margin:8pt 0;border-radius:0;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .status strong,li strong,td strong{color:#111}
+  a{color:#111;text-decoration:none}
+  .src a::after{content:" – " attr(href);color:#444;font-size:8.5pt}
+  li{margin-bottom:2pt}
+  ul,ol{margin:0 0 6pt}
+  .scroll{overflow:visible}
+  table{min-width:0;font-size:9pt;break-inside:avoid}
+  th,td{padding:4pt 6pt;border-bottom:.6pt solid #bbb;color:#111}
+  th{color:#444;font-size:7.5pt}
+  td:first-child{color:#111}
+  .asof{color:#444;font-size:8.5pt}
+  footer{margin-top:14pt;border-top:1pt solid #999;padding:6pt 0 0;color:#333;font-size:8.5pt}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="logo" href="/"><i aria-hidden="true"></i>HOT Calculator</a>
+    <nav aria-label="Navigation">
+      <a href="/">Home</a>
+      <a href="/anleitung/">User guide</a>
+      <a href="/datenschutz/">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="kicker">Information for operators</span>
+    <h1>Assessing the HOT Calculator for <em>your program</em></h1>
+    <p class="lede">The HOT Calculator is a lookup aid for holdover times after aircraft de-icing and anti-icing. It shows the published FAA and Transport Canada values for the fluid, temperature and precipitation the pilot enters, and runs a timer from fluid start.</p>
+
+    <p class="status"><strong>Certification status:</strong> the app is not certified, and no certification scheme for holdover time apps exists. It does not replace the official guidelines or the operator's approved procedures. This sheet gives an operator the facts needed to assess the app for its own ground de-icing and EFB program.</p>
+
+    <a class="dl" href="HOT-Calculator-Information-for-Operators.pdf" download>Download as PDF <small>3 pages</small></a>
+    <p class="asof">Status: 16 November 2026 · App data: Winter 2026-2027</p>
+
+    <section>
+      <h2>Certification and approval</h2>
+      <p>Approval sits with the operator, not with the app. Authorities approve or accept an operator's ground de-icing program and its EFB program. An electronic tool for holdover times can be part of both.</p>
+      <ul>
+        <li><strong>FAA:</strong> guidance on holdover times has addressed electronic holdover time applications (eHOT) as part of the operator's winter operations plan.</li>
+        <li><strong>Transport Canada:</strong> Advisory Circular 700-061 names an application in an electronic flight bag as one way to present degree-specific holdover times within an operator's ground icing program.</li>
+        <li><strong>EASA:</strong> publishes no holdover time tables of its own and refers to the FAA and Transport Canada guidelines (Safety Information Bulletin 2025-09).</li>
+      </ul>
+      <p>The classification of the app within an EFB program is the operator's decision, agreed with its authority where required. The provider makes no claim about that classification.</p>
+    </section>
+
+    <section>
+      <h2>Data sources</h2>
+      <p>All values come from two official publications for the current season.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Content</th><th>Document</th><th>Issue</th></tr></thead>
+        <tbody>
+          <tr><td>Holdover times, allowance times, frost, LOUT, fluid application</td><td>FAA Holdover Time Guidelines Winter 2026-2027</td><td>Original Issue, 11 August 2026</td></tr>
+          <tr><td>Degree-specific holdover times for snow</td><td>Transport Canada Degree-Specific Holdover Times (DSHOT) Winter 2026-2027</td><td>Original Issue, 11 August 2026</td></tr>
+        </tbody>
+      </table></div>
+      <p>The app covers 51 holdover tables: Type I, II, III and IV fluids, generic and brand-specific, plus Appendix A for flaps and slats deployed before de-icing. DSHOT data is included for 49 fluids.</p>
+    </section>
+
+    <section>
+      <h2>How results are produced</h2>
+      <p>The app looks values up; it does not run a model of its own. Every holdover time shown is a published FAA or Transport Canada value, stored as a table inside the app.</p>
+      <ol>
+        <li>The pilot selects the fluid and enters temperature and precipitation, by hand or from a METAR.</li>
+        <li>The app selects the matching table and cell.</li>
+        <li>The app shows the published lower and upper holdover time and any applicable warning.</li>
+      </ol>
+      <p>Any result can be checked against the original document in about a minute. The tables are stored in the app, so results do not depend on a data connection.</p>
+    </section>
+
+    <section>
+      <h2>Verification and testing</h2>
+      <p>No table value is typed in by hand, and no release ships without passing the full test set.</p>
+      <ul>
+        <li><strong>Extraction:</strong> the tables are read automatically from the official FAA document and the Transport Canada DSHOT database.</li>
+        <li><strong>Independent cross-check:</strong> a second, separate procedure reads the same sources and the two results are compared.</li>
+        <li><strong>DSHOT:</strong> values are recalculated from Transport Canada's published regression coefficients and compared with the FAA tables. Rows that would exceed the FAA value are not used.</li>
+        <li><strong>Automated tests:</strong> more than 370,000 test cases compare the app's lookup logic with an independent reference implementation. The Android and iPhone versions run the same test cases.</li>
+        <li><strong>Release gate:</strong> each build is tested automatically, and a build that fails is not released.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Functions and limits</h2>
+      <p>The app supports the decision; the decision stays with the pilot in command. A holdover time is an estimate, and the required pre-takeoff checks remain unchanged.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Function</th><th>What the app does</th><th>What stays with the crew</th></tr></thead>
+        <tbody>
+          <tr><td>Holdover time lookup</td><td>Shows the published time range for the selected fluid, temperature and precipitation</td><td>Confirm fluid product, mixture and actual conditions</td></tr>
+          <tr><td>METAR import</td><td>Reads temperature, visibility and precipitation from the METAR and derives snowfall intensity from the FAA visibility table</td><td>Check against ATIS and what is actually falling; a METAR can be out of date</td></tr>
+          <tr><td>LOUT warning</td><td>Warns when the outside air temperature is below the lowest operational use temperature of the fluid</td><td>Confirm the fluid actually applied</td></tr>
+          <tr><td>Timer and alarm</td><td>Counts from fluid start and alerts at the lower and upper limit, also on the lock screen</td><td>Phone settings such as silent mode can mute alerts</td></tr>
+          <tr><td>Type I mixture check</td><td>Checks the freezing point buffer of 10 °C</td><td>Use the freezing point reported by the de-icing provider</td></tr>
+          <tr><td>DSHOT</td><td>Shows degree-specific times for snow after the user confirms a notice</td><td>Use only if approved in the operator's program</td></tr>
+          <tr><td>De-icing log</td><td>Records time, airport, METAR and holdover time; export as PDF</td><td>Not an official record unless the operator defines it as one</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>Failure and fallback</h2>
+      <p>If the app fails or a result is in doubt, the crew uses the official holdover time tables as carried in the operator's documentation. The app is an additional aid and never the only source on board.</p>
+      <ul>
+        <li><strong>No data connection:</strong> all tables are stored in the app. Weather values are entered by hand.</li>
+        <li><strong>Device or app failure:</strong> revert to the operator's paper or electronic tables.</li>
+        <li><strong>Doubt about a result:</strong> the official document prevails.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Data protection and connectivity</h2>
+      <p>The app needs no user account and contains no advertising, analytics or tracking. The provider runs no server and receives no personal data from users.</p>
+      <ul>
+        <li><strong>Stored on the device only:</strong> settings, recently used airports and fluids, the running timer and the de-icing log.</li>
+        <li><strong>Weather request:</strong> the app fetches the METAR directly from aviationweather.gov (US National Weather Service). Only ICAO codes are sent.</li>
+        <li><strong>Location (optional):</strong> used on the device to find the nearest airport. The position is not stored and not transmitted.</li>
+        <li><strong>Subscription:</strong> handled by Google Play or the Apple App Store.</li>
+      </ul>
+      <p class="screenonly">The full <a href="/datenschutz/">privacy policy</a> is available in four languages.</p>
+      <p class="printonly">Full privacy policy: hot.emb500.de/datenschutz</p>
+    </section>
+
+    <section>
+      <h2>Updates and change management</h2>
+      <p>The tables are rebuilt once per season from the new FAA and Transport Canada publications, using the same extraction and verification steps.</p>
+      <ul>
+        <li><strong>Data status in the app:</strong> the source document, issue and date are shown in the app, and the user confirms the disclaimer again for each new season.</li>
+        <li><strong>Outdated data:</strong> the app shows a warning when a new FAA edition is due and marks the tables as outdated once the season has ended.</li>
+        <li><strong>Season updates:</strong> the tables of each new season are part of the Pro subscription.</li>
+        <li><strong>Change log:</strong> a list of changes for each release is available from the provider on request.</li>
+        <li><strong>Platforms:</strong> Android 8 or later and iPhone with iOS 16 or later; English, German, French and Spanish; °C or °F.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Including the app in your program</h2>
+      <p>These steps are a suggestion; the operator's own procedures and its authority decide what is required.</p>
+      <ol>
+        <li>Describe the app in the ground de-icing program as an aid for determining holdover times, with the official tables as the reference and fallback.</li>
+        <li>Assess and classify the app in the EFB program, using this sheet and the user guide.</li>
+        <li>Verify a sample of results against the official tables and keep the record.</li>
+        <li>Decide whether DSHOT is used, and obtain the approval it needs.</li>
+        <li>Brief crews on use, limits and fallback.</li>
+        <li>Define how the app is kept current at the start of each season.</li>
+      </ol>
+      <p class="screenonly">The <a href="/anleitung/">user guide</a> explains every function step by step.</p>
+      <p class="printonly">User guide: hot.emb500.de/anleitung</p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>GMA Aviation Services, Guido Marhenke, 348 Allée Nicolas Greff, 57600 Oeting, France. E-mail: <a href="mailto:info@emb500.de?subject=HOT%20Calculator%20%E2%80%93%20operator%20enquiry">info@emb500.de</a>. Documentation and support for an operator's assessment are available on request.</p>
+    </section>
+
+    <section>
+      <h2>Sources</h2>
+      <ul class="src">
+        <li><a href="https://www.faa.gov/other_visit/aviation_industry/airline_operators/airline_safety/deicing/" rel="noopener">FAA Aircraft Ground Deicing: Holdover Time Guidelines</a></li>
+        <li><a href="https://tc.canada.ca/en/aviation/general-operating-flight-rules/holdover-time-hot-guidelines" rel="noopener">Transport Canada: Holdover Time Guidelines</a></li>
+        <li><a href="https://tc.canada.ca/en/aviation/reference-centre/advisory-circulars/advisory-circular-ac-no-ac-700-061" rel="noopener">Transport Canada Advisory Circular 700-061: Degree-Specific Holdover Times</a></li>
+        <li><a href="https://ad.easa.europa.eu/ad/2025-09" rel="noopener">EASA Safety Information Bulletin 2025-09</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>GMA Aviation Services</strong> · hot.emb500.de/operators · Status: 16 November 2026</p>
+    <p class="screenonly"><a href="/">Home</a> · <a href="/datenschutz/">Privacy policy</a> · <a href="/nutzungsbedingungen/">Terms of use</a> · No affiliation with the FAA, Transport Canada or EASA. This page sets no cookies.</p>
+    <p class="printonly">The HOT Calculator is a lookup aid. It does not replace the official guidelines or the operator's approved procedures. No affiliation with the FAA, Transport Canada or EASA.</p>
+  </footer>
+</div>
+</body>
+</html>
