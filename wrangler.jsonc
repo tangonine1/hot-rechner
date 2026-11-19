@@ -1,9 +1,18 @@
-// Cloudflare Worker that serves the privacy policy (static page in ./public).
+// Cloudflare Worker for hot.emb500.de: static pages in ./public, plus the device counter of the
+// company version (src/worker.js, only for /api/*; KV namespace "hot-fleet").
 // Logs and traces are off on purpose: the privacy policy promises no request logging.
 {
   "name": "hot-rechner",
+  "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./public" },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [
+    { "binding": "FLEET", "id": "7b3f71439fc741d3b085777533817137" }
+  ],
   "workers_dev": true,
   "observability": { "enabled": false },
   "previews": {
