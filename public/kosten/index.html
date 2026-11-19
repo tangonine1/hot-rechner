@@ -43,6 +43,7 @@ p{margin:0 0 14px}
 .in input{width:7.5rem;background:var(--night);color:var(--ink);border:1px solid var(--line);border-radius:8px;
   font:600 17px/1 var(--f-body);text-align:right;padding:10px 12px}
 .in span{font:500 14px/1 var(--f-mono);color:var(--soft);min-width:2.6rem}
+.est{margin:10px 0 0;font-size:13.5px;color:var(--soft)}
 .mix{display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;padding:14px 18px;margin-bottom:10px}
 .mix b{font:800 1.15rem/1.2 var(--f-display)}
@@ -76,9 +77,10 @@ footer p{margin:0 0 6px}
       Der Vergleich gilt für Type II und IV; Type I wird nach Gefrierpunkt-Puffer gemischt. Maßgeblich sind die Guidelines und das De-Icing-Programm des Betreibers.</div>
 
     <div class="panel">
-      <div class="row"><label for="pf">Preis Enteisungsmittel (Konzentrat)</label><div class="in"><input id="pf" type="number" inputmode="decimal" min="0" step="0.1" value="8.50"><span>€/L</span></div></div>
-      <div class="row"><label for="pw">Preis Wasser</label><div class="in"><input id="pw" type="number" inputmode="decimal" min="0" step="0.01" value="0.00"><span>€/L</span></div></div>
-      <div class="row"><label for="vol">Menge der fertigen Mischung</label><div class="in"><input id="vol" type="number" inputmode="decimal" min="1" step="10" value="100"><span>L</span></div></div>
+      <div class="row"><label for="pf">Preis Enteisungsmittel (Konzentrat)</label><div class="in"><input id="pf" type="number" inputmode="decimal" min="0" step="0.1" value="8.31"><span>€/L</span></div></div>
+      <div class="row"><label for="pw">Preis Wasser</label><div class="in"><input id="pw" type="number" inputmode="decimal" min="0" step="0.01" value="0.68"><span>€/m³</span></div></div>
+      <div class="row"><label for="vol">Menge der fertigen Mischung</label><div class="in"><input id="vol" type="number" inputmode="decimal" min="1" step="10" value="450"><span>L</span></div></div>
+      <p class="est">Vorbelegt: Schätzung für ein Geschäftsreiseflugzeug. Tragen Sie Ihre eigenen Preise und Mengen ein.</p>
     </div>
 
     <div id="out" aria-live="polite"></div>
@@ -96,7 +98,7 @@ const num = id => { const v = parseFloat(String($(id).value).replace(',', '.'));
 const eur = n => n.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
 const lit = n => n.toLocaleString('de-DE', { maximumFractionDigits: 1 }) + ' L';
 function calc() {
-  const pf = num('pf'), pw = num('pw'), vol = num('vol') || 100;
+  const pf = num('pf'), pw = num('pw') / 1000, vol = num('vol') || 450;  // water in €/m³
   const mixes = [100, 75, 50].map(p => {
     const f = vol * p / 100, w = vol - f;
     return { p, f, w, cost: f * pf + w * pw };
