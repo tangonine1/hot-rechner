@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>HOT-Rechner – Firmencode</title>
+<style>
+:root{--night:#0a131c;--panel:#132232;--line:#223447;--ink:#e9eff5;--soft:#a9b8c6;--flood:#ffd68a;--t4:#34b277;
+--f:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;--m:ui-monospace,"Cascadia Mono","Roboto Mono",Consolas,monospace}
+html{background:var(--night)}
+body{margin:0;color:var(--ink);font:17px/1.55 var(--f);display:flex;justify-content:center}
+main{max-width:520px;width:100%;padding:28px 20px 48px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.logo i{width:26px;height:26px;border-radius:7px;background:conic-gradient(#34b277 0 25%,#f39a3a 0 50%,#e4d27a 0 75%,#f2e22e 0)}
+h1{font-size:26px;line-height:1.2;margin:26px 0 8px}
+p{color:var(--soft);margin:8px 0}
+.code{font:700 30px/1 var(--m);letter-spacing:.08em;text-align:center;background:var(--panel);border:1px solid var(--line);
+border-radius:14px;padding:22px 10px;margin:22px 0;user-select:all}
+.btn{display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:12px;padding:16px;margin:12px 0}
+.go{background:var(--t4);color:#06140d}
+.store{border:1px solid var(--line);color:var(--ink)}
+ol{color:var(--soft);padding-left:22px}
+.err{color:var(--flood)}
+small{color:var(--soft);display:block;margin-top:28px}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo"><i></i><span data-t="brand">HOT-Rechner</span></div>
+  <h1 data-t="h1">Firmenversion aktivieren</h1>
+  <p data-t="intro">Deine Firma hat dir den HOT-Rechner mit ihren Flotten-Einstellungen freigeschaltet.</p>
+  <div class="code" id="code">–</div>
+  <a class="btn go" id="open" href="#" data-t="open">In der App einlösen</a>
+  <p data-t="nobtn">Falls nichts passiert: App öffnen → Pro → „Firmencode einlösen“ und den Code oben eingeben.</p>
+  <p class="err" id="bad" hidden data-t="bad">Kein gültiger Code im Link. Bitte den QR-Code auf dem Zugangsblatt erneut scannen.</p>
+  <h1 style="font-size:20px" data-t="h2">Noch keine App?</h1>
+  <a class="btn store" href="https://apps.apple.com/app/hot-rechner-holdover-time/id6833049278">App Store (iPhone/iPad)</a>
+  <a class="btn store" href="https://play.google.com/store/apps/details?id=de.holdover.rechner">Google Play (Android)</a>
+  <p data-t="after">Nach der Installation den QR-Code einfach noch einmal scannen.</p>
+  <small data-t="priv">Der Code steht nur in deinem Browser und wird nicht an diese Seite übertragen.</small>
+</main>
+<script>
+// The code is in the fragment (#XXXX-XXXX-XXXX): browsers never send it to the server.
+const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+const raw=decodeURIComponent(location.hash.slice(1)).toUpperCase().split("").filter(c=>A.includes(c)).join("");
+const ok=raw.length===12, code=ok?raw.slice(0,4)+"-"+raw.slice(4,8)+"-"+raw.slice(8):"";
+const T={en:{brand:"HOT Calculator",h1:"Activate company version",intro:"Your company has unlocked the HOT Calculator with its fleet settings for you.",
+open:"Redeem in the app",nobtn:"If nothing happens: open the app → Pro → “Redeem company code” and enter the code above.",
+bad:"No valid code in the link. Please scan the QR code on the access sheet again.",h2:"No app yet?",
+after:"After installing, simply scan the QR code again.",priv:"The code stays in your browser and is not sent to this site."},
+fr:{brand:"Calculateur HOT",h1:"Activer la version entreprise",intro:"Votre compagnie vous a activé le Calculateur HOT avec ses réglages de flotte.",
+open:"Utiliser dans l’application",nobtn:"Si rien ne se passe : ouvrir l’application → Pro → « Utiliser un code entreprise » et saisir le code ci-dessus.",
+bad:"Aucun code valide dans le lien. Veuillez scanner à nouveau le QR code de la fiche d’accès.",h2:"Pas encore l’application ?",
+after:"Après l’installation, scannez simplement à nouveau le QR code.",priv:"Le code reste dans votre navigateur et n’est pas transmis à ce site."},
+es:{brand:"Calculadora HOT",h1:"Activar la versión de empresa",intro:"Su empresa le ha activado la Calculadora HOT con sus ajustes de flota.",
+open:"Canjear en la app",nobtn:"Si no ocurre nada: abrir la app → Pro → «Canjear código de empresa» e introducir el código de arriba.",
+bad:"No hay un código válido en el enlace. Vuelva a escanear el código QR de la hoja de acceso.",h2:"¿Aún no tiene la app?",
+after:"Tras la instalación, vuelva a escanear el código QR.",priv:"El código se queda en su navegador y no se envía a este sitio."}};
+const lang=(navigator.language||"de").slice(0,2);
+if(T[lang]){document.documentElement.lang=lang;document.querySelectorAll("[data-t]").forEach(e=>{const v=T[lang][e.dataset.t];if(v)e.textContent=v});document.title=T[lang].brand;}
+if(ok){
+  document.getElementById("code").textContent=code;
+  const url="hotrechner://fleet?code="+code;
+  document.getElementById("open").href=url;
+}else{
+  document.getElementById("open").hidden=true;document.getElementById("bad").hidden=false;
+}
+</script>
+</body>
+</html>
