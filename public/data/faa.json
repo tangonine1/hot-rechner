@@ -1,0 +1,23 @@
+{
+ "format": 1,
+ "published": "2026-11-22",
+ "faa": {
+  "document": "FAA Holdover Time Guidelines Winter 2026-2027",
+  "issue": "Original Issue",
+  "issue_date": "2026-08-11",
+  "url": "https://www.faa.gov/other_visit/aviation_industry/airline_operators/airline_safety/deicing/",
+  "season": "2026-2027"
+ },
+ "dshot": {
+  "document": "Transport Canada Degree-Specific Holdover Times (DSHOT) Winter 2026-2027",
+  "issue": "Original Issue",
+  "issue_date": "2026-08-11",
+  "url": "https://tc.canada.ca/en/aviation/general-operating-flight-rules/holdover-time-hot-guidelines"
+ },
+ "package": {
+  "url": "https://hot.emb500.de/data/hot_data-2026-08-11-2026-08-11.json",
+  "sha256": "b178935aa3dce7055565ffc77ce2dcb3737bd35c80b18a457bef58381a6a24fc",
+  "bytes": 1204531,
+  "schema_version": 3
+ }
+}
