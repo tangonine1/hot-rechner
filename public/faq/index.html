@@ -445,6 +445,8 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;font-si
   window.addEventListener("hashchange",show); show();
 
   // Assistant: stateless; the last few turns go along so follow-up questions work.
+  // hot.emb500.de is plain Cloudflare Pages; the assistant runs in the worker on workers.dev.
+  var API=/workers\.dev$/.test(location.hostname)?"/api/ask":"https://hot-rechner.guido-marhenke.workers.dev/api/ask";
   var hist=[], log=$("log"), form=$("askf"), q=$("q"), btn=$("send");
   function add(cls,text){var d=document.createElement("div");d.className="msg "+cls;d.textContent=text;log.appendChild(d);return d}
   q.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit?form.requestSubmit():form.submit()}});
@@ -453,7 +455,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;font-si
     var text=q.value.trim(); if(!text||btn.disabled)return;
     add("q",text); q.value=""; btn.disabled=true;
     var w=add("r wait",T[cur].wait);
-    fetch("/api/ask",{method:"POST",headers:{"content-type":"application/json"},
+    fetch(API,{method:"POST",headers:{"content-type":"application/json"},
       body:JSON.stringify({lang:cur,question:text,history:hist.slice(-6)})})
     .then(function(r){return r.json().then(function(j){return{s:r.status,j:j}})})
     .then(function(x){

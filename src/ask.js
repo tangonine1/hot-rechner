@@ -67,12 +67,29 @@ function cleanHistory(h) {
     .map(t => ({ role: t.role, content: t.content.slice(0, MAX_TURN) }));
 }
 
-export async function handleAsk(request, env) {
-  if (request.method !== "POST") return json({ error: "method" }, 405);
+// hot.emb500.de is served by Cloudflare Pages (no worker there), so its FAQ page calls this worker
+// cross-origin. Only the own pages may call the assistant (keeps other sites from using the AI quota).
+export function allowedOrigin(origin, selfHost) {
+  try {
+    const h = new URL(origin).host;
+    return h === selfHost || h === "hot.emb500.de" || h === "hot-rechner.pages.dev" || h.endsWith(".hot-rechner.pages.dev");
+  } catch { return false; }
+}
 
-  // Only the own pages may call the assistant (keeps other sites from using the AI quota).
+export async function handleAsk(request, env) {
   const origin = request.headers.get("origin");
-  if (origin && new URL(origin).host !== new URL(request.url).host) return json({ error: "origin" }, 403);
+  if (origin && !allowedOrigin(origin, new URL(request.url).host)) return json({ error: "origin" }, 403);
+  const cors = origin ? { "access-control-allow-origin": origin, "vary": "origin" } : {};
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: { ...cors, "access-control-allow-methods": "POST", "access-control-allow-headers": "content-type", "access-control-max-age": "86400" } });
+  }
+  const res = await answer(request, env);
+  for (const [k, v] of Object.entries(cors)) res.headers.set(k, v);
+  return res;
+}
+
+async function answer(request, env) {
+  if (request.method !== "POST") return json({ error: "method" }, 405);
 
   if (env.ASK_LIMIT) {
     const ip = request.headers.get("cf-connecting-ip") || "unknown";
