@@ -1,5 +1,5 @@
-// HOT-Rechner – counts the devices of a company licence (Firmenversion).
-// Everything else is served as static files from ./public.
+// HOT-Rechner – counts the devices of a company licence (Firmenversion) and answers FAQ questions
+// (POST /api/ask, see ask.js). Everything else is served as static files from ./public.
 //
 // POST /api/fleet/activate {id, device}  -> 200 {used, seats} | 409 full | 404 unknown licence
 // POST /api/fleet/release  {id, device}  -> 200
@@ -8,6 +8,8 @@
 // device = random number created by the app on first use (no name, account or location)
 // Storage: KV "FLEET", key "dev:<id>" -> {"<device>": lastSeenMillis}. Devices not seen for 60 days free their seat.
 // Seats per licence: public/fleet/seats.json (written by tools/fleet.py publish).
+
+import { handleAsk } from "./ask.js";
 
 const STALE = 60 * 24 * 3600 * 1000;
 const json = (body, status = 200) =>
@@ -23,6 +25,7 @@ async function seatsFor(env, id) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/ask") return handleAsk(request, env);
     if (!url.pathname.startsWith("/api/fleet/")) return env.ASSETS.fetch(request);
     if (request.method !== "POST") return json({ error: "method" }, 405);
 
