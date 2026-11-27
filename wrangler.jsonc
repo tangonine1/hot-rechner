@@ -13,6 +13,12 @@
   "kv_namespaces": [
     { "binding": "FLEET", "id": "7b3f71439fc741d3b085777533817137" }
   ],
+  // Problem reports (src/report.js): manufacturer address and sender. Secret BREVO_API_KEY is set in the
+  // Cloudflare dashboard (Workers → hot-rechner → Settings → Variables and Secrets), never in this file.
+  "vars": {
+    "REPORT_TO": "info@emb500.de",
+    "REPORT_FROM": "meldungen@emb500.de"
+  },
   "workers_dev": true,
   "observability": { "enabled": false },
   "previews": {
