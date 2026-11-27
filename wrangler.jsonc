@@ -19,6 +19,8 @@
     "REPORT_TO": "info@emb500.de",
     "REPORT_FROM": "meldungen@emb500.de"
   },
+  // 1st of every month, 06:00 UTC: "Meldesystem läuft" mail to REPORT_TO (keeps the Brevo key alive, tests delivery)
+  "triggers": { "crons": ["0 6 1 * *"] },
   "workers_dev": true,
   "observability": { "enabled": false },
   "previews": {

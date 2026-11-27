@@ -9,7 +9,7 @@
 // Storage: KV "FLEET", key "dev:<id>" -> {"<device>": lastSeenMillis}. Devices not seen for 60 days free their seat.
 // Seats per licence: public/fleet/seats.json (written by tools/fleet.py publish).
 
-import { handleReport } from "./report.js";
+import { handleReport, monthlyCheck } from "./report.js";
 
 const STALE = 60 * 24 * 3600 * 1000;
 const json = (body, status = 200) =>
@@ -23,6 +23,11 @@ async function seatsFor(env, id) {
 }
 
 export default {
+  // Cron (wrangler.jsonc "triggers"): monthly test mail of the problem report system
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(monthlyCheck(env));
+  },
+
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/report") return handleReport(request, env);
