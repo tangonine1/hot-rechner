@@ -84,8 +84,8 @@ export async function handleReport(request, env) {
   for (let i = 0; i < pics.length; i++) await env.FLEET.put(`repimg:${id}:${i}`, pics[i].data, { expirationTtl: TTL });
   await env.FLEET.put("rep:" + id, JSON.stringify(rec), { expirationTtl: TTL });
 
-  // Mail failures do not fail the report: it is stored and can be read from KV.
-  try { await mail(env, rec, pics); } catch (e) { /* no logging on purpose (privacy policy) */ }
+  // Mail failures do not fail the report: it is stored and can be read from KV. Only the error, no report data, is logged.
+  try { await mail(env, rec, pics); } catch (e) { console.error("Meldung nicht gemailt:", String(e && e.message || e)); }
   return json({ ok: true });
 }
 
@@ -114,16 +114,50 @@ async function mail(env, r, pics) {
   if (!env.BREVO_API_KEY || !env.REPORT_FROM || !env.REPORT_TO) return;
   const subject = `[HOT-App] ${KINDS[r.art]}${r.sicherheitsereignis ? " – Sicherheitsereignis" : ""} · ${r.meldung_id.slice(0, 8)}`;
   const to = String(env.REPORT_TO).split(",").map((e) => ({ email: e.trim() })).filter((e) => e.email);
-  const send = (recipients) => fetch("https://api.brevo.com/v3/smtp/email", {
-    method: "POST",
-    headers: { "api-key": env.BREVO_API_KEY, "content-type": "application/json", accept: "application/json" },
-    body: JSON.stringify({
-      sender: { email: env.REPORT_FROM, name: "HOT-Rechner Meldungen" },
-      to: recipients, subject, textContent: mailText(r),
-      attachment: pics.length ? pics.map((p, i) => ({ name: `${p.typ}-${i + 1}.jpg`, content: p.data })) : undefined,
-    }),
+  const send = (recipients) => brevo(env, {
+    to: recipients, subject, textContent: mailText(r),
+    attachment: pics.length ? pics.map((p, i) => ({ name: `${p.typ}-${i + 1}.jpg`, content: p.data })) : undefined,
   });
   await send(to);
   // Separate mail for the flight operations, so they do not see the manufacturer's address and vice versa
   if (r.kopie_an) await send([{ email: r.kopie_an }]);
+}
+
+/** One mail through Brevo; throws with the HTTP status if Brevo refuses it (e.g. expired key = 401). */
+async function brevo(env, msg) {
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: { "api-key": env.BREVO_API_KEY, "content-type": "application/json", accept: "application/json" },
+    body: JSON.stringify({ sender: { email: env.REPORT_FROM, name: "HOT-Rechner Meldungen" }, ...msg }),
+  });
+  if (!res.ok) throw new Error(`Brevo HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
+}
+
+/**
+ * Monthly check (cron, 1st of the month): sends "Meldesystem läuft" to REPORT_TO. Keeps the Brevo key in use
+ * (it expires after 90 days without use) and shows that mail delivery works. Result in KV "mailcheck:last";
+ * a failure is also written to the Worker log (Workers → hot-rechner → Logs / wrangler tail). No personal data.
+ */
+export async function monthlyCheck(env) {
+  const day = new Date().toISOString().slice(0, 10);
+  const stored = (await env.FLEET.list({ prefix: "rep:" })).keys.length;
+  let result;
+  try {
+    if (!env.BREVO_API_KEY || !env.REPORT_FROM || !env.REPORT_TO) throw new Error("BREVO_API_KEY, REPORT_FROM oder REPORT_TO fehlt");
+    await brevo(env, {
+      to: String(env.REPORT_TO).split(",").map((e) => ({ email: e.trim() })).filter((e) => e.email),
+      subject: `[HOT-App] Meldesystem läuft (${day})`,
+      textContent: `Monatlicher Funktionstest des Meldesystems \"Fehler melden\".\n\n` +
+        `Diese Mail zeigt, dass der Server Meldungen annimmt und Mails verschicken kann. ` +
+        `Sie hält außerdem den Brevo-API-Schlüssel aktiv (er verfällt nach 90 Tagen ohne Nutzung).\n\n` +
+        `Gespeicherte Meldungen (letzte 180 Tage): ${stored}\n\nKommt diese Mail am 1. eines Monats nicht, ` +
+        `bitte den Schlüssel bei Brevo und das Secret BREVO_API_KEY bei Cloudflare prüfen.`,
+    });
+    result = { day, ok: true };
+  } catch (e) {
+    console.error("Meldesystem-Test fehlgeschlagen:", String(e && e.message || e));
+    result = { day, ok: false, error: String(e && e.message || e).slice(0, 300) };
+  }
+  await env.FLEET.put("mailcheck:last", JSON.stringify(result));
+  return result;
 }
