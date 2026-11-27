@@ -9,6 +9,8 @@
 // Storage: KV "FLEET", key "dev:<id>" -> {"<device>": lastSeenMillis}. Devices not seen for 60 days free their seat.
 // Seats per licence: public/fleet/seats.json (written by tools/fleet.py publish).
 
+import { handleReport } from "./report.js";
+
 const STALE = 60 * 24 * 3600 * 1000;
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json", "cache-control": "no-store" } });
@@ -23,6 +25,7 @@ async function seatsFor(env, id) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/report") return handleReport(request, env);
     if (!url.pathname.startsWith("/api/fleet/")) return env.ASSETS.fetch(request);
     if (request.method !== "POST") return json({ error: "method" }, 405);
 
