@@ -1,5 +1,5 @@
-// HOT-Rechner – counts the devices of a company licence (Firmenversion) and answers FAQ questions
-// (POST /api/ask, see ask.js). Everything else is served as static files from ./public.
+// HOT-Rechner – counts the devices of a company licence (Firmenversion), takes problem reports from the app
+// (POST /api/report, see report.js) and answers FAQ questions (POST /api/ask, see ask.js). Static files: ./public.
 //
 // POST /api/fleet/activate {id, device}  -> 200 {used, seats} | 409 full | 404 unknown licence
 // POST /api/fleet/release  {id, device}  -> 200
@@ -10,6 +10,7 @@
 // Seats per licence: public/fleet/seats.json (written by tools/fleet.py publish).
 
 import { handleAsk } from "./ask.js";
+import { handleReport, monthlyCheck } from "./report.js";
 
 const STALE = 60 * 24 * 3600 * 1000;
 const json = (body, status = 200) =>
@@ -23,9 +24,15 @@ async function seatsFor(env, id) {
 }
 
 export default {
+  // Cron (wrangler.jsonc "triggers"): monthly test mail of the problem report system
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(monthlyCheck(env));
+  },
+
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/ask") return handleAsk(request, env);
+    if (url.pathname === "/api/report") return handleReport(request, env);
     if (!url.pathname.startsWith("/api/fleet/")) return env.ASSETS.fetch(request);
     if (request.method !== "POST") return json({ error: "method" }, 405);
 
