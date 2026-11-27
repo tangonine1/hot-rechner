@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOT-Rechner – Häufige Fragen</title>
+<meta name="description" content="Häufige Fragen zum HOT-Rechner: Datenquelle, Gratis und Pro, iPhone und Android, Tabellen-Updates, Datenschutz. Mit KI-Assistent für weitere Fragen.">
+<style>
+/* Same night-ramp look as the start page. Questions are <details> so the page works without JS;
+   the language tabs and the assistant need JS. The worker (/api/ask) reads the <article> blocks
+   of this page as the assistant's knowledge, so every answer here is also what the assistant knows. */
+:root{
+  color-scheme:dark;
+  --night:#0a131c; --apron:#101c28; --panel:#132232; --line:#223447;
+  --ink:#e9eff5; --soft:#a9b8c6; --flood:#ffd68a;
+  --t1:#f39a3a; --t2:#e4d27a; --t3:#f2e22e; --t4:#34b277; --red:#ff6b5b;
+  --f-display:"Segoe UI Variable Display","Segoe UI","Roboto Flex","Helvetica Neue",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono","Roboto Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--ink);font:17px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--flood)}
+a:focus-visible,button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--flood);outline-offset:3px}
+main{max-width:46rem;margin:0 auto;padding-block:20px 56px}
+header{display:flex;flex-direction:column;gap:8px;padding-block:8px 12px}
+.back{font:600 13px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none}
+.kicker{font:600 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--flood)}
+h1{font:800 clamp(2rem,5vw,3rem)/1.05 var(--f-display);letter-spacing:-.02em;margin:4px 0 0;text-wrap:balance}
+.lede{color:var(--soft);margin:6px 0 0}
+nav.lang{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--night);display:flex;gap:4px;padding-block:10px;border-bottom:1px solid var(--line);margin:12px 0 8px}
+nav.lang a{font:600 13px/1 var(--f-mono);letter-spacing:.06em;text-decoration:none;color:var(--soft);padding:8px 12px;border-radius:6px}
+nav.lang a[aria-current="true"]{background:var(--panel);color:var(--flood);box-shadow:0 0 0 1px var(--line)}
+nav.lang .ask{margin-left:auto;color:#04150c;background:var(--t4)}
+h2{font:800 1.35rem/1.2 var(--f-display);margin:36px 0 10px;text-wrap:balance}
+details{border:1px solid var(--line);border-radius:12px;background:var(--apron);margin:0 0 8px}
+details[open]{border-color:#30475e}
+summary{cursor:pointer;list-style:none;padding:14px 44px 14px 16px;font-weight:650;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:16px;top:12px;font:700 20px/1 var(--f-mono);color:var(--flood)}
+details[open] summary::after{content:"–"}
+.a{padding:0 16px 14px;color:var(--soft);font-size:16px}
+.a p{margin:0 0 8px}
+.a ul{margin:0 0 8px;padding-left:1.2em}
+.a li{margin:0 0 4px}
+.a strong{color:var(--ink)}
+[hidden]{display:none!important}
+
+/* assistant */
+#assistent{margin-top:44px;border:1px solid var(--t4);border-radius:16px;background:var(--apron);padding:20px 18px}
+#assistent h2{margin:0 0 6px}
+#assistent .hint{color:var(--soft);font-size:14.5px;margin:0 0 14px}
+.log{display:flex;flex-direction:column;gap:10px;margin:0 0 12px}
+.msg{padding:10px 14px;border-radius:12px;max-width:90%;white-space:pre-wrap;overflow-wrap:anywhere;font-size:16px}
+.msg.q{align-self:flex-end;background:var(--panel);border:1px solid var(--line)}
+.msg.r{align-self:flex-start;background:#0c1721;border:1px solid var(--line);color:var(--ink)}
+.msg.err{border-color:var(--red)}
+.msg.wait{color:var(--soft);font-style:italic}
+form.askf{display:flex;gap:8px;align-items:flex-end}
+form.askf textarea{flex:1;min-width:0;resize:vertical;min-height:48px;max-height:180px;font:16px/1.4 var(--f-body);color:var(--ink);background:var(--night);border:1px solid var(--line);border-radius:10px;padding:12px}
+form.askf button{font:700 16px/1 var(--f-body);padding:14px 18px;border-radius:10px;border:0;background:var(--t4);color:#04150c;cursor:pointer}
+form.askf button:disabled{opacity:.5;cursor:default}
+.small{font-size:13px;color:var(--soft);margin:10px 0 0}
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--soft)}
+@media (max-width:480px){form.askf{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <a class="back" href="/">← HOT-Rechner</a>
+    <span class="kicker" id="kicker">FAQ · Winter 2026-2027</span>
+    <h1 id="title">Häufige Fragen</h1>
+    <p class="lede" id="lede">Antworten rund um den HOT-Rechner. Ihre Frage ist nicht dabei? Unten beantwortet ein KI-Assistent weitere Fragen zur App.</p>
+  </header>
+  <nav class="lang" aria-label="Sprache / Language">
+    <a href="#de" data-l="de">DE</a><a href="#en" data-l="en">EN</a><a href="#fr" data-l="fr">FR</a><a href="#es" data-l="es">ES</a>
+    <a class="ask" href="#assistent" id="asklink">Fragen</a>
+  </nav>
+
+  <!-- ========================= DEUTSCH ========================= -->
+  <article id="de" lang="de">
+    <h2>Die App</h2>
+    <details><summary>Was ist der HOT-Rechner?</summary><div class="a">
+      <p>Eine App für Piloten, die nach der Enteisung die Holdover Time anzeigt, ohne in den Tabellen zu blättern: Fluid wählen, Wetter per METAR laden oder von Hand eingeben, Ergebnis ablesen. Ein Timer läuft ab Fluid-Start mit und warnt an der unteren und oberen Grenze, auch auf dem Sperrbildschirm.</p>
+      <p>Entwickelt von Guido Marhenke (GMA Aviation Services), selbst Pilot.</p>
+    </div></details>
+    <details><summary>Woher kommen die Werte?</summary><div class="a">
+      <p>Aus den <strong>FAA Holdover Time Guidelines Winter 2026-2027</strong> (51 Tabellen: Type I, II, III und IV, generisch und Markenprodukte, Frost, Eiskörner, Allowance Times, Appendix A) und für gradgenaue Schnee-Zeiten aus den <strong>DSHOT von Transport Canada</strong>.</p>
+      <p>Die App rechnet nicht mit einem eigenen Modell. Jeder angezeigte Wert ist ein veröffentlichter Wert und lässt sich direkt mit der Originaltabelle vergleichen.</p>
+    </div></details>
+    <details><summary>Wie werden die Tabellen geprüft?</summary><div class="a">
+      <p>Kein Wert wird von Hand abgetippt. Die Tabellen werden automatisch aus der offiziellen Veröffentlichung gelesen und mit einem zweiten, unabhängigen Verfahren gegengeprüft. Über 370 000 automatische Testfälle vergleichen den Rechenkern mit einer unabhängigen Referenz; iPhone- und Android-Version laufen mit denselben Testfällen. Eine Version, die einen Test nicht besteht, wird nicht ausgeliefert.</p>
+    </div></details>
+    <details><summary>Ist die App zertifiziert oder zugelassen?</summary><div class="a">
+      <p>Nein, und das gilt für jede Holdover-Time-App: Eine Zertifizierung dafür gibt es weder bei der FAA noch bei Transport Canada oder der EASA. Zugelassen wird das Enteisungsverfahren des Betreibers; eine App kann darin als Hilfsmittel aufgenommen werden. Für Flugbetriebe gibt es ein <a href="/flugbetriebe/">Infoblatt</a> (auch auf <a href="/operators/">Englisch</a>).</p>
+    </div></details>
+    <details><summary>Gilt das auch in Europa?</summary><div class="a">
+      <p>Ja. Die EASA veröffentlicht keine eigenen Holdover-Time-Tabellen und verweist auf die Guidelines der FAA bzw. von Transport Canada (EASA Safety Information Bulletin 2025-09). Maßgeblich ist immer das Enteisungsverfahren im Betriebshandbuch Ihres Operators.</p>
+    </div></details>
+    <details><summary>Ersetzt die App die Original-Tabellen?</summary><div class="a">
+      <p>Nein. Die App ist eine Rechenhilfe. Maßgeblich sind die offiziellen Guidelines und die Verfahren Ihres Betreibers. Holdover Times sind Schätzwerte; der Pre-Takeoff Check bleibt immer nötig, und die Entscheidung über den Start liegt beim verantwortlichen Piloten.</p>
+    </div></details>
+
+    <h2>Gratis und Pro</h2>
+    <details><summary>Was kostet die App?</summary><div class="a">
+      <p>Laden und Nutzen ist kostenlos. Alles Sicherheitsrelevante bleibt dauerhaft gratis:</p>
+      <ul><li>generische Tabellen Type I, II und IV und Appendix A für generische Fluids</li><li>LOUT-Warnungen</li><li>Timer mit Alarm und Sperrbildschirm-Countdown</li><li>METAR und Schneeintensität</li><li>Type-I-Mischungsprüfung</li></ul>
+      <p>Mehr gibt es mit dem Abo <strong>Pro</strong>. Die aktuellen Preise zeigen die App und der App Store bzw. Google Play.</p>
+    </div></details>
+    <details><summary>Was bekomme ich mit Pro?</summary><div class="a">
+      <ul><li>alle Markenprodukte Type II, III und IV</li><li>DSHOT von Transport Canada</li><li>Enteisungs-Protokoll mit PDF-Export</li><li>Uhr-App für Galaxy Watch / Wear OS</li><li>neue FAA- und TC-Tabellen automatisch während der Abo-Laufzeit, auch Überarbeitungen mitten in der Saison</li></ul>
+    </div></details>
+    <details><summary>Sind App-Updates kostenlos?</summary><div class="a">
+      <p>Ja. Die App und alle App-Updates bleiben dauerhaft kostenlos. Die generischen Tabellen (Type I, II, IV) bekommen alle mit den App-Updates. Das Abo übernimmt alle Updates der FAA- und TC-Tabellen, die während der Abo-Laufzeit erscheinen, neue Saison-Ausgaben ebenso wie Überarbeitungen mitten in der Saison. Marken-Fluids sind nur mit laufendem Abo nutzbar.</p>
+    </div></details>
+    <details><summary>Wie kündige ich Pro?</summary><div class="a">
+      <p>Jederzeit in den Abo-Einstellungen des App Store (iPhone) bzw. von Google Play (Android). Das Abo verlängert sich automatisch, wenn es nicht mindestens 24 Stunden vor Ablauf gekündigt wird.</p>
+    </div></details>
+    <details><summary>Neues Handy – ist Pro weg?</summary><div class="a">
+      <p>Nein. In der App auf „Kauf wiederherstellen“ tippen, mit demselben Apple- bzw. Google-Konto wie beim Kauf.</p>
+    </div></details>
+    <details><summary>Gibt es Lizenzen für Flugbetriebe?</summary><div class="a">
+      <p>Ja. Firmen können Pro für mehrere Piloten auf Rechnung bekommen; die Piloten schalten es mit einem Firmencode frei, ohne eigenes Abo. Anfrage an <a href="mailto:info@emb500.de">info@emb500.de</a>. Wie sich die App ins eigene Verfahren aufnehmen lässt, steht im <a href="/flugbetriebe/">Infoblatt für Flugbetriebe</a>.</p>
+    </div></details>
+
+    <h2>Geräte und Nutzung</h2>
+    <details><summary>Auf welchen Geräten läuft die App?</summary><div class="a">
+      <ul><li><strong>iPhone</strong> ab iOS 16: im <a href="https://apps.apple.com/app/id6833049278" target="_blank" rel="noopener">App Store</a></li><li><strong>Android</strong> ab Android 8: zurzeit als Beta über Google Play, <a href="/beta/">hier anmelden</a></li><li><strong>Galaxy Watch / Wear OS</strong>: Uhr-App (Pro), braucht die Android-App auf dem Handy</li></ul>
+      <p>Sprachen: Deutsch, Englisch, Französisch, Spanisch. Temperatur in °C oder °F.</p>
+    </div></details>
+    <details><summary>Wie werde ich Android-Beta-Tester?</summary><div class="a">
+      <p>In drei Schritten auf der <a href="/beta/">Beta-Seite</a>, etwa zwei Minuten. Bitte 14 Tage angemeldet bleiben, denn Google gibt die App erst danach frei. Als Dankeschön gibt es einen Code für Pro für die ganze Wintersaison 2026/27.</p>
+    </div></details>
+    <details><summary>Funktioniert die App ohne Internet?</summary><div class="a">
+      <p>Ja. Alle Tabellen sind in der App gespeichert. Nur das METAR braucht eine Verbindung; ohne Netz geben Sie Temperatur, Sicht und Niederschlag von Hand ein.</p>
+    </div></details>
+    <details><summary>Was passiert, wenn die FAA neue Tabellen veröffentlicht?</summary><div class="a">
+      <p>Die FAA veröffentlicht jedes Jahr im August neue Guidelines. Ist eine neuere Ausgabe erschienen, zeigt die App allen Nutzern einen Hinweis. Mit Pro lädt die App die neuen Tabellen automatisch, prüft Signatur und Selbsttest und rechnet erst dann damit. Nach Ende einer Saison zeigt die App „Tabellen VERALTET“; dann nicht mehr operativ verwenden, sondern aktualisieren.</p>
+    </div></details>
+    <details><summary>Was ist DSHOT und darf ich es nutzen?</summary><div class="a">
+      <p>DSHOT sind gradgenaue Holdover Times von Transport Canada für Schnee (Pro). Sie dürfen nur genutzt werden, wenn Ihr Betreiber dafür eine Genehmigung der Behörde hat und die Werte im Betriebshandbuch stehen. Sonst gelten die FAA-Zeiten.</p>
+    </div></details>
+    <details><summary>Wo finde ich eine Anleitung?</summary><div class="a">
+      <p>In der <a href="/anleitung/">Bedienungsanleitung</a> (Deutsch, Englisch, Französisch, Spanisch).</p>
+    </div></details>
+
+    <h2>Datenschutz und Kontakt</h2>
+    <details><summary>Welche Daten sammelt die App?</summary><div class="a">
+      <p>Kein Konto, keine Werbung, kein Tracking. Einstellungen und das Enteisungs-Protokoll bleiben auf Ihrem Gerät. Für das METAR werden nur ICAO-Codes an aviationweather.gov gesendet; der Standort (optional) wird nur auf dem Gerät mit der Flughafenliste verglichen. Einzelheiten in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+    </div></details>
+    <details><summary>Wer beantwortet die Fragen im Assistenten unten?</summary><div class="a">
+      <p>Ein KI-Sprachmodell, das auf den Antworten dieser Seite beruht. Es kann sich irren. Es nennt keine Holdover Times und gibt keine Hinweise für die Enteisung im Einsatz. Ihre Frage wird nicht gespeichert (siehe <a href="/datenschutz/">Datenschutz</a>).</p>
+    </div></details>
+    <details><summary>Fehler gefunden oder Vorschlag?</summary><div class="a">
+      <p>Bitte an <a href="mailto:info@emb500.de">info@emb500.de</a> schreiben. Jede Rückmeldung wird gelesen.</p>
+    </div></details>
+  </article>
+
+  <!-- ========================= ENGLISH ========================= -->
+  <article id="en" lang="en" hidden>
+    <h2>The app</h2>
+    <details><summary>What is the HOT Calculator?</summary><div class="a">
+      <p>An app for pilots that shows the holdover time after de-icing without leafing through tables: pick the fluid, load the weather from the METAR or enter it by hand, read the result. A timer runs from fluid start and alerts at the lower and upper limit, also on the lock screen.</p>
+      <p>Built by Guido Marhenke (GMA Aviation Services), a pilot himself.</p>
+    </div></details>
+    <details><summary>Where do the values come from?</summary><div class="a">
+      <p>From the <strong>FAA Holdover Time Guidelines Winter 2026-2027</strong> (51 tables: Type I, II, III and IV, generic and brand-specific, frost, ice pellets, allowance times, Appendix A) and, for degree-specific snow times, from the <strong>Transport Canada DSHOT</strong>.</p>
+      <p>The app does not run a model of its own. Every value shown is a published value and can be checked directly against the original table.</p>
+    </div></details>
+    <details><summary>How are the tables checked?</summary><div class="a">
+      <p>No value is typed in by hand. The tables are read automatically from the official publication and cross-checked with a second, independent procedure. More than 370,000 automated test cases compare the lookup logic with an independent reference; the iPhone and Android versions run the same test cases. A version that fails a test is not released.</p>
+    </div></details>
+    <details><summary>Is the app certified or approved?</summary><div class="a">
+      <p>No, and that is true of every holdover time app: no certification exists for them at the FAA, Transport Canada or EASA. What gets approved is the operator's de-icing program; an app can be included in it as an aid. Operators can read the <a href="/operators/">information sheet for operators</a>.</p>
+    </div></details>
+    <details><summary>Does it apply in Europe?</summary><div class="a">
+      <p>Yes. EASA publishes no holdover time tables of its own and refers to the FAA and Transport Canada guidelines (EASA Safety Information Bulletin 2025-09). The de-icing procedure in your operator's manual always prevails.</p>
+    </div></details>
+    <details><summary>Does the app replace the original tables?</summary><div class="a">
+      <p>No. The app is a lookup aid. The official guidelines and your operator's procedures prevail. Holdover times are estimates; the pre-takeoff check is always required, and the decision to take off lies with the pilot in command.</p>
+    </div></details>
+
+    <h2>Free and Pro</h2>
+    <details><summary>What does the app cost?</summary><div class="a">
+      <p>Downloading and using it is free. Everything safety-relevant stays free for good:</p>
+      <ul><li>generic tables Type I, II and IV and Appendix A for generic fluids</li><li>LOUT warnings</li><li>timer with alarm and lock-screen countdown</li><li>METAR and snowfall intensity</li><li>Type I mixture check</li></ul>
+      <p>The <strong>Pro</strong> subscription adds more. The app and the App Store or Google Play show the current prices.</p>
+    </div></details>
+    <details><summary>What do I get with Pro?</summary><div class="a">
+      <ul><li>all brand-name products Type II, III and IV</li><li>Transport Canada DSHOT</li><li>de-icing log with PDF export</li><li>watch app for Galaxy Watch / Wear OS</li><li>new FAA and TC tables automatically while subscribed, including revisions in mid-season</li></ul>
+    </div></details>
+    <details><summary>Are app updates free?</summary><div class="a">
+      <p>Yes. The app and all app updates stay free for good. Everyone gets the generic tables (Type I, II, IV) with app updates. The subscription covers every update of the FAA and TC tables published while it runs, new seasonal editions as well as revisions during the season. Brand-specific fluids can only be used with an active subscription.</p>
+    </div></details>
+    <details><summary>How do I cancel Pro?</summary><div class="a">
+      <p>At any time in the subscription settings of the App Store (iPhone) or Google Play (Android). The subscription renews automatically unless cancelled at least 24 hours before it ends.</p>
+    </div></details>
+    <details><summary>New phone – is Pro gone?</summary><div class="a">
+      <p>No. Tap “Restore purchase” in the app, with the same Apple or Google account you bought it with.</p>
+    </div></details>
+    <details><summary>Are there licences for operators?</summary><div class="a">
+      <p>Yes. Companies can get Pro for several pilots on invoice; the pilots unlock it with a company code, without a subscription of their own. Write to <a href="mailto:info@emb500.de">info@emb500.de</a>. How to include the app in your own procedures is described in the <a href="/operators/">information for operators</a>.</p>
+    </div></details>
+
+    <h2>Devices and use</h2>
+    <details><summary>Which devices does the app run on?</summary><div class="a">
+      <ul><li><strong>iPhone</strong> with iOS 16 or later: on the <a href="https://apps.apple.com/app/id6833049278" target="_blank" rel="noopener">App Store</a></li><li><strong>Android</strong> 8 or later: currently in beta on Google Play, <a href="/beta/">sign up here</a></li><li><strong>Galaxy Watch / Wear OS</strong>: watch app (Pro), needs the Android app on the phone</li></ul>
+      <p>Languages: German, English, French, Spanish. Temperature in °C or °F.</p>
+    </div></details>
+    <details><summary>How do I become an Android beta tester?</summary><div class="a">
+      <p>In three steps on the <a href="/beta/">beta page</a>, about two minutes. Please stay opted in for 14 days, because Google only releases the app after that. As a thank-you you get a code for Pro for the whole 2026/27 winter season.</p>
+    </div></details>
+    <details><summary>Does the app work offline?</summary><div class="a">
+      <p>Yes. All tables are stored in the app. Only the METAR needs a connection; offline you enter temperature, visibility and precipitation by hand.</p>
+    </div></details>
+    <details><summary>What happens when the FAA publishes new tables?</summary><div class="a">
+      <p>The FAA publishes new guidelines every August. When a newer issue is out, the app shows all users a notice. With Pro the app downloads the new tables automatically, checks signature and self-test, and only then uses them. After the end of a season the app shows “Tables OUTDATED”; then stop using it operationally and update.</p>
+    </div></details>
+    <details><summary>What is DSHOT and may I use it?</summary><div class="a">
+      <p>DSHOT are Transport Canada's degree-specific holdover times for snow (Pro). They may only be used if your operator holds an approval from its authority and the values are in the operations manual. Otherwise the FAA times apply.</p>
+    </div></details>
+    <details><summary>Where is the user guide?</summary><div class="a">
+      <p>In the <a href="/anleitung/#en">user guide</a> (English, German, French, Spanish).</p>
+    </div></details>
+
+    <h2>Privacy and contact</h2>
+    <details><summary>What data does the app collect?</summary><div class="a">
+      <p>No account, no ads, no tracking. Settings and the de-icing log stay on your device. For the METAR only ICAO codes are sent to aviationweather.gov; your location (optional) is only compared with the airport list on the device. Details in the <a href="/datenschutz/#en">privacy policy</a>.</p>
+    </div></details>
+    <details><summary>Who answers the questions in the assistant below?</summary><div class="a">
+      <p>An AI language model based on the answers on this page. It can be wrong. It gives no holdover times and no operational de-icing advice. Your question is not stored (see <a href="/datenschutz/#en">privacy policy</a>).</p>
+    </div></details>
+    <details><summary>Found an error or have a suggestion?</summary><div class="a">
+      <p>Please write to <a href="mailto:info@emb500.de">info@emb500.de</a>. Every message is read.</p>
+    </div></details>
+  </article>
+
+  <!-- ========================= FRANÇAIS ========================= -->
+  <article id="fr" lang="fr" hidden>
+    <h2>L’application</h2>
+    <details><summary>Qu’est-ce que le HOT-Rechner ?</summary><div class="a">
+      <p>Une application pour pilotes qui affiche la durée d’efficacité (holdover time) après le dégivrage, sans feuilleter les tables : choisir le liquide, charger la météo par METAR ou la saisir à la main, lire le résultat. Un minuteur démarre au début de l’application du liquide et alerte aux limites inférieure et supérieure, même sur l’écran verrouillé.</p>
+      <p>Développée par Guido Marhenke (GMA Aviation Services), lui-même pilote.</p>
+    </div></details>
+    <details><summary>D’où viennent les valeurs ?</summary><div class="a">
+      <p>Des <strong>FAA Holdover Time Guidelines Winter 2026-2027</strong> (51 tables : Type I, II, III et IV, génériques et par produit, givre, granules de glace, allowance times, Appendix A) et, pour les durées à degré près sous la neige, des <strong>DSHOT de Transport Canada</strong>.</p>
+      <p>L’application n’utilise aucun modèle propre. Chaque valeur affichée est une valeur publiée et peut être comparée directement à la table d’origine.</p>
+    </div></details>
+    <details><summary>Comment les tables sont-elles vérifiées ?</summary><div class="a">
+      <p>Aucune valeur n’est saisie à la main. Les tables sont lues automatiquement dans la publication officielle et contrôlées par une seconde procédure indépendante. Plus de 370 000 cas de test automatiques comparent le moteur de calcul à une référence indépendante ; les versions iPhone et Android passent les mêmes tests. Une version qui échoue à un test n’est pas publiée.</p>
+    </div></details>
+    <details><summary>L’application est-elle certifiée ou approuvée ?</summary><div class="a">
+      <p>Non, et c’est vrai pour toute application de holdover time : aucune certification n’existe à la FAA, à Transport Canada ou à l’EASA. Ce qui est approuvé, c’est le programme de dégivrage de l’exploitant ; une application peut y être intégrée comme aide. Les exploitants trouveront une <a href="/operators/">fiche d’information</a> (en anglais).</p>
+    </div></details>
+    <details><summary>Est-ce valable en Europe ?</summary><div class="a">
+      <p>Oui. L’EASA ne publie pas de tables propres et renvoie aux guidelines de la FAA et de Transport Canada (EASA Safety Information Bulletin 2025-09). La procédure de dégivrage du manuel d’exploitation de votre opérateur prévaut toujours.</p>
+    </div></details>
+    <details><summary>L’application remplace-t-elle les tables officielles ?</summary><div class="a">
+      <p>Non. C’est une aide au calcul. Les guidelines officielles et les procédures de votre exploitant prévalent. Les holdover times sont des estimations ; la vérification avant décollage reste obligatoire et la décision de décoller appartient au commandant de bord.</p>
+    </div></details>
+
+    <h2>Gratuit et Pro</h2>
+    <details><summary>Combien coûte l’application ?</summary><div class="a">
+      <p>Le téléchargement et l’utilisation sont gratuits. Tout ce qui touche à la sécurité reste gratuit pour toujours :</p>
+      <ul><li>tables génériques Type I, II et IV et Appendix A pour les liquides génériques</li><li>avertissements LOUT</li><li>minuteur avec alarme et compte à rebours sur l’écran verrouillé</li><li>METAR et intensité de la neige</li><li>contrôle du mélange Type I</li></ul>
+      <p>L’abonnement <strong>Pro</strong> apporte davantage. L’application et l’App Store ou Google Play affichent les prix actuels.</p>
+    </div></details>
+    <details><summary>Qu’apporte Pro ?</summary><div class="a">
+      <ul><li>tous les produits de marque Type II, III et IV</li><li>DSHOT de Transport Canada</li><li>journal de dégivrage avec export PDF</li><li>application montre pour Galaxy Watch / Wear OS</li><li>nouvelles tables FAA et TC automatiquement pendant l’abonnement, y compris les révisions en cours de saison</li></ul>
+    </div></details>
+    <details><summary>Les mises à jour sont-elles gratuites ?</summary><div class="a">
+      <p>Oui. L’application et toutes ses mises à jour restent gratuites pour toujours. Tout le monde reçoit les tables génériques (Type I, II, IV) avec les mises à jour. L’abonnement couvre toutes les mises à jour des tables FAA et TC publiées pendant sa durée, nouvelles éditions de saison comme révisions en cours de saison. Les liquides de marque ne sont utilisables qu’avec un abonnement actif.</p>
+    </div></details>
+    <details><summary>Comment résilier Pro ?</summary><div class="a">
+      <p>À tout moment dans les réglages d’abonnement de l’App Store (iPhone) ou de Google Play (Android). L’abonnement se renouvelle automatiquement s’il n’est pas résilié au moins 24 heures avant l’échéance.</p>
+    </div></details>
+    <details><summary>Nouveau téléphone : Pro est-il perdu ?</summary><div class="a">
+      <p>Non. Touchez « Restaurer l’achat » dans l’application, avec le même compte Apple ou Google que lors de l’achat.</p>
+    </div></details>
+    <details><summary>Existe-t-il des licences pour les exploitants ?</summary><div class="a">
+      <p>Oui. Les entreprises peuvent obtenir Pro pour plusieurs pilotes sur facture ; les pilotes l’activent avec un code entreprise, sans abonnement personnel. Écrivez à <a href="mailto:info@emb500.de">info@emb500.de</a>.</p>
+    </div></details>
+
+    <h2>Appareils et utilisation</h2>
+    <details><summary>Sur quels appareils fonctionne l’application ?</summary><div class="a">
+      <ul><li><strong>iPhone</strong> à partir d’iOS 16 : sur l’<a href="https://apps.apple.com/app/id6833049278" target="_blank" rel="noopener">App Store</a></li><li><strong>Android</strong> 8 et plus : actuellement en bêta sur Google Play, <a href="/beta/">inscription ici</a></li><li><strong>Galaxy Watch / Wear OS</strong> : application montre (Pro), nécessite l’application Android sur le téléphone</li></ul>
+      <p>Langues : allemand, anglais, français, espagnol. Température en °C ou °F.</p>
+    </div></details>
+    <details><summary>Comment devenir bêta-testeur Android ?</summary><div class="a">
+      <p>En trois étapes sur la <a href="/beta/">page bêta</a>, environ deux minutes. Merci de rester inscrit 14 jours, car Google ne publie l’application qu’ensuite. En remerciement, vous recevez un code Pro pour toute la saison d’hiver 2026/27.</p>
+    </div></details>
+    <details><summary>L’application fonctionne-t-elle hors ligne ?</summary><div class="a">
+      <p>Oui. Toutes les tables sont enregistrées dans l’application. Seul le METAR nécessite une connexion ; hors ligne, saisissez température, visibilité et précipitations à la main.</p>
+    </div></details>
+    <details><summary>Que se passe-t-il quand la FAA publie de nouvelles tables ?</summary><div class="a">
+      <p>La FAA publie de nouvelles guidelines chaque année en août. Quand une édition plus récente paraît, l’application l’indique à tous les utilisateurs. Avec Pro, elle télécharge automatiquement les nouvelles tables, vérifie signature et autotest, et ne les utilise qu’ensuite. Après la fin d’une saison, l’application affiche « Tables PÉRIMÉES » ; ne l’utilisez alors plus en opération et mettez-la à jour.</p>
+    </div></details>
+    <details><summary>Qu’est-ce que DSHOT et puis-je l’utiliser ?</summary><div class="a">
+      <p>Les DSHOT sont les holdover times à degré près de Transport Canada pour la neige (Pro). Elles ne peuvent être utilisées que si votre exploitant dispose d’une approbation de son autorité et que les valeurs figurent dans le manuel d’exploitation. Sinon, les durées FAA s’appliquent.</p>
+    </div></details>
+    <details><summary>Où trouver le mode d’emploi ?</summary><div class="a">
+      <p>Dans le <a href="/anleitung/#fr">mode d’emploi</a> (français, allemand, anglais, espagnol).</p>
+    </div></details>
+
+    <h2>Confidentialité et contact</h2>
+    <details><summary>Quelles données l’application collecte-t-elle ?</summary><div class="a">
+      <p>Pas de compte, pas de publicité, pas de suivi. Les réglages et le journal de dégivrage restent sur votre appareil. Pour le METAR, seuls les codes OACI sont envoyés à aviationweather.gov ; la position (facultative) n’est comparée qu’à la liste des aéroports sur l’appareil. Détails dans la <a href="/datenschutz/#fr">politique de confidentialité</a>.</p>
+    </div></details>
+    <details><summary>Qui répond aux questions de l’assistant ci-dessous ?</summary><div class="a">
+      <p>Un modèle de langage (IA) fondé sur les réponses de cette page. Il peut se tromper. Il ne donne aucune holdover time ni aucun conseil opérationnel de dégivrage. Votre question n’est pas enregistrée (voir <a href="/datenschutz/#fr">confidentialité</a>).</p>
+    </div></details>
+    <details><summary>Une erreur ou une suggestion ?</summary><div class="a">
+      <p>Écrivez à <a href="mailto:info@emb500.de">info@emb500.de</a>. Chaque message est lu.</p>
+    </div></details>
+  </article>
+
+  <!-- ========================= ESPAÑOL ========================= -->
+  <article id="es" lang="es" hidden>
+    <h2>La aplicación</h2>
+    <details><summary>¿Qué es HOT-Rechner?</summary><div class="a">
+      <p>Una aplicación para pilotos que muestra el tiempo máximo de eficacia (holdover time) tras el deshielo sin hojear tablas: elegir el fluido, cargar el tiempo por METAR o introducirlo a mano, leer el resultado. Un temporizador corre desde el inicio de la aplicación del fluido y avisa en el límite inferior y superior, también en la pantalla de bloqueo.</p>
+      <p>Desarrollada por Guido Marhenke (GMA Aviation Services), piloto él mismo.</p>
+    </div></details>
+    <details><summary>¿De dónde salen los valores?</summary><div class="a">
+      <p>De las <strong>FAA Holdover Time Guidelines Winter 2026-2027</strong> (51 tablas: Type I, II, III y IV, genéricas y por producto, escarcha, gránulos de hielo, allowance times, Appendix A) y, para tiempos de nieve por grado, de los <strong>DSHOT de Transport Canada</strong>.</p>
+      <p>La aplicación no usa ningún modelo propio. Cada valor mostrado es un valor publicado y se puede comparar directamente con la tabla original.</p>
+    </div></details>
+    <details><summary>¿Cómo se comprueban las tablas?</summary><div class="a">
+      <p>Ningún valor se teclea a mano. Las tablas se leen automáticamente de la publicación oficial y se contrastan con un segundo procedimiento independiente. Más de 370 000 casos de prueba automáticos comparan el motor de cálculo con una referencia independiente; las versiones de iPhone y Android pasan las mismas pruebas. Una versión que falla una prueba no se publica.</p>
+    </div></details>
+    <details><summary>¿Está certificada o aprobada la aplicación?</summary><div class="a">
+      <p>No, y eso vale para cualquier aplicación de holdover time: no existe certificación para ellas en la FAA, Transport Canada ni la EASA. Lo que se aprueba es el programa de deshielo del operador; una aplicación puede incluirse en él como ayuda. Los operadores encontrarán una <a href="/operators/">ficha informativa</a> (en inglés).</p>
+    </div></details>
+    <details><summary>¿Vale también en Europa?</summary><div class="a">
+      <p>Sí. La EASA no publica tablas propias y remite a las directrices de la FAA y de Transport Canada (EASA Safety Information Bulletin 2025-09). Siempre prevalece el procedimiento de deshielo del manual de operaciones de su operador.</p>
+    </div></details>
+    <details><summary>¿Sustituye la aplicación a las tablas originales?</summary><div class="a">
+      <p>No. Es una ayuda de cálculo. Prevalecen las directrices oficiales y los procedimientos de su operador. Los holdover times son estimaciones; la comprobación antes del despegue sigue siendo obligatoria y la decisión de despegar corresponde al piloto al mando.</p>
+    </div></details>
+
+    <h2>Gratis y Pro</h2>
+    <details><summary>¿Cuánto cuesta la aplicación?</summary><div class="a">
+      <p>Descargarla y usarla es gratis. Todo lo relevante para la seguridad sigue gratis para siempre:</p>
+      <ul><li>tablas genéricas Type I, II y IV y Appendix A para fluidos genéricos</li><li>avisos de LOUT</li><li>temporizador con alarma y cuenta atrás en la pantalla de bloqueo</li><li>METAR e intensidad de nieve</li><li>comprobación de mezcla Type I</li></ul>
+      <p>La suscripción <strong>Pro</strong> añade más. La aplicación y la App Store o Google Play muestran los precios actuales.</p>
+    </div></details>
+    <details><summary>¿Qué incluye Pro?</summary><div class="a">
+      <ul><li>todos los productos de marca Type II, III y IV</li><li>DSHOT de Transport Canada</li><li>registro de deshielo con exportación PDF</li><li>aplicación de reloj para Galaxy Watch / Wear OS</li><li>nuevas tablas FAA y TC automáticamente durante la suscripción, también revisiones a mitad de temporada</li></ul>
+    </div></details>
+    <details><summary>¿Las actualizaciones son gratuitas?</summary><div class="a">
+      <p>Sí. La aplicación y todas sus actualizaciones siguen siendo gratuitas para siempre. Todos reciben las tablas genéricas (Type I, II, IV) con las actualizaciones. La suscripción cubre todas las actualizaciones de las tablas FAA y TC publicadas mientras está activa, tanto nuevas ediciones de temporada como revisiones a mitad de temporada. Los fluidos de marca solo se pueden usar con una suscripción activa.</p>
+    </div></details>
+    <details><summary>¿Cómo cancelo Pro?</summary><div class="a">
+      <p>En cualquier momento en los ajustes de suscripción de la App Store (iPhone) o de Google Play (Android). La suscripción se renueva automáticamente si no se cancela al menos 24 horas antes de que termine.</p>
+    </div></details>
+    <details><summary>Móvil nuevo: ¿pierdo Pro?</summary><div class="a">
+      <p>No. Toque «Restaurar compra» en la aplicación, con la misma cuenta de Apple o Google con la que compró.</p>
+    </div></details>
+    <details><summary>¿Hay licencias para operadores?</summary><div class="a">
+      <p>Sí. Las empresas pueden obtener Pro para varios pilotos con factura; los pilotos lo activan con un código de empresa, sin suscripción propia. Escriba a <a href="mailto:info@emb500.de">info@emb500.de</a>.</p>
+    </div></details>
+
+    <h2>Dispositivos y uso</h2>
+    <details><summary>¿En qué dispositivos funciona la aplicación?</summary><div class="a">
+      <ul><li><strong>iPhone</strong> con iOS 16 o posterior: en la <a href="https://apps.apple.com/app/id6833049278" target="_blank" rel="noopener">App Store</a></li><li><strong>Android</strong> 8 o posterior: de momento en beta en Google Play, <a href="/beta/">inscripción aquí</a></li><li><strong>Galaxy Watch / Wear OS</strong>: aplicación de reloj (Pro), necesita la aplicación Android en el móvil</li></ul>
+      <p>Idiomas: alemán, inglés, francés, español. Temperatura en °C o °F.</p>
+    </div></details>
+    <details><summary>¿Cómo me hago probador beta de Android?</summary><div class="a">
+      <p>En tres pasos en la <a href="/beta/">página beta</a>, unos dos minutos. Por favor, siga inscrito 14 días, porque Google solo publica la aplicación después. Como agradecimiento recibe un código de Pro para toda la temporada de invierno 2026/27.</p>
+    </div></details>
+    <details><summary>¿Funciona sin conexión?</summary><div class="a">
+      <p>Sí. Todas las tablas están guardadas en la aplicación. Solo el METAR necesita conexión; sin red, introduzca temperatura, visibilidad y precipitación a mano.</p>
+    </div></details>
+    <details><summary>¿Qué pasa cuando la FAA publica tablas nuevas?</summary><div class="a">
+      <p>La FAA publica nuevas directrices cada año en agosto. Cuando sale una edición más reciente, la aplicación lo avisa a todos los usuarios. Con Pro descarga las tablas nuevas automáticamente, comprueba firma y autotest y solo entonces las usa. Al terminar una temporada muestra «Tablas CADUCADAS»; entonces deje de usarla en operación y actualícela.</p>
+    </div></details>
+    <details><summary>¿Qué es DSHOT y puedo usarlo?</summary><div class="a">
+      <p>Los DSHOT son los holdover times por grado de Transport Canada para nieve (Pro). Solo pueden usarse si su operador tiene una aprobación de su autoridad y los valores figuran en el manual de operaciones. Si no, rigen los tiempos de la FAA.</p>
+    </div></details>
+    <details><summary>¿Dónde está el manual?</summary><div class="a">
+      <p>En el <a href="/anleitung/#es">manual de uso</a> (español, alemán, inglés, francés).</p>
+    </div></details>
+
+    <h2>Privacidad y contacto</h2>
+    <details><summary>¿Qué datos recoge la aplicación?</summary><div class="a">
+      <p>Sin cuenta, sin publicidad, sin seguimiento. Los ajustes y el registro de deshielo se quedan en su dispositivo. Para el METAR solo se envían códigos OACI a aviationweather.gov; la ubicación (opcional) solo se compara con la lista de aeropuertos en el dispositivo. Detalles en la <a href="/datenschutz/#es">política de privacidad</a>.</p>
+    </div></details>
+    <details><summary>¿Quién responde a las preguntas del asistente de abajo?</summary><div class="a">
+      <p>Un modelo de lenguaje (IA) basado en las respuestas de esta página. Puede equivocarse. No da holdover times ni consejos operativos de deshielo. Su pregunta no se guarda (véase <a href="/datenschutz/#es">privacidad</a>).</p>
+    </div></details>
+    <details><summary>¿Ha encontrado un error o tiene una sugerencia?</summary><div class="a">
+      <p>Escriba a <a href="mailto:info@emb500.de">info@emb500.de</a>. Se lee cada mensaje.</p>
+    </div></details>
+  </article>
+
+  <!-- ========================= ASSISTANT ========================= -->
+  <section id="assistent" aria-labelledby="ask-h">
+    <h2 id="ask-h">Frage an den KI-Assistenten</h2>
+    <p class="hint" id="ask-hint">Fragen zur App, zu Pro, zu Geräten oder Datenschutz. Der Assistent antwortet aus den Informationen dieser Seite und kann sich irren. Er nennt keine Holdover Times.</p>
+    <div class="log" id="log" aria-live="polite"></div>
+    <form class="askf" id="askf">
+      <textarea id="q" name="q" aria-labelledby="ask-h" rows="2" maxlength="500" placeholder="z. B. Funktioniert die App ohne Internet?" required></textarea>
+      <button type="submit" id="send">Senden</button>
+    </form>
+    <p class="small" id="ask-privacy">Ihre Frage wird zur Beantwortung an Cloudflare Workers AI übertragen und nicht gespeichert. Bitte keine persönlichen Daten eingeben. <a href="/datenschutz/">Datenschutz</a></p>
+  </section>
+
+  <footer>
+    <p>GMA Aviation Services · Guido Marhenke · <a href="mailto:info@emb500.de">info@emb500.de</a> · <a href="/anleitung/">Anleitung</a> · <a href="/datenschutz/">Datenschutz</a> · <a href="/nutzungsbedingungen/">Nutzungsbedingungen</a></p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var langs=["de","en","fr","es"];
+  var T={
+    de:{t:"Häufige Fragen",d:"HOT-Rechner – Häufige Fragen",lede:"Antworten rund um den HOT-Rechner. Ihre Frage ist nicht dabei? Unten beantwortet ein KI-Assistent weitere Fragen zur App.",ask:"Fragen",h:"Frage an den KI-Assistenten",hint:"Fragen zur App, zu Pro, zu Geräten oder Datenschutz. Der Assistent antwortet aus den Informationen dieser Seite und kann sich irren. Er nennt keine Holdover Times.",ph:"z. B. Funktioniert die App ohne Internet?",send:"Senden",wait:"Einen Moment …",err:"Der Assistent ist gerade nicht erreichbar. Bitte schreiben Sie an info@emb500.de.",busy:"Zu viele Fragen in kurzer Zeit. Bitte in einer Minute noch einmal versuchen.",priv:"Ihre Frage wird zur Beantwortung an Cloudflare Workers AI übertragen und nicht gespeichert. Bitte keine persönlichen Daten eingeben. ",pl:"Datenschutz",dp:"/datenschutz/"},
+    en:{t:"Frequently asked questions",d:"HOT Calculator – FAQ",lede:"Answers about the HOT Calculator. Your question is not here? An AI assistant below answers further questions about the app.",ask:"Ask",h:"Ask the AI assistant",hint:"Questions about the app, Pro, devices or privacy. The assistant answers from the information on this page and can be wrong. It gives no holdover times.",ph:"e.g. Does the app work offline?",send:"Send",wait:"One moment …",err:"The assistant is not available right now. Please write to info@emb500.de.",busy:"Too many questions in a short time. Please try again in a minute.",priv:"Your question is sent to Cloudflare Workers AI to be answered and is not stored. Please do not enter personal data. ",pl:"Privacy",dp:"/datenschutz/#en"},
+    fr:{t:"Questions fréquentes",d:"HOT-Rechner – Questions fréquentes",lede:"Réponses sur le HOT-Rechner. Votre question n’y est pas ? Un assistant IA répond plus bas à d’autres questions sur l’application.",ask:"Demander",h:"Poser une question à l’assistant IA",hint:"Questions sur l’application, Pro, les appareils ou la confidentialité. L’assistant répond à partir des informations de cette page et peut se tromper. Il ne donne aucune holdover time.",ph:"p. ex. L’application fonctionne-t-elle hors ligne ?",send:"Envoyer",wait:"Un instant …",err:"L’assistant n’est pas disponible pour le moment. Écrivez à info@emb500.de.",busy:"Trop de questions en peu de temps. Réessayez dans une minute.",priv:"Votre question est transmise à Cloudflare Workers AI pour y répondre et n’est pas enregistrée. N’indiquez pas de données personnelles. ",pl:"Confidentialité",dp:"/datenschutz/#fr"},
+    es:{t:"Preguntas frecuentes",d:"HOT-Rechner – Preguntas frecuentes",lede:"Respuestas sobre HOT-Rechner. ¿No está su pregunta? Abajo, un asistente de IA responde a otras preguntas sobre la aplicación.",ask:"Preguntar",h:"Pregunte al asistente de IA",hint:"Preguntas sobre la aplicación, Pro, dispositivos o privacidad. El asistente responde con la información de esta página y puede equivocarse. No da holdover times.",ph:"p. ej. ¿Funciona la aplicación sin conexión?",send:"Enviar",wait:"Un momento …",err:"El asistente no está disponible ahora. Escriba a info@emb500.de.",busy:"Demasiadas preguntas en poco tiempo. Inténtelo de nuevo en un minuto.",priv:"Su pregunta se envía a Cloudflare Workers AI para responderla y no se guarda. No introduzca datos personales. ",pl:"Privacidad",dp:"/datenschutz/#es"}
+  };
+  var cur="de";
+  function $(id){return document.getElementById(id)}
+  function show(){
+    var h=(location.hash||"").slice(1);
+    if(h==="assistent"){h=cur;}
+    else if(langs.indexOf(h)<0){
+      var n=(navigator.language||"de").slice(0,2).toLowerCase();
+      h=langs.indexOf(n)>=0?n:"de";
+    }
+    cur=h; var t=T[h];
+    langs.forEach(function(l){
+      $(l).hidden=(l!==h);
+      document.querySelector('nav.lang a[data-l="'+l+'"]').setAttribute("aria-current",l===h?"true":"false");
+    });
+    document.documentElement.lang=h; document.title=t.d;
+    $("title").textContent=t.t; $("lede").textContent=t.lede; $("asklink").textContent=t.ask;
+    $("ask-h").textContent=t.h; $("ask-hint").textContent=t.hint; $("q").placeholder=t.ph; $("send").textContent=t.send;
+    var p=$("ask-privacy"); p.textContent=t.priv; var a=document.createElement("a"); a.href=t.dp; a.textContent=t.pl; p.appendChild(a);
+  }
+  window.addEventListener("hashchange",show); show();
+
+  // Assistant: stateless; the last few turns go along so follow-up questions work.
+  // hot.emb500.de is plain Cloudflare Pages; the assistant runs in the worker on workers.dev.
+  var API=/workers\.dev$/.test(location.hostname)?"/api/ask":"https://hot-rechner.guido-marhenke.workers.dev/api/ask";
+  var hist=[], log=$("log"), form=$("askf"), q=$("q"), btn=$("send");
+  function add(cls,text){var d=document.createElement("div");d.className="msg "+cls;d.textContent=text;log.appendChild(d);return d}
+  q.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit?form.requestSubmit():form.submit()}});
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var text=q.value.trim(); if(!text||btn.disabled)return;
+    add("q",text); q.value=""; btn.disabled=true;
+    var w=add("r wait",T[cur].wait);
+    fetch(API,{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({lang:cur,question:text,history:hist.slice(-6)})})
+    .then(function(r){return r.json().then(function(j){return{s:r.status,j:j}})})
+    .then(function(x){
+      if(x.s===200&&x.j.answer){w.className="msg r";w.textContent=x.j.answer;
+        hist.push({role:"user",content:text},{role:"assistant",content:x.j.answer});}
+      else{w.className="msg r err";w.textContent=x.s===429?T[cur].busy:T[cur].err}
+    })
+    .catch(function(){w.className="msg r err";w.textContent=T[cur].err})
+    .then(function(){btn.disabled=false;q.focus()});
+  });
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "47ca10a6637b43abb8ad7bc5973527b3"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

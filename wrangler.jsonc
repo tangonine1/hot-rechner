@@ -1,5 +1,6 @@
 // Cloudflare Worker for hot.emb500.de: static pages in ./public, plus the device counter of the
-// company version (src/worker.js, only for /api/*; KV namespace "hot-fleet").
+// company version (src/worker.js, only for /api/*; KV namespace "hot-fleet") and the FAQ assistant
+// (src/ask.js, /api/ask: Workers AI, rate limit 10 questions per minute and IP).
 // Logs and traces are off on purpose: the privacy policy promises no request logging.
 {
   "name": "hot-rechner",
@@ -10,6 +11,10 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"]
   },
+  "ai": { "binding": "AI" },
+  "ratelimits": [
+    { "name": "ASK_LIMIT", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } }
+  ],
   "kv_namespaces": [
     { "binding": "FLEET", "id": "7b3f71439fc741d3b085777533817137" }
   ],
