@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>HOT-Rechner – Kostenvergleich nach Konzentration</title>
-<meta name="description" content="Was kostet die Enteisung mit 100/0, 75/25 oder 50/50? Kleiner Rechner für Flugbetriebe – mit dem Hinweis, dass die Konzentration nach OAT, LOUT und Holdover Time gewählt wird, nicht nach dem Preis.">
+<title>HOT-Rechner – 100/0, 75/25, 50/50 im Vergleich</title>
+<meta name="description" content="Holdover Time und Kosten für 100/0, 75/25 und 50/50 nebeneinander – direkt aus den FAA HOT Guidelines Winter 2026-2027. Welche Mischung reicht für die erwartete Rollzeit, und was spart sie?">
 <style>
 :root{
   color-scheme:dark;
@@ -51,6 +51,28 @@ p{margin:0 0 14px}
 .mix .cost{font:800 1.45rem/1 var(--f-display);text-align:right;align-self:center}
 .mix .sub{color:var(--soft);font-size:14.5px}
 .mix .diff{color:var(--soft);font-size:14.5px;text-align:right}
+.panel h2{font:700 1.05rem/1.2 var(--f-display);margin:0 0 6px}
+.row select{max-width:62%;background:var(--night);color:var(--ink);border:1px solid var(--line);border-radius:8px;
+  font:500 15px/1.3 var(--f-body);padding:9px 10px}
+.row select:focus-visible{outline:2px solid var(--flood);outline-offset:3px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px}
+.card.best{border-color:var(--t4);box-shadow:0 0 0 1px var(--t4) inset}
+.card .ratio{font:600 13px/1 var(--f-mono);letter-spacing:.08em;color:var(--flood)}
+.card .hot{font:800 1.6rem/1.1 var(--f-display);font-variant-numeric:tabular-nums}
+.card .hot small{display:block;font:500 12.5px/1.3 var(--f-body);color:var(--soft);margin-top:2px}
+.card .nohot{font:700 1rem/1.3 var(--f-display);color:var(--t1)}
+.card .meta{font-size:13.5px;color:var(--soft)}
+.card .cost{font:800 1.25rem/1 var(--f-display);margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+.card .diff{font-size:13.5px;color:var(--soft)}
+.badge{display:inline-block;font:600 12.5px/1.25 var(--f-body);border-radius:6px;padding:4px 7px}
+.badge.ok{background:#173a2a;color:#9fe3bf}.badge.part{background:#3a3417;color:#f1e08f}.badge.no{background:#3e2116;color:#f7b48a}
+.verdict{background:var(--apron);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 10px;font-size:15.5px}
+.src{font-size:13px;color:var(--soft);margin:6px 0 0}
+.fn{font-size:13px;color:var(--soft);margin:4px 0 0}
+details.mixd{margin:14px 0}
+details.mixd summary{cursor:pointer;color:var(--soft);font-size:15px}
+@media (max-width:700px){.grid3{grid-template-columns:1fr}.row select{max-width:66%}}
 footer{margin-top:50px;border-top:1px solid var(--line);padding-block:24px 40px;font-size:14px;color:var(--soft)}
 footer p{margin:0 0 6px}
 @media (max-width:560px){.bar nav{display:none}}
@@ -68,23 +90,53 @@ footer p{margin:0 0 6px}
   </header>
 
   <main>
-    <div class="kicker">Für Flugbetriebe · Type II / IV</div>
-    <h1>Was kostet die Mischung?</h1>
-    <p class="lede">Kosten einer Enteisung mit 100/0, 75/25 und 50/50 im Vergleich – mit Ihren eigenen Preisen.</p>
+    <div class="kicker">Für Flugbetriebe · Type II / III / IV</div>
+    <h1>Welche Mischung reicht – und was kostet sie?</h1>
+    <p class="lede">Holdover Time und Kosten für 100/0, 75/25 und 50/50 nebeneinander, für dieselben Bedingungen. Die Zeiten stammen unverändert aus den FAA HOT Guidelines; was die Tabelle nicht angibt, wird nicht geschätzt.</p>
 
     <div class="warn"><strong>Die Konzentration richtet sich nach OAT, LOUT und benötigter Holdover Time – nicht nach dem Preis.</strong>
-      Verdünnte Mischungen haben kürzere Holdover Times und eine höhere LOUT; 50/50 ist bei Kälte oder starkem Niederschlag oft nicht zulässig.
-      Der Vergleich gilt für Type II und IV; Type I wird nach Gefrierpunkt-Puffer gemischt. Maßgeblich sind die Guidelines und das De-Icing-Programm des Betreibers.</div>
+      Verdünnte Mischungen haben meist kürzere Holdover Times und eine höhere LOUT; 50/50 ist bei Kälte oft nicht zulässig.
+      Type I wird nach Gefrierpunkt-Puffer gemischt und ist hier nicht enthalten. Maßgeblich sind die Guidelines, der Pilot und das De-Icing-Programm des Betreibers.</div>
 
     <div class="panel">
-      <div class="row"><label for="pf">Preis Enteisungsmittel (Konzentrat)</label><div class="in"><input id="pf" type="number" inputmode="decimal" min="0" step="0.1" value="8.31"><span>€/L</span></div></div>
-      <div class="row"><label for="pw">Preis Wasser<br><small style="font-size:13px">inkl. Entsorgung</small></label><div class="in"><input id="pw" type="number" inputmode="decimal" min="0" step="0.01" value="0.68"><span>€/L</span></div></div>
-      <div class="row"><label for="vol">Menge der fertigen Mischung</label><div class="in"><input id="vol" type="number" inputmode="decimal" min="1" step="10" value="450"><span>L</span></div></div>
-      <p class="est">Vorbelegt: Schätzung für ein Geschäftsreiseflugzeug. Tragen Sie Ihre eigenen Preise und Mengen ein.</p>
+      <h2>Bedingungen</h2>
+      <div class="row"><label for="ftype">Fluid-Typ</label><select id="ftype"><option value="2">Type II</option><option value="3">Type III</option><option value="4" selected>Type IV</option></select></div>
+      <div class="row"><label for="fluid">Fluid (FAA-Tabelle)</label><select id="fluid"></select></div>
+      <div class="row" id="catrow"><label for="cat">Flugzeugkategorie<br><small style="font-size:13px">für die LOUT</small></label><select id="cat"><option value="high" selected>High speed</option><option value="middle">Middle speed</option><option value="low">Low speed</option></select></div>
+      <div class="row"><label for="oat">Außentemperatur (OAT)</label><div class="in"><input id="oat" type="number" inputmode="decimal" step="1" value="-5"><span>°C</span></div></div>
+      <div class="row"><label for="cond">Niederschlag</label><select id="cond">
+        <option value="freezing_fog">Gefrierender Nebel / Eiskristalle</option>
+        <option value="snow_freezing_fog">Schnee mit gefrierendem Nebel</option>
+        <option value="snow_very_light">Schnee – sehr leicht</option>
+        <option value="snow_light" selected>Schnee – leicht</option>
+        <option value="snow_moderate">Schnee – mäßig</option>
+        <option value="snow_heavy">Schnee – stark</option>
+        <option value="freezing_drizzle">Gefrierender Nieselregen</option>
+        <option value="light_freezing_rain">Leichter gefrierender Regen</option>
+        <option value="freezing_rain_moderate_heavy">Mäßiger / starker gefrierender Regen</option>
+        <option value="snow_rain_moderate">Schnee mit Regen/Niesel, mäßig (über 0 °C)</option>
+        <option value="rain_cold_soaked">Regen auf kaltdurchtränktem Flügel (über 0 °C)</option>
+      </select></div>
+      <div class="row"><label for="need">Benötigte Zeit bis zum Start<br><small style="font-size:13px">z. B. erwartete Rollzeit, freiwillig</small></label><div class="in"><input id="need" type="number" inputmode="numeric" min="0" step="5" value="30" placeholder="–"><span>Min</span></div></div>
+      <p class="est">Schneeintensität nach Sichtweite: FAA Table 57. Flugzeugkategorie laut Flugzeughersteller bzw. De-Icing-Programm.</p>
     </div>
 
-    <div id="out" aria-live="polite"></div>
-    <p class="lede" style="font-size:15px">Mit dem <a href="/">HOT-Rechner</a> sehen Sie für jede Konzentration sofort die Holdover Time und die LOUT – so lässt sich prüfen, ob die günstigere Mischung im konkreten Fall überhaupt zulässig ist.</p>
+    <div id="verdict" class="verdict" aria-live="polite" hidden></div>
+    <div id="out" class="grid3" aria-live="polite"><p class="est">Tabellen werden geladen …</p></div>
+    <p id="src" class="src"></p>
+    <div id="fns"></div>
+
+    <details class="mixd" id="prices">
+      <summary>Preise und Menge anpassen</summary>
+      <div class="panel">
+        <div class="row"><label for="pf">Preis Enteisungsmittel (Konzentrat)</label><div class="in"><input id="pf" type="number" inputmode="decimal" min="0" step="0.1" value="8.31"><span>€/L</span></div></div>
+        <div class="row"><label for="pw">Preis Wasser<br><small style="font-size:13px">inkl. Entsorgung</small></label><div class="in"><input id="pw" type="number" inputmode="decimal" min="0" step="0.01" value="0.68"><span>€/L</span></div></div>
+        <div class="row"><label for="vol">Menge der fertigen Mischung</label><div class="in"><input id="vol" type="number" inputmode="decimal" min="1" step="10" value="450"><span>L</span></div></div>
+        <p class="est">Vorbelegt: Schätzung für ein Geschäftsreiseflugzeug. Tragen Sie Ihre eigenen Preise und Mengen ein.</p>
+      </div>
+    </details>
+
+    <p class="lede" style="font-size:15px">Im Einsatz zeigt die App <a href="/">HOT-Rechner</a> dieselben Werte mit Timer, METAR, Table 57, Allowance Times und LOUT-Warnungen. Diese Seite ist eine Planungshilfe und ersetzt nicht die Prüfung vor dem Start.</p>
   </main>
 
   <footer>
@@ -92,28 +144,129 @@ footer p{margin:0 0 6px}
     <p><a href="/">Start</a> · <a href="/flugbetriebe/">Für Flugbetriebe</a> · <a href="/datenschutz/">Datenschutzerklärung</a> · <a href="/nutzungsbedingungen/">Nutzungsbedingungen</a> · Rechnet nur in Ihrem Browser, es werden keine Eingaben übertragen.</p>
   </footer>
 </div>
+<script src="/js/hot-engine.js"></script>
 <script>
+'use strict';
 const $ = id => document.getElementById(id);
-const num = id => { const v = parseFloat(String($(id).value).replace(',', '.')); return isFinite(v) && v >= 0 ? v : 0; };
+const num = (id, def) => { const v = parseFloat(String($(id).value).replace(',', '.')); return isFinite(v) ? v : def; };
 const eur = n => n.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
 const lit = n => n.toLocaleString('de-DE', { maximumFractionDigits: 1 }) + ' L';
+const deg = v => (v < 0 ? '−' + String(-v) : String(v)).replace('.', ',') + ' °C';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const CONCS = ['100/0', '75/25', '50/50'];
+const NO_HOT_TEXT = {
+  CONCENTRATION_NOT_ALLOWED: 'Keine HOT in der FAA-Tabelle – diese Mischung ist bei dieser OAT nicht aufgeführt',
+  NOT_AVAILABLE: 'Keine HOT in der FAA-Tabelle (Tabelle: N/A)',
+  NO_HOT_CONDITION: 'Für diesen Niederschlag gibt es keine HOT',
+  NO_HOT_AT_OR_BELOW_ZERO: 'Keine HOT bei 0 °C und darunter',
+  OAT_OUT_OF_RANGE: 'OAT außerhalb der Tabelle – keine HOT',
+  NO_HOT_BELOW_MINUS_10: 'Keine HOT unter −10 °C (Fußnote der Tabelle)',
+  OAT_BELOW_LOUT: 'OAT unter der LOUT – Mischung nicht zulässig'
+};
+let DATA = null, FLUIDS = {};
+
+function fillFluids(keep) {
+  const t = +$('ftype').value;
+  const list = DATA.fluids.filter(f => f.type === t);
+  $('fluid').innerHTML = list.map(f =>
+    `<option value="${f.id}">${f.generic ? 'Generisch' : esc(f.name)} (Tab. ${f.table})</option>`).join('');
+  if (keep && list.some(f => f.id === keep)) $('fluid').value = keep;
+  $('catrow').hidden = t === 3;   // Type III: eigene Tabelle je Kategorie
+}
+
 function calc() {
-  const pf = num('pf'), pw = num('pw'), vol = num('vol') || 450;
-  const mixes = [100, 75, 50].map(p => {
-    const f = vol * p / 100, w = vol - f;
-    return { p, f, w, cost: f * pf + w * pw };
+  if (!DATA) return;
+  const f = FLUIDS[$('fluid').value];
+  const oat = num('oat', NaN), cond = $('cond').value;
+  const needRaw = String($('need').value).trim(), need = needRaw === '' ? null : Math.max(0, num('need', 0));
+  const cat = f.type === 3 ? (f.ramp_speed || 'high') : $('cat').value;
+  const pf = Math.max(0, num('pf', 0)), pw = Math.max(0, num('pw', 0)), vol = Math.max(1, num('vol', 450));
+  if (!isFinite(oat)) { $('out').innerHTML = '<p class="est">Bitte eine Außentemperatur eingeben.</p>'; $('verdict').hidden = true; return; }
+
+  const res = CONCS.map(conc => {
+    const p = parseInt(conc, 10), fl = vol * p / 100, w = vol - fl;
+    return { conc, p, fl, w, cost: fl * pf + w * pw, r: HotEngine.hot(f, conc, oat, cond, { category: cat }) };
   });
-  const base = mixes[0].cost;
-  $('out').innerHTML = mixes.map(m => {
+  const base = res[0].cost;
+  // günstigste Mischung, deren UNTERER Tabellenwert die benötigte Zeit abdeckt
+  let best = null;
+  if (need != null) for (const m of res) if (m.r.status === 'OK' && m.r.min >= need && (!best || m.cost < best.cost)) best = m;
+
+  const notes = new Map();
+  $('out').innerHTML = res.map(m => {
+    const r = m.r;
+    let hot, badge = '', meta = '';
+    if (r.status === 'OK') {
+      hot = `<div class="hot">${HotEngine.fmt(r.min)} – ${HotEngine.fmt(r.max)}<small>h:min · FAA-Tabellenwert</small></div>`;
+      if (r.note != null) { notes.set(r.note, r.noteText); hot += `<div class="meta">Fußnote ${r.note}</div>`; }
+      if (r.genericSnowColumn) meta += '<div class="meta">Tabelle hat nur eine Schnee-Spalte</div>';
+      if (need != null) {
+        if (r.min >= need) badge = `<span class="badge ok">${need} Min auch am unteren Wert gedeckt</span>`;
+        else if (r.max >= need) badge = `<span class="badge part">${need} Min nur am oberen Wert gedeckt</span>`;
+        else badge = `<span class="badge no">${need} Min nicht gedeckt</span>`;
+      }
+    } else {
+      hot = `<div class="nohot">${NO_HOT_TEXT[r.status] || 'Keine HOT in der FAA-Tabelle'}</div>`;
+    }
+    if (r.lout != null) meta += `<div class="meta">LOUT ${deg(r.lout)}</div>`;
+    else if (r.loutNotTested) meta += '<div class="meta">LOUT für diese Kategorie nicht getestet</div>';
+    else if (f.generic && f.type !== 3) meta += '<div class="meta">LOUT: Herstellerangabe des Fluids beachten</div>';
     const d = base - m.cost;
     const diff = m.p === 100 ? 'Bezug' : (d > 0.005 ? eur(d) + ' weniger als 100/0' : d < -0.005 ? eur(-d) + ' mehr als 100/0' : 'gleich wie 100/0');
-    return `<div class="mix"><div><div class="ratio">${m.p}/${100 - m.p}</div><b>${m.p} % Fluid · ${100 - m.p} % Wasser</b></div>
-      <div class="cost">${eur(m.cost)}</div>
-      <div class="sub">${lit(m.f)} Konzentrat + ${lit(m.w)} Wasser</div><div class="diff">${diff}</div></div>`;
+    return `<div class="card${best === m ? ' best' : ''}"><div class="ratio">${m.conc} · ${m.p} % Fluid</div>${hot}${badge}${meta}
+      <div class="cost">${eur(m.cost)}</div><div class="diff">${diff}</div><div class="meta">${lit(m.fl)} Konzentrat + ${lit(m.w)} Wasser</div></div>`;
   }).join('');
+
+  const v = $('verdict');
+  if (need == null) v.hidden = true;
+  else {
+    v.hidden = false;
+    v.innerHTML = best
+      ? `<strong>${best.conc}</strong> ist die günstigste Mischung, deren unterer Tabellenwert ${need} Min abdeckt` +
+        (best.p < 100 ? ` – ${eur(base - best.cost)} weniger als 100/0 bei ${lit(vol)}.` : '.')
+      : `Keine Mischung deckt ${need} Min am unteren Tabellenwert ab.`;
+  }
+
+  const row = (res.find(m => m.r.row) || {}).r;
+  const s = DATA.source;
+  $('src').innerHTML = `Quelle: ${esc(s.document)}, ${esc(s.issue)} (${esc(s.issue_date)}), Tabelle ${f.table}, Seite ${f.page}` +
+    (row && row.row ? ` · Zeile „${esc(row.row.oat_label.replace(/\s+/g, ' '))}“` : '') + '.';
+  $('fns').innerHTML = [...notes].map(([n, t]) => `<p class="fn">Fußnote ${n}: ${esc(t)}</p>`).join('');
+
+  const q = new URLSearchParams({ fluid: f.id, oat: String(oat), cond, cat: $('cat').value });
+  if (need != null) q.set('t', String(need));
+  try { history.replaceState(null, '', '?' + q); } catch (e) {}
 }
-['pf', 'pw', 'vol'].forEach(id => $(id).addEventListener('input', calc));
-calc();
+
+async function load() {
+  try {
+    const man = await (await fetch('/data/faa.json', { cache: 'no-cache' })).json();
+    const url = new URL(man.package.url).pathname;
+    const buf = await (await fetch(url)).arrayBuffer();
+    const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))].map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hash !== man.package.sha256) throw new Error('Prüfsumme der Tabellen stimmt nicht');
+    DATA = JSON.parse(new TextDecoder().decode(buf));
+    DATA.fluids = DATA.fluids.filter(f => f.type >= 2);
+    for (const f of DATA.fluids) FLUIDS[f.id] = f;
+  } catch (e) {
+    $('out').innerHTML = `<p class="est">Die FAA-Tabellen konnten nicht geladen werden (${esc(e.message)}). Es werden keine Zeiten angezeigt.</p>`;
+    return;
+  }
+  const q = new URLSearchParams(location.search);
+  const qf = FLUIDS[q.get('fluid')];
+  $('ftype').value = String(qf ? qf.type : 4);
+  fillFluids(qf ? qf.id : 't4_33');
+  if (q.has('oat')) $('oat').value = q.get('oat');
+  if (q.has('cond') && [...$('cond').options].some(o => o.value === q.get('cond'))) $('cond').value = q.get('cond');
+  if (['high', 'middle', 'low'].includes(q.get('cat'))) $('cat').value = q.get('cat');
+  if (q.has('t')) $('need').value = q.get('t');
+  calc();
+}
+
+$('ftype').addEventListener('change', () => { fillFluids(); calc(); });
+['fluid', 'cat', 'cond'].forEach(id => $(id).addEventListener('change', calc));
+['oat', 'need', 'pf', 'pw', 'vol'].forEach(id => $(id).addEventListener('input', calc));
+load();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "47ca10a6637b43abb8ad7bc5973527b3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
