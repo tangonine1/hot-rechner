@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOT-Rechner – Übung</title>
+<meta name="description" content="HOT-Rechner zum Üben: die Rechnung der App im Browser, mit allen Funktionen. Nur zur Übung, nicht für den Flugbetrieb.">
+<meta name="robots" content="noindex">
+<style>
+/* Same night-ramp look as the other pages. The page needs JS: it loads the signed data package named in
+   /data/faa.json (the same one the apps download), checks its SHA-256 and runs the self-test sample inside it
+   with engine.js before anything is calculated. Texts come from the app (texts.js, tools/uebung_texts.py). */
+:root{
+  color-scheme:dark;
+  --night:#0a131c; --apron:#101c28; --panel:#132232; --line:#223447; --line2:#30475e;
+  --ink:#e9eff5; --soft:#a9b8c6; --flood:#ffd68a;
+  --t1:#f39a3a; --t2:#e4d27a; --t3:#f2e22e; --t4:#34b277; --red:#ff6b5b; --amber:#ffb547;
+  --f-display:"Segoe UI Variable Display","Segoe UI","Roboto Flex","Helvetica Neue",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono","Roboto Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--ink);font:17px/1.5 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--flood)}
+:focus-visible{outline:2px solid var(--flood);outline-offset:2px}
+main{max-width:46rem;margin:0 auto;padding-block:20px 56px}
+header{display:flex;flex-direction:column;gap:8px;padding-block:8px 12px}
+.back{font:600 13px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none}
+.kicker{font:600 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--flood)}
+h1{font:800 clamp(1.9rem,5vw,2.8rem)/1.05 var(--f-display);letter-spacing:-.02em;margin:4px 0 0;text-wrap:balance}
+.lede{color:var(--soft);margin:6px 0 0}
+.practice{border:2px solid var(--amber);background:#2a1f0b;color:#ffe2b0;border-radius:12px;padding:12px 14px;margin:14px 0 6px;font-size:15.5px}
+.practice strong{color:#fff}
+nav.lang{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--night);display:flex;gap:4px;padding-block:10px;border-bottom:1px solid var(--line);margin:8px 0 10px;align-items:center}
+nav.lang button{font:600 13px/1 var(--f-mono);letter-spacing:.06em;color:var(--soft);padding:8px 12px;border-radius:6px;border:0;background:none;cursor:pointer}
+nav.lang button[aria-pressed="true"]{background:var(--panel);color:var(--flood);box-shadow:0 0 0 1px var(--line)}
+nav.lang .tag{margin-left:auto;font:700 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#1d1300;background:var(--amber);padding:6px 9px;border-radius:6px}
+.status{font-size:13.5px;color:var(--soft);margin:0 0 12px}
+.status.ok::before{content:"● ";color:var(--t4)}
+.status.err{color:var(--red);font-weight:600}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--apron);padding:14px 16px;margin:0 0 12px}
+.card h2{font:700 15px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--flood);margin:0 0 12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+.row:last-child{margin-bottom:0}
+.lbl{font-size:14px;color:var(--soft);font-weight:600;margin:0 0 6px;display:block}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 12px}
+.chip{font:600 15px/1.15 var(--f-body);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;min-height:44px;text-align:center}
+.chip small{display:block;font-weight:500;font-size:12px;color:var(--soft);margin-top:2px}
+.chip[aria-pressed="true"]{background:#1f3a2c;border-color:var(--t4);color:#eafff3}
+.chip[aria-pressed="true"] small{color:#bfe9d0}
+.chip:disabled{opacity:.45;cursor:default}
+.grow{flex:1 1 0;min-width:0}
+input[type=text],input[type=number],select{font:17px/1.2 var(--f-body);color:var(--ink);background:var(--night);border:1px solid var(--line2);border-radius:10px;padding:11px 12px;min-height:46px;width:100%}
+select{appearance:auto}
+.oat{display:flex;gap:8px;align-items:stretch}
+.oat input{max-width:9rem;font-size:22px;font-weight:700}
+.step{min-width:46px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;cursor:pointer}
+.check input{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:var(--t4)}
+.hint{font-size:13.5px;color:var(--soft);margin:6px 0 0}
+.warn{color:var(--amber);font-weight:600}
+.bad{color:var(--red);font-weight:700}
+.good{color:var(--t4);font-weight:700}
+details.info{margin:8px 0 0;font-size:14px;color:var(--soft)}
+details.info summary{cursor:pointer;color:var(--flood);font-weight:600}
+.fpsum{cursor:pointer;list-style:none;position:relative;padding-right:28px}
+.fpsum::-webkit-details-marker{display:none}
+.fpsum::after{content:"+";position:absolute;right:0;top:-2px;font:700 20px/1 var(--f-mono);color:var(--flood)}
+#fpdet[open] .fpsum::after{content:"–"}
+#fpdet[open] .fpsum{display:block;margin-bottom:10px}
+.result{border-width:2px}
+.result.ok{border-color:var(--t4)}
+.result.no{border-color:var(--red);background:#251314}
+.sum{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px;margin:0 0 10px}
+.sum dt{color:var(--soft)}
+.sum dd{margin:0;font-weight:600}
+.big{font:800 clamp(2.4rem,9vw,3.4rem)/1.05 var(--f-display);letter-spacing:-.01em;margin:6px 0 8px;font-variant-numeric:tabular-nums}
+.nores{font:800 1.5rem/1.2 var(--f-display);color:var(--red);margin:4px 0 6px}
+.result p{margin:6px 0}
+.notes{font-size:13.5px;color:var(--soft)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font:600 12px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--soft);text-align:left;padding:6px 6px;border-bottom:1px solid var(--line)}
+td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td.t{white-space:nowrap;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+th.t{text-align:right}
+td.n{color:var(--soft);font-size:13px;white-space:nowrap}
+tr.pick{cursor:pointer}
+tr.pick:hover td{background:#14283a}
+tr.cur td{background:#1a3326}
+.cmp3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cmp3 button{display:block;text-align:center}
+.cmp3 .v{display:block;font:800 20px/1.2 var(--f-display);margin-top:4px;font-variant-numeric:tabular-nums}
+.cmp3 .s{display:block;font-size:12px;color:var(--soft);margin-top:2px;font-weight:500}
+.apps{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.apps a{display:inline-block;font-weight:700;text-decoration:none;color:#04150c;background:var(--t4);padding:11px 16px;border-radius:10px}
+.apps a.sec{background:var(--panel);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+footer{margin-top:28px;border-top:1px solid var(--line);padding-top:16px;font-size:13.5px;color:var(--soft)}
+[hidden]{display:none!important}
+.locked main .card:not(.keep){opacity:.4;pointer-events:none}
+@media (max-width:520px){.tabs .chip{font-size:14px;padding:10px 6px}.cmp3 .v{font-size:17px}}
+</style>
+</head>
+<body class="locked">
+<main>
+  <header>
+    <a class="back" href="/" data-t="back">← HOT-Rechner</a>
+    <span class="kicker" data-t="kicker">Übung · alle Funktionen frei</span>
+    <h1 data-t="h1">HOT-Rechner zum Üben</h1>
+    <p class="lede" data-t="lede"></p>
+    <p class="practice" role="note" data-th="practice_banner"></p>
+  </header>
+  <nav class="lang" aria-label="Sprache / Language">
+    <button type="button" data-l="de">DE</button><button type="button" data-l="en">EN</button><button type="button" data-l="fr">FR</button><button type="button" data-l="es">ES</button>
+    <span class="tag">Training</span>
+  </nav>
+  <p class="status" id="status" role="status" data-t="loading">Tabellen werden geladen und geprüft …</p>
+  <noscript><p class="status err">JavaScript is required.</p></noscript>
+
+  <!-- ===== Weather ===== -->
+  <section class="card">
+    <h2 data-t="weather_title"></h2>
+    <div class="tabs" role="group" id="modes">
+      <button type="button" class="chip" data-mode="precip" data-t="mode_precip"></button>
+      <button type="button" class="chip" data-mode="frost" data-t="mode_frost"></button>
+      <button type="button" class="chip" data-mode="pellets" data-t="mode_pellets"></button>
+    </div>
+    <label class="lbl" for="oat" id="oatlbl">OAT °C</label>
+    <div class="oat">
+      <button type="button" class="chip step" id="oatminus" aria-label="−1">−</button>
+      <input id="oat" type="text" inputmode="decimal" autocomplete="off" value="-2">
+      <button type="button" class="chip step" id="oatplus" aria-label="+1">+</button>
+      <button type="button" class="chip" data-unit="C">°C</button>
+      <button type="button" class="chip" data-unit="F">°F</button>
+    </div>
+    <p class="hint" id="unitnote" hidden></p>
+
+    <div id="precipbox">
+      <label class="lbl" for="cond" style="margin-top:12px" data-t="label_precip"></label>
+      <select id="cond"></select>
+      <div id="snowbox" class="card" style="margin:10px 0 0;background:var(--night)">
+        <span class="lbl" data-t="snow_helper_title"></span>
+        <div class="row">
+          <input id="vis" class="grow" type="text" inputmode="decimal" autocomplete="off" placeholder="">
+          <button type="button" class="chip" data-vis="m">m</button>
+          <button type="button" class="chip" data-vis="sm">SM</button>
+          <button type="button" class="chip" id="night"></button>
+        </div>
+        <p id="intensity" style="margin:4px 0 0;font-weight:700"></p>
+        <p class="hint" data-t="snow_helper_hint"></p>
+      </div>
+    </div>
+
+    <div id="pelletsbox" hidden>
+      <label class="lbl" for="atcond" style="margin-top:12px" data-t="label_pellets"></label>
+      <select id="atcond"></select>
+      <span class="lbl" style="margin-top:12px" data-t="rotation_label"></span>
+      <div class="row" id="rot"></div>
+    </div>
+  </section>
+
+  <!-- ===== Aircraft ===== -->
+  <section class="card">
+    <h2 data-t="card_aircraft"></h2>
+    <span class="lbl" data-t="aircraft_category"></span>
+    <div class="row" id="cats"></div>
+    <details class="info"><summary>Info</summary><p data-t="cat_hint"></p></details>
+    <span class="lbl" style="margin-top:14px" data-t="flaps_switch"></span>
+    <div class="row" id="flaps"></div>
+    <details class="info"><summary>Info</summary><p data-t="flaps_hint"></p></details>
+    <label class="check" style="margin-top:14px"><input type="checkbox" id="dshot"><span><span data-t="dshot_show"></span> <span class="hint" data-t="dshot_effect"></span></span></label>
+    <p class="hint warn" id="dshotack" hidden><span data-t="dshot_ack_title"></span>: <span data-t="dshot_ack_text"></span></p>
+  </section>
+
+  <!-- ===== Fluid ===== -->
+  <section class="card">
+    <h2 data-t="card_fluid"></h2>
+    <div class="row" id="types"><span class="lbl" style="margin:0" data-t="type"></span></div>
+    <div id="compbox">
+      <label class="check"><input type="checkbox" id="composite"><span><span data-t="composite_switch"></span><br><span class="hint" data-t="surface_effect"></span></span></label>
+    </div>
+    <div id="fluidbox">
+      <label class="lbl" for="fluid" data-t="label_fluid"></label>
+      <select id="fluid"></select>
+    </div>
+    <div id="concbox">
+      <span class="lbl" style="margin-top:12px" data-t="concentration"></span>
+      <div class="row" id="concs"></div>
+    </div>
+  </section>
+
+  <!-- ===== Freezing point check (optional) ===== -->
+  <section class="card" id="fpcard">
+    <details id="fpdet"><summary class="fpsum"><h2 id="fptitle" style="display:inline;margin:0"></h2></summary>
+    <div id="t1box">
+      <label class="lbl" for="t1prod" data-t="t1_product"></label>
+      <select id="t1prod"></select>
+      <p class="hint" id="t1info"></p>
+    </div>
+    <p id="fpmax" style="font-weight:600;margin:10px 0 6px"></p>
+    <label class="lbl" for="fp" id="fplbl"></label>
+    <input id="fp" type="text" inputmode="decimal" autocomplete="off" style="max-width:12rem">
+    <p id="fpres" style="margin:8px 0 0"></p>
+    <p class="hint" id="fphint"></p>
+    <details class="info"><summary data-t="fp_what"></summary><p data-t="fp_explain"></p></details>
+    </details>
+  </section>
+
+  <!-- ===== Result ===== -->
+  <section class="card result" id="result" aria-live="polite"></section>
+  <section class="card" id="dshotcard" hidden></section>
+  <section class="card" id="cmpconc" hidden></section>
+  <section class="card" id="allcond" hidden></section>
+  <section class="card" id="cmpfluids" hidden></section>
+
+  <section class="card keep">
+    <p style="margin:0" data-t="pro_note"></p>
+    <div class="apps">
+      <a href="https://apps.apple.com/app/hot-rechner-holdover-time/id6833049278" target="_blank" rel="noopener" data-t="iphone">iPhone (App Store)</a>
+      <a class="sec" href="/beta/" data-t="android">Android-Beta</a>
+    </div>
+  </section>
+
+  <footer>
+    <p id="srcline"></p>
+    <p data-t="footer"></p>
+  </footer>
+</main>
+
+<script src="texts.js"></script>
+<script src="engine.js"></script>
+<script>
+(function () {
+  "use strict";
+  var T = self.UEBUNG_TEXTS, E = null, DATA = null;
+  var CONCS = ["100/0", "75/25", "50/50"];
+  var ROMAN = ["I", "II", "III", "IV"];
+  var S = {
+    lang: "de", mode: "precip", unit: "C", oatText: "-2", cond: "snow_light", visText: "", visSm: false, night: false,
+    atCond: "lt_pl", rot: "ge115", cat: "high", adjusted: false, dshot: false, type: 4, fluid: "t4_generic",
+    conc: "100/0", composite: false, t1prod: "", fpText: ""
+  };
+  try { var sl = localStorage.getItem("uebung.lang"); if (sl && T[sl]) S.lang = sl; else throw 0; }
+  catch (e) { var n = (navigator.language || "de").slice(0, 2).toLowerCase(); S.lang = T[n] ? n : "en"; }
+
+  function $(id) { return document.getElementById(id); }
+  function t(k) {
+    var s = (T[S.lang] && T[S.lang][k]) != null ? T[S.lang][k] : (T.en[k] != null ? T.en[k] : k);
+    for (var i = 1; i < arguments.length; i++) s = s.split("{" + i + "}").join(String(arguments[i]));
+    return s;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function num(x) { var r = Math.round(x * 10) / 10; return r === Math.floor(r) ? String(r) : r.toFixed(1); }
+  function fmtOat(c) { return S.unit === "F" ? Math.round(c * 9 / 5 + 32) + " °F" : num(c) + " °C"; }
+  function mm(m) { return Math.floor(m / 60) + ":" + ("0" + (m % 60)).slice(-2); }
+  function range(a, b) { return a === b ? mm(a) : mm(a) + " – " + mm(b); }
+  function parseNum(s) { var v = String(s).trim().replace(",", ".").replace("−", "-"); return /^[+-]?(\d+\.?\d*|\.\d+)$/.test(v) ? parseFloat(v) : null; }
+  function oatC() { var v = parseNum(S.oatText); if (v == null) return null; return S.unit === "F" ? (v - 32) * 5 / 9 : v; }
+
+  function fluidName(f) {
+    if (f.id === "t1_alu") return t("fluid_t1_alu");
+    if (f.id === "t1_comp") return t("fluid_t1_comp");
+    if (f.id === "t2_generic") return t("fluid_t2_generic");
+    if (f.id === "t4_generic") return t("fluid_t4_generic");
+    if (f.type === 3) return t("fluid_aeroclear", t("ramp_" + (f.ramp_speed || "high")));
+    return f.name;
+  }
+  function fluidsOfType(ty) {
+    return DATA.fluids.filter(function (f) { return f.type === ty; })
+      .sort(function (a, b) { return (a.generic === b.generic) ? a.name.localeCompare(b.name) : (a.generic ? -1 : 1); });
+  }
+  function concAvailable(c, oat) {
+    if (S.mode === "frost") {
+      var r = DATA.frost.rows.filter(function (r) { return HotEngine.inBand(oat, r.oat); })[0];
+      return !!(r && r.values && r.values[c]);
+    }
+    return E.fluid(S.fluid).rows.some(function (r) {
+      return HotEngine.inBand(oat, r.oat) && r.conc === c && Object.keys(r.values).some(function (k) { return r.values[k] !== "N/A"; });
+    });
+  }
+  function statusText(st) {
+    return t({ OK: "st_ok", NO_HOT_CONDITION: "st_no_hot_condition", NO_HOT_AT_OR_BELOW_ZERO: "st_no_hot_zero",
+      OAT_OUT_OF_RANGE: "st_oat_range", CONCENTRATION_NOT_ALLOWED: "st_conc", NOT_AVAILABLE: "st_na",
+      NO_HOT_BELOW_MINUS_10: "st_below_m10", AT_NOT_APPLICABLE: "st_at_na", AT_NOT_VALIDATED: "st_at_not_validated",
+      AT_NOT_APPLICABLE_LOW_SPEED: "st_at_low_speed", NO_ALLOWANCE_TIME: "st_no_at", OAT_BELOW_LOUT: "st_below_lout",
+      BUFFER_NOT_MET: "st_buffer" }[st] || st);
+  }
+  function shortStatus(r) { return r.status === "NOT_AVAILABLE" ? "N/A" : r.status === "OAT_BELOW_LOUT" ? "< LOUT" : t("dash"); }
+  function catName(c) { return t("cat_" + c); }
+
+  // ---------- freezing point buffer (EASA GM1 CAT.OP.MPA.250) + Type I LOUT (Table 58), like Checks.kt ----------
+  function fpCheck(oat) {
+    if (oat == null || (S.mode === "pellets" && S.type <= 2)) return null;
+    var buffer = S.type === 1 ? 10 : 7;
+    var prod = S.type === 1 ? DATA.type1_fluids.filter(function (p) { return p.maker + "|" + p.name === S.t1prod; })[0] : null;
+    var lout = prod ? prod.lout[S.cat] : null;
+    var fpv = parseNum(S.fpText);
+    if (fpv != null && S.unit === "F") fpv = (fpv - 32) * 5 / 9;
+    return {
+      product: prod, lout: lout == null ? null : lout, loutNotTested: !!prod && lout == null,
+      belowLout: lout != null && oat < lout, maxFp: oat - buffer, buffer: buffer,
+      bufferOk: fpv == null ? null : fpv <= oat - buffer + 1e-9
+    };
+  }
+  function gate(r, c) {
+    if (!c || r.status !== "OK") return r;
+    if (c.belowLout) return Object.assign({}, r, { status: "OAT_BELOW_LOUT", min: null, max: null, lout: c.lout });
+    if (c.bufferOk === false) return Object.assign({}, r, { status: "BUFFER_NOT_MET", min: null, max: null });
+    return r;
+  }
+
+  // ---------- calculation for the current state ----------
+  function compute(oat, over) {
+    var s = Object.assign({}, S, over || {});
+    if (s.mode === "precip") return E.hot(s.fluid, s.type === 1 ? null : s.conc, oat, s.cond, s.adjusted, s.cat);
+    if (s.mode === "frost") {
+      var fr = E.frost(s.type, s.conc, oat, s.composite, s.adjusted);
+      return Object.assign({ fluid: null, genericSnowColumn: false, loutNotTested: false, lout: null }, fr);
+    }
+    if (s.type === 3 || s.type === 4) {
+      var a = E.allowance(s.fluid, oat, s.atCond, s.rot, s.adjusted, s.cat);
+      return { status: a.status, min: a.minutes, max: a.minutes, fluid: E.fluid(s.fluid), loutNotTested: a.loutNotTested, lout: a.lout, atTable: a.table };
+    }
+    return { status: "AT_NOT_APPLICABLE", min: null, max: null };
+  }
+
+  // ---------- static texts ----------
+  function applyTexts() {
+    document.documentElement.lang = S.lang;
+    document.title = t("page_title");
+    document.querySelectorAll("[data-t]").forEach(function (el) { el.textContent = t(el.getAttribute("data-t")); });
+    document.querySelectorAll("[data-th]").forEach(function (el) { el.innerHTML = t(el.getAttribute("data-th")); });
+    document.querySelectorAll("nav.lang button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.l === S.lang ? "true" : "false"); });
+    if (DATA) {
+      var src = DATA.source, ds = DATA.dshot_source || {};
+      $("srcline").innerHTML = esc(t("source_line", src.document, src.issue, src.issue_date, (ds.document || "") + (ds.issue ? ", " + ds.issue : "")));
+      $("status").textContent = t("data_ok", src.document + " · " + src.issue, DATA.selftest.length);
+    } else if ($("status").classList.contains("err")) $("status").textContent = t("data_fail");
+  }
+
+  function chip(label, pressed, attrs, sub) {
+    return '<button type="button" class="chip' + (attrs.cls ? " " + attrs.cls : "") + '" aria-pressed="' + pressed + '"' +
+      Object.keys(attrs).filter(function (k) { return k !== "cls"; }).map(function (k) { return " " + k + '="' + esc(attrs[k]) + '"'; }).join("") +
+      (attrs.disabled === undefined ? "" : "") + ">" + esc(label) + (sub ? "<small>" + esc(sub) + "</small>" : "") + "</button>";
+  }
+
+  // ---------- render ----------
+  function render() {
+    if (!E) return;
+    var oat = oatC();
+    // weather
+    document.querySelectorAll("#modes .chip").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === S.mode); });
+    document.querySelectorAll("[data-unit]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.unit === S.unit); });
+    $("oatlbl").textContent = "OAT " + (S.unit === "F" ? "°F" : "°C");
+    $("precipbox").hidden = S.mode !== "precip";
+    $("pelletsbox").hidden = S.mode !== "pellets";
+    $("cond").innerHTML = HotEngine.CONDITIONS.map(function (k) {
+      return '<option value="' + k + '"' + (k === S.cond ? " selected" : "") + ">" + esc(t("cond_" + (k === "freezing_rain_moderate_heavy" ? "freezing_rain_mod_heavy" : k)) + (HotEngine.NO_HOT[k] ? t("no_hot_suffix") : "")) + "</option>";
+    }).join("");
+    var snowish = /^snow_(very_light|light|moderate|heavy)$/.test(S.cond);
+    $("snowbox").hidden = !snowish;
+    document.querySelectorAll("[data-vis]").forEach(function (b) { b.setAttribute("aria-pressed", (b.dataset.vis === "sm") === S.visSm); });
+    $("vis").placeholder = t("vis_label") + (S.visSm ? " (SM: 3/4, 1 1/2 …)" : " (m)");
+    $("night").textContent = S.night ? "☾ " + t("night") : "☀ " + t("day");
+    $("night").setAttribute("aria-pressed", "true");
+    var intensity = null;
+    if (snowish && oat != null && S.visText.trim()) {
+      if (S.visSm) { var sm = HotEngine.parseSm(S.visText); if (sm != null) intensity = E.snowIntensitySm(sm, S.night, oat); }
+      else { var vm = parseNum(S.visText); if (vm != null && vm >= 0) intensity = E.snowIntensity(Math.round(vm), S.night, oat); }
+    }
+    $("intensity").innerHTML = intensity ? esc(t("intensity", t("int_" + intensity))) + (intensity === "heavy" ? '<span class="bad">' + esc(t("heavy_no_hot")) + "</span>" : "") : "";
+    $("atcond").innerHTML = Object.keys(DATA.allowance_conditions).map(function (k) {
+      return '<option value="' + k + '"' + (k === S.atCond ? " selected" : "") + ">" + esc(t("at_" + k) + " (" + DATA.allowance_conditions[k][1] + ")") + "</option>";
+    }).join("");
+    $("rot").innerHTML = ["lt100", "100to114", "ge115"].map(function (r) { return chip(t("rot_" + r), S.rot === r, { "data-rot": r, cls: "grow" }); }).join("");
+
+    // aircraft
+    $("cats").innerHTML = ["high", "middle", "low"].map(function (c) { return chip(t("cat_" + c + "_short"), S.cat === c, { "data-cat": c, cls: "grow" }, t("cat_" + c + "_vr")); }).join("");
+    $("flaps").innerHTML = chip(t("flaps_after"), !S.adjusted, { "data-flaps": "0", cls: "grow" }, t("flaps_after_sub")) +
+      chip(t("flaps_before"), S.adjusted, { "data-flaps": "1", cls: "grow" }, t("flaps_before_sub"));
+    $("dshot").checked = S.dshot;
+    $("dshotack").hidden = !S.dshot;
+
+    // fluid
+    var typesHtml = '<span class="lbl" style="margin:0">' + esc(t("type")) + "</span>" +
+      [1, 2, 3, 4].map(function (ty) { return chip(ROMAN[ty - 1], S.type === ty, { "data-type": String(ty) }); }).join("");
+    $("types").innerHTML = typesHtml;
+    $("compbox").hidden = !(S.type === 1 && S.mode !== "pellets");
+    $("composite").checked = S.composite;
+    $("fluidbox").hidden = S.mode === "frost" || (S.type === 1 && S.mode === "precip") || (S.mode === "pellets" && S.type <= 2);
+    $("fluid").innerHTML = fluidsOfType(S.type).map(function (f) {
+      return '<option value="' + f.id + '"' + (f.id === S.fluid ? " selected" : "") + ">" + esc(fluidName(f)) + "</option>";
+    }).join("");
+    $("concbox").hidden = S.type === 1 || S.mode === "pellets";
+    $("concs").innerHTML = CONCS.map(function (c) {
+      var av = oat == null || concAvailable(c, oat);
+      return chip(av ? c : c + " –", S.conc === c, { "data-conc": c, title: av ? "" : t("conc_na") });
+    }).join("");
+
+    // freezing point check
+    var c = fpCheck(oat);
+    $("fpcard").hidden = !c;
+    if (c) {
+      $("fptitle").textContent = S.type === 1 ? t("t1_title") : t("fp_title");
+      $("t1box").hidden = S.type !== 1;
+      if (S.type === 1) {
+        $("t1prod").innerHTML = '<option value="">' + esc(t("t1_product_none")) + "</option>" + DATA.type1_fluids.map(function (p) {
+          var id = p.maker + "|" + p.name;
+          return '<option value="' + esc(id) + '"' + (id === S.t1prod ? " selected" : "") + ">" + esc((p.maker ? p.maker + " " : "") + p.name + (p.expired ? " " + t("t1_expired_mark") : "")) + "</option>";
+        }).join("");
+        var info = "";
+        if (c.product) {
+          info = esc(t("t1_info", c.product.glycol, c.product.dilution, c.product.expiry));
+          if (c.product.expired) info += '<br><span class="warn">' + esc(t("t1_expired")) + "</span>";
+          if (c.belowLout) info += '<br><span class="bad">' + esc(t("t1_below_lout", fmtOat(c.lout), catName(S.cat))) + "</span>";
+          else if (c.lout != null) info += "<br><strong>" + esc(t("lout_value", fmtOat(c.lout), catName(S.cat))) + "</strong>";
+          else if (c.loutNotTested) info += '<br><span class="warn">' + esc(t("lout_not_tested", catName(S.cat))) + "</span>";
+        }
+        $("t1info").innerHTML = info;
+      }
+      $("fpmax").textContent = t("t1_max_fp", fmtOat(c.maxFp));
+      $("fplbl").textContent = S.type === 1 ? t("t1_fp_label", S.unit === "F" ? "°F" : "°C") : t("fp_label", S.unit === "F" ? "°F" : "°C");
+      var bufTxt = S.unit === "F" ? Math.round(c.buffer * 9 / 5) + " °F" : c.buffer + " °C";
+      $("fpres").innerHTML = c.bufferOk === true ? '<span class="good">' + esc(t("fp_buffer_ok", bufTxt)) + "</span>" :
+        c.bufferOk === false ? '<span class="bad">' + esc(t("fp_buffer_low", bufTxt)) + "</span>" : "";
+      $("fphint").textContent = S.type === 1 ? t("t1_hint") : t("fp_hint");
+    }
+
+    renderResult(oat, c);
+  }
+
+  function renderResult(oat, c) {
+    var box = $("result");
+    ["dshotcard", "cmpconc", "allcond", "cmpfluids"].forEach(function (id) { $(id).hidden = true; });
+    if (oat == null) { box.className = "card result no"; box.innerHTML = '<p class="bad">' + esc(t("enter_valid_oat")) + "</p>"; return; }
+    var r = gate(compute(oat), c);
+    var ok = r.status === "OK" && r.min != null;
+    // inputs summary
+    var condTxt = S.mode === "precip" ? t("cond_" + (S.cond === "freezing_rain_moderate_heavy" ? "freezing_rain_mod_heavy" : S.cond)) :
+      S.mode === "frost" ? t("mode_frost") : t("at_" + S.atCond) + " · " + t("rot_" + S.rot);
+    var fl = S.mode === "frost" ? "Type " + ROMAN[S.type - 1] + (S.type === 1 ? " · " + t(S.composite ? "sum_composite" : "sum_aluminium") : "") :
+      (S.mode === "pellets" && S.type <= 2) ? "Type " + ROMAN[S.type - 1] : fluidName(E.fluid(S.fluid));
+    var sum = [[t("weather_title"), condTxt], ["OAT", fmtOat(oat)], [t("label_fluid"), fl]];
+    if (S.type !== 1 && S.mode !== "pellets") sum.push([t("sum_conc"), S.conc]);
+    sum.push([t("card_aircraft"), t("cat_" + S.cat + "_short") + " · " + t("cat_" + S.cat + "_vr")]);
+    sum.push([t("sum_flaps"), S.adjusted ? t("appendix_a_short") : t("sum_flaps_off")]);
+    var h = '<dl class="sum">' + sum.map(function (p) { return "<dt>" + esc(p[0]) + "</dt><dd>" + esc(p[1]) + "</dd>"; }).join("") + "</dl>";
+    box.className = "card result " + (ok ? "ok" : "no");
+    if (ok) {
+      h += '<div class="big">' + range(r.min, r.max) + "</div>";
+      if (S.adjusted) h += '<p class="warn">' + esc(t("appendix_a_note")) + "</p>";
+      if (S.mode === "pellets") h += "<p>" + esc(t("note_at_long")) + "</p>";
+      else if (S.mode === "frost") h += "<p>" + esc(t("note_frost") + (S.type === 3 ? t("note_frost_type3") : "")) + "</p>";
+      else if (r.min !== r.max) h += "<p>" + esc(t("note_range")) + "</p>";
+      if (r.genericSnowColumn) h += '<p class="warn">' + esc(t("note_generic_snow")) + "</p>";
+      if (S.type === 3 && S.mode !== "frost") h += '<p class="warn">' + esc(t("note_type3_unheated")) + "</p>";
+      var notes = [];
+      notes.push(sourceText(r));
+      if (S.type === 1 && S.mode !== "frost") notes.push(t("note_type1_mix"));
+      if (r.lout != null) h += "<p><strong>" + esc(t("lout_value", fmtOat(r.lout), catName(S.cat))) + "</strong></p>";
+      else if (r.loutNotTested) h += '<p class="warn">' + esc(t("lout_not_tested", catName(S.cat))) + "</p>";
+      else notes.push(t("note_lout"));
+      if (r.lout != null || r.loutNotTested) notes.push(t("note_lout_short"));
+      h += '<div class="notes">' + notes.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") + "</div>";
+      h += '<details class="info"><summary>' + esc(t("lout_what")) + "</summary><p>" + esc(t("lout_explain")) + "</p></details>";
+    } else {
+      h += '<div class="nores">' + esc(t("no_time")) + "</div><p>" + esc(statusText(r.status)) + "</p>";
+      if (r.status === "OAT_BELOW_LOUT" && r.lout != null) h += "<p><strong>" + esc(t("lout_value", fmtOat(r.lout), catName(S.cat))) + "</strong></p>";
+      if (r.status === "BUFFER_NOT_MET") h += '<p class="notes">' + esc(t("fp_explain")) + "</p>";
+    }
+    box.innerHTML = h;
+
+    if (S.mode === "precip" && ok && S.type !== 1 && S.dshot && HotEngine.DSHOT_CONDS.indexOf(S.cond) >= 0) renderDshot(oat);
+    if (S.type !== 1 && S.mode !== "pellets" && r.status !== "BUFFER_NOT_MET") renderConcCompare(oat, c);
+    if (S.mode === "precip" && S.type !== 1 && r.status !== "BUFFER_NOT_MET") renderAllConditions(oat);
+    if ((S.mode === "precip" && S.type !== 1) || (S.mode === "pellets" && S.type >= 3)) renderFluidCompare(oat, c);
+  }
+
+  function sourceText(r) {
+    if (S.mode === "frost") {
+      var ft = S.adjusted ? DATA.frost_adj : DATA.frost;
+      return S.adjusted ? t("source_adj", ft.table, ft.page - 91) : t("source", ft.table, ft.page);
+    }
+    if (S.mode === "pellets" && r.atTable) return S.adjusted ? t("source_adj", r.atTable.table, r.atTable.page - 91) : t("source", r.atTable.table, r.atTable.page);
+    var f = r.fluid || E.fluid(S.fluid);
+    return S.adjusted ? t("source_adj", f.table, (f.adj_page || 92) - 91) : t("source", f.table, f.page);
+  }
+
+  function renderDshot(oat) {
+    var d = E.dshot(S.fluid, S.conc, oat, S.cond, S.adjusted), el = $("dshotcard");
+    var h = "<h2>" + esc(t("dshot_title")) + "</h2>";
+    if (!d) h += '<p class="hint">' + esc(t("dshot_none")) + "</p>";
+    else {
+      var row = d.rowC >= 1 ? t("dshot_row_warm", fmtOat(1)) : fmtOat(d.rowC);
+      h += '<div class="big" style="font-size:2.2rem">' + range(d.min, d.max) + "</div>";
+      h += '<p class="hint">' + esc(t("dshot_row", row, t("cond_" + S.cond)) + (S.adjusted ? " · " + t("appendix_a_short") : "")) + "</p>";
+      if (oat !== Math.floor(oat) && d.rowC < 1) h += '<p class="hint">' + esc(t("dshot_rounded")) + "</p>";
+      h += '<p class="hint warn">' + esc(t("dshot_note")) + "</p>";
+    }
+    el.innerHTML = h; el.hidden = false;
+  }
+
+  function renderConcCompare(oat, c) {
+    var el = $("cmpconc");
+    var label = S.mode === "frost" ? "Type " + ROMAN[S.type - 1] + " · " + t("mode_frost") : fluidName(E.fluid(S.fluid));
+    var h = "<h2>" + esc(t("compare_conc", label)) + '</h2><div class="cmp3">';
+    CONCS.forEach(function (cc) {
+      var r = gate(compute(oat, { conc: cc }), c);
+      var ok = r.status === "OK" && r.min != null;
+      h += chip("", S.conc === cc, { "data-conc": cc }).replace("></button>",
+        '><span>' + esc(cc) + '</span><span class="v">' + (ok ? range(r.min, r.max) : esc(shortStatus(r))) + "</span>" +
+        (ok ? "" : '<span class="s">' + esc(statusText(r.status)) + "</span>") + "</button>");
+    });
+    h += '</div><p class="hint">' + esc(t("compare_hint")) + "</p>";
+    el.innerHTML = h; el.hidden = false;
+  }
+
+  function renderAllConditions(oat) {
+    var el = $("allcond"), rows = [];
+    HotEngine.CONDITIONS.forEach(function (k) {
+      if (HotEngine.NO_HOT[k]) return;
+      var r = E.hot(S.fluid, S.conc, oat, k, S.adjusted, S.cat);
+      if (r.status === "OK" && r.min != null) rows.push([k, range(r.min, r.max)]);
+    });
+    if (!rows.length) return;
+    var h = "<h2>" + esc(t("all_conditions", fmtOat(oat), S.conc)) + "</h2><table><tbody>" + rows.map(function (p) {
+      return '<tr class="pick' + (p[0] === S.cond ? " cur" : "") + '" data-pickcond="' + p[0] + '"><td>' + esc(t("cond_" + p[0])) + '</td><td class="t">' + p[1] + "</td></tr>";
+    }).join("") + "</tbody></table>";
+    el.innerHTML = h; el.hidden = false;
+  }
+
+  function renderFluidCompare(oat, c) {
+    var el = $("cmpfluids");
+    var list = fluidsOfType(S.type);
+    var h = "<h2>" + esc(t("compare_fluids", ROMAN[S.type - 1])) + "</h2><table><thead><tr><th>" + esc(t("col_fluid")) + "</th><th>" + esc(t("col_table")) +
+      '</th><th class="t">' + esc(t("col_hot")) + "</th></tr></thead><tbody>";
+    list.forEach(function (f) {
+      var r = gate(compute(oat, { fluid: f.id }), c);
+      var ok = r.status === "OK" && r.min != null;
+      var tab = S.adjusted ? "Adj-" + f.table : String(f.table);
+      h += '<tr class="pick' + (f.id === S.fluid ? " cur" : "") + '" data-pickfluid="' + f.id + '" title="' + esc(ok ? "" : statusText(r.status)) + '"><td>' + esc(fluidName(f)) +
+        '</td><td class="n">' + tab + '</td><td class="t">' + (ok ? range(r.min, r.max) : '<span class="n">' + esc(shortStatus(r)) + "</span>") + "</td></tr>";
+    });
+    h += '</tbody></table><p class="hint">' + esc(t("compare_hint")) + "</p>";
+    el.innerHTML = h; el.hidden = false;
+  }
+
+  // ---------- events ----------
+  function setType(ty) {
+    S.type = ty;
+    if (E.fluid(S.fluid).type !== ty) {
+      var f3 = ty === 3 ? DATA.fluids.filter(function (f) { return f.type === 3 && f.ramp_speed === S.cat; })[0] : null;
+      S.fluid = f3 ? f3.id : (ty === 1 ? (S.composite ? "t1_comp" : "t1_alu") : fluidsOfType(ty)[0].id);
+    }
+    if (ty === 3) S.conc = "100/0";
+    S.fpText = "";
+  }
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest("button, tr.pick");
+    if (!b || !E) return;
+    var d = b.dataset;
+    if (d.l) { S.lang = d.l; try { localStorage.setItem("uebung.lang", d.l); } catch (e) {} applyTexts(); }
+    else if (d.mode) S.mode = d.mode;
+    else if (d.unit && d.unit !== S.unit) {
+      var v = parseNum(S.oatText), old = S.oatText;
+      if (v != null) S.oatText = d.unit === "F" ? String(Math.round(v * 9 / 5 + 32)) : num(Math.round((v - 32) * 5 / 9 * 10) / 10);
+      var fv = parseNum(S.fpText);
+      if (fv != null) S.fpText = d.unit === "F" ? String(Math.round(fv * 9 / 5 + 32)) : num(Math.round((fv - 32) * 5 / 9 * 10) / 10);
+      S.unit = d.unit; $("oat").value = S.oatText; $("fp").value = S.fpText;
+      var un = $("unitnote"); un.hidden = false; un.textContent = t("unit_changed", S.unit === "F" ? "°F" : "°C") + " (OAT " + old + " → " + S.oatText + ")";
+    }
+    else if (b.id === "oatminus" || b.id === "oatplus") {
+      var x = parseNum(S.oatText); if (x == null) x = 0;
+      S.oatText = num(x + (b.id === "oatplus" ? 1 : -1)); $("oat").value = S.oatText;
+    }
+    else if (d.vis) {
+      var sm = d.vis === "sm";
+      if (sm !== S.visSm) {
+        if (sm) { var mv = parseNum(S.visText); S.visText = mv == null ? "" : String(Math.round(mv / 1609.344 * 16) / 16); }
+        else { var sv = HotEngine.parseSm(S.visText); S.visText = sv == null ? "" : String(Math.trunc(sv * 1609.344)); }
+        S.visSm = sm; $("vis").value = S.visText; applyIntensity();
+      }
+    }
+    else if (b.id === "night") { S.night = !S.night; applyIntensity(); }
+    else if (d.rot) S.rot = d.rot;
+    else if (d.cat) {
+      S.cat = d.cat;
+      if (S.type === 3) { var f3 = DATA.fluids.filter(function (f) { return f.type === 3 && f.ramp_speed === S.cat; })[0]; if (f3) S.fluid = f3.id; }
+    }
+    else if (d.flaps) S.adjusted = d.flaps === "1";
+    else if (d.type) setType(parseInt(d.type, 10));
+    else if (d.conc) S.conc = d.conc;
+    else if (d.pickcond) S.cond = d.pickcond;
+    else if (d.pickfluid) S.fluid = d.pickfluid;
+    else return;
+    render();
+  });
+  function applyIntensity() {
+    var oat = oatC();
+    if (oat == null || !S.visText.trim() || !/^snow_(very_light|light|moderate|heavy)$/.test(S.cond)) return;
+    var i = null;
+    if (S.visSm) { var sm = HotEngine.parseSm(S.visText); if (sm != null) i = E.snowIntensitySm(sm, S.night, oat); }
+    else { var vm = parseNum(S.visText); if (vm != null && vm >= 0) i = E.snowIntensity(Math.round(vm), S.night, oat); }
+    if (i) S.cond = { very_light: "snow_very_light", light: "snow_light", moderate: "snow_moderate" }[i] || "snow_heavy";
+  }
+  $("oat").addEventListener("input", function () { S.oatText = this.value; applyIntensity(); render(); });
+  $("vis").addEventListener("input", function () { S.visText = this.value; applyIntensity(); render(); });
+  $("fp").addEventListener("input", function () { S.fpText = this.value; render(); });
+  $("cond").addEventListener("change", function () { S.cond = this.value; render(); });
+  $("atcond").addEventListener("change", function () { S.atCond = this.value; render(); });
+  $("fluid").addEventListener("change", function () { S.fluid = this.value; render(); });
+  $("t1prod").addEventListener("change", function () { S.t1prod = this.value; render(); });
+  $("dshot").addEventListener("change", function () { S.dshot = this.checked; render(); });
+  $("composite").addEventListener("change", function () {
+    S.composite = this.checked;
+    if (E.fluid(S.fluid).type === 1) S.fluid = S.composite ? "t1_comp" : "t1_alu";
+    render();
+  });
+
+  // ---------- load + verify data (same package as the apps' table update) ----------
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function fail(msg) {
+    var s = $("status"); s.className = "status err"; s.textContent = t("data_fail");
+    if (msg && self.console) console.error(msg);
+  }
+  applyTexts();
+  fetch("/data/faa.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error("faa.json " + r.status); return r.json(); })
+    .then(function (m) {
+      var url = new URL(m.package.url, location.href);
+      var path = url.pathname; // same origin: hot.emb500.de or the workers.dev preview
+      return fetch(path).then(function (r) { if (!r.ok) throw new Error("package " + r.status); return r.arrayBuffer(); })
+        .then(function (buf) {
+          return crypto.subtle.digest("SHA-256", buf).then(function (h) {
+            if (hex(h) !== m.package.sha256) throw new Error("SHA-256 mismatch");
+            return JSON.parse(new TextDecoder("utf-8").decode(buf));
+          });
+        });
+    })
+    .then(function (data) {
+      var eng = new HotEngine(data);
+      if (!Array.isArray(data.selftest) || !data.selftest.length) throw new Error("no self-test");
+      var fails = eng.selfTest(data.selftest, 5);
+      if (fails.length) throw new Error("self-test failed: " + JSON.stringify(fails[0]));
+      E = eng; DATA = data;
+      document.body.classList.remove("locked");
+      var st = $("status"); st.className = "status ok";
+      applyTexts(); render();
+    })
+    .catch(function (e) { fail(e && e.message); });
+})();
+</script>
+</body>
+</html>
